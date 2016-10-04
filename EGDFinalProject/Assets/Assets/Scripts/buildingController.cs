@@ -12,14 +12,16 @@ public class buildingController : MonoBehaviour {
         initBuildings();
         createIndexTable();
         toggleConnection(0, 2);
+        toggleConnection(0, 4);
+        toggleConnection(0, 3);
         toggleConnection(0, 1);
-        toggleConnection(2, 1);
+
     }
 
     // Update is called once per frame
     void Update () {
         StartCoroutine("updateAllPaths");
-
+        //addBuilding();
     }
     void initBuildings()    
     {
@@ -28,8 +30,9 @@ public class buildingController : MonoBehaviour {
         for (int i = 0; i < buildings.Length; i++)
         {
             buildings[i].paths = new GameObject[buildings.Length];
-            Debug.Log(buildings[i].name);
             buildings[i].SendMessage("setIndex", i);
+            Debug.Log(buildings[i].name + " " + i);
+
         }
     }
     //This is a lookup table that uses the index of each building to reference its relationship
@@ -53,18 +56,35 @@ public class buildingController : MonoBehaviour {
         {
             for (int j = 0; j < columns; j++)
             {
-                if (i == j) indexTable[i, j] = 1;
-                else indexTable[i, j] = 0;
+                indexTable[i, j] = i == j ? 1 : 0;
             }
         }
     //    printTable();
     }
+    void addBuilding()
+    {
+        columns = buildings.Length;
+        rows = columns;
+        //  Debug.Log(rows);
+        int[,] copyTable = new int[buildings.Length + 1, buildings.Length + 1];
+        //   Debug.Log(buildings.Length);
+        int i = 0, j = 0;
+        for (i = 0; i < rows; i++)
+        {
+            for (j = 0; j < columns; j++)
+            {
+                copyTable[i, j] = indexTable[i, j];
+            }
+        }
+        columns++; rows++;
+        Debug.Log(i + " " + j);
 
+    }
     void toggleConnection(int i, int j)
     {
         if (i == j) return;
         indexTable[i, j] = (indexTable[i, j] == 0 ? 1 : 0);
-        
+
     }
     IEnumerator updateAllPaths()
     {
@@ -77,21 +97,25 @@ public class buildingController : MonoBehaviour {
 
             for (int j = 0; j < columns; j++)
             {
+                path = buildings[i].paths[j];
                 if (i == j) continue;
                 if (path == null && indexTable[i, j] == 1)
                 {
                     //path = Instantiate(, buildings[i].transform);
                     GameObject pref = (GameObject)Instantiate(pathPrefab, buildings[i].transform);
                     pref.name = i + "," + j;
-                    buildings[i].paths[i] = pref;
-                    printTable();
-                    // path = buildings[i].gameObject.AddComponent<LineRenderer>();
+                    buildings[i].paths[j] = pref;
+                    updatePath(buildings[i].paths[j].GetComponent<LineRenderer>(), i, j);
+
                 }
-                if (buildings[i].paths[i]) updatePath(buildings[i].paths[i].GetComponent<LineRenderer>(), i, j);
+                else if (path != null && indexTable[i, j] == 1)
+                {
+                    updatePath(buildings[i].paths[j].GetComponent<LineRenderer>(), i, j);
+                }
             }
 
         }
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForEndOfFrame();
     }
     void updatePath(LineRenderer path, int i, int j)
     {
@@ -100,6 +124,17 @@ public class buildingController : MonoBehaviour {
         path.SetPosition(0, buildings[i].transform.position);
         path.SetPosition(1, buildings[j].transform.position);
         path.SetWidth(0.2f,0.2f);
+    }
+    BuildingNode getBuilding(int index)
+    {
+        for (int i = 0; i < buildings.Length; i++)
+        {
+            if (buildings[i].index == index)
+            {
+                return buildings[i];
+            }
+        }
+        return null;
     }
     void getConnected(int index)
     {
