@@ -15,7 +15,6 @@ public class BuildingMenu : MonoBehaviour {
     
     public void ClickEvent()
     {
-        Debug.Log("MOO");
         menuOut = !menuOut;
         foreach ( BuildingButton button in buttons )
             button.Active = menuOut;

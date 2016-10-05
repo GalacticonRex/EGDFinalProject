@@ -64,7 +64,6 @@ public class BuildingButton : MonoBehaviour, IPointerDownHandler {
 
     public void OnPointerDown(PointerEventData pt)
     {
-        Debug.Log("MOO");
         Instantiate(Building);
     }
 }
