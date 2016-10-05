@@ -15,6 +15,9 @@ public class BuildingController : MonoBehaviour {
         toggleConnection(0, 4);
         toggleConnection(0, 3);
         toggleConnection(0, 1);
+        toggleConnection(1, 3);
+        toggleConnection(1, 4);
+        toggleConnection(3, 2);
 
     }
 
