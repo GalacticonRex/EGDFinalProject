@@ -4,39 +4,53 @@ using System.Linq;
 using System.Collections.Generic;
 public class BuildingController : MonoBehaviour {
     public BuildingNode[] buildings;
+    public BuildingInstance[] buildingList;
     public int[,] indexTable;
     public int rows, columns;
     public GameObject pathPrefab;
+
 	// Use this for initialization
 	void Start () {
         initBuildings();
-        createIndexTable();
-        toggleConnection(0, 2);
+      //  createIndexTable();
+       /* toggleConnection(0, 2);
         toggleConnection(0, 4);
         toggleConnection(0, 3);
         toggleConnection(0, 1);
         toggleConnection(1, 3);
         toggleConnection(1, 4);
-        toggleConnection(3, 2);
+        toggleConnection(3, 2);*/
 
     }
 
     // Update is called once per frame
     void Update () {
-        StartCoroutine("updateAllPaths");
+        //StartCoroutine("updateAllPaths");
         //addBuilding();
+       // printTable();
     }
     void initBuildings()    
     {
-        buildings = GetComponentsInChildren<BuildingNode>();
-        
-        for (int i = 0; i < buildings.Length; i++)
+       // buildings = GetComponentsInChildren<BuildingNode>();
+        GameObject[] b = GameObject.FindGameObjectsWithTag("building");
+        if (b.Length > 0)
+        {
+            buildingList = new BuildingInstance[b.Length];
+            for (int i = 0; i < b.Length; i++)
+            {
+                Debug.Log(b[i].GetComponent<BuildingInstance>());
+                buildingList[i] = b[i].GetComponent<BuildingInstance>();
+                buildingList[i].SendMessage("setIndex", i);
+                buildingList[i].paths = new GameObject[b.Length];
+            }
+        }
+       /* for (int i = 0; i < buildings.Length; i++)
         {
             buildings[i].paths = new GameObject[buildings.Length];
             buildings[i].SendMessage("setIndex", i);
             Debug.Log(buildings[i].name + " " + i);
 
-        }
+        }*/
     }
     //This is a lookup table that uses the index of each building to reference its relationship
     /*      i
@@ -62,26 +76,38 @@ public class BuildingController : MonoBehaviour {
                 indexTable[i, j] = i == j ? 1 : 0;
             }
         }
-    //    printTable();
+        printTable();
     }
-    void addBuilding()
+    void reallocTable(int[,] table)
     {
+        //reallocate memory for new building node
         columns = buildings.Length;
         rows = columns;
         //  Debug.Log(rows);
-        int[,] copyTable = new int[buildings.Length + 1, buildings.Length + 1];
+        int[,] copyTable = new int[buildingList.Length + 1, buildingList.Length + 1];
         //   Debug.Log(buildings.Length);
         int i = 0, j = 0;
         for (i = 0; i < rows; i++)
         {
             for (j = 0; j < columns; j++)
             {
-                copyTable[i, j] = indexTable[i, j];
+                copyTable[i, j] = table[i, j];
             }
         }
         columns++; rows++;
-        Debug.Log(i + " " + j);
+        for (var k = 0; k < columns; k++)
+        {
+            if (k == buildingList.Length) copyTable[buildingList.Length, k] = 1;
+            else copyTable[buildingList.Length, k] = 0;
+        }
+        table = copyTable;
 
+    }
+    void addBuilding(BuildingInstance building)
+    {
+        buildingList[buildingList.Length] = building;
+        building.SendMessage("setIndex", buildingList.Length - 1);
+        building.paths = new GameObject[buildingList.Length];
     }
     void toggleConnection(int i, int j)
     {
