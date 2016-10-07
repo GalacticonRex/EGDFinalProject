@@ -33,11 +33,9 @@ public class BuildingInstance : MonoBehaviour {
         Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
         Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
         //locking y axis until raycast function implemented
+
         gameObject.transform.position = new Vector3(curPosition.x, gameObject.transform.position.y, curPosition.z);
 
-        float dist = 10f;
-        dir = new Vector3(0, -1, 0);
-        Debug.DrawRay(transform.position, dir * dist, Color.green);
         hit = new RaycastHit();
         if (Physics.Raycast(transform.position, -Vector3.up, out hit))
         {
@@ -47,14 +45,14 @@ public class BuildingInstance : MonoBehaviour {
                 p.y += 0.5f;
                 transform.position = p;
             }
-            else
-            {
-                if (Physics.Raycast(transform.position, Vector3.up, out hit))
-                {
-                    transform.position = hit.point;
-                }
-            }
-            Debug.Log("Distance to Ground: " + hit.distance);
+        }
+        else if (Physics.Raycast(transform.position, Vector3.up, out hit))
+        {
+            transform.position = hit.point;
+        }
+        else
+        {
+
         }
     }
 }

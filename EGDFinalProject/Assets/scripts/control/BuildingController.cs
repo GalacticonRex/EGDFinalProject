@@ -19,8 +19,6 @@ public class BuildingController : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         StartCoroutine("updateAllPaths");
-         numBuildings = GameObject.FindGameObjectsWithTag("building").Length;
-
         //addBuilding();
         // printTable();
     }
@@ -38,7 +36,7 @@ public class BuildingController : MonoBehaviour {
         }
         else
         {
-            list = new BuildingInstance[4];
+            list = new BuildingInstance[20];
 
         }
 
@@ -54,20 +52,26 @@ public class BuildingController : MonoBehaviour {
      * */
     public void handleIndexTable(int size)
     {
+        createIndexTable(size);
+        //testing functions here
+        toggleConnection(1, 0);
+        toggleConnection(2, 0);
+
         int[,] copy = copyTable(indexTable);
         printTable(copy);
-        createIndexTable(size);
         //testing path connection
 
-        for (int i = 0; i < numBuildings; i++)
+        for (int i = 0; i < size; i++)
         {
-            for (int j = 0; j < numBuildings; j++)
+            for (int j = 0; j < size; j++)
             {
-                indexTable[i, j] = copy[i, j];
+                if (i == j) indexTable[i, j] = 1;
+                else indexTable[i, j] = copy[i, j];
+
             }
         }
 
-        printTable(indexTable);
+        //printTable(indexTable);
     }
     void createIndexTable(int size)
     {
@@ -83,18 +87,21 @@ public class BuildingController : MonoBehaviour {
                 indexTable[i, j] = i == j ? 1 : 0;
             }
         }
-        printTable(indexTable);
+      //  printTable(indexTable);
     }
      int[,] copyTable(int[,] table)
     {
         int length = numBuildings;
         int[,] copyTable = new int[length, length];
-        Debug.Log("Rows: " + rows + "Cols: " + columns);
+     //   Debug.Log(table[1, 0]);
         for (int i = 0; i < length; i++)
         {
             for (int j = 0; j < length; j++)
             {
-                copyTable[i, j] = indexTable[i, j];
+               // if (i == j) copyTable[i, j] = 1;
+                if (indexTable[i, j] == 1) copyTable[i, j] = 1;
+                else copyTable[i, j] = indexTable[i, j];
+
             }
         }
         return copyTable;
@@ -107,11 +114,26 @@ public class BuildingController : MonoBehaviour {
     {
         if (list.Length <= 0) initBuildings();
         BuildingInstance b = building.GetComponent<BuildingInstance>();
-        b.paths = new GameObject[10];
+        list[numBuildings] = b;
+        numBuildings++;
+        b.paths = new GameObject[numBuildings];
+
+        updatePaths();
         return b;
+    }
+    void updatePaths()
+    {
+        if (numBuildings >= 2)
+        {
+            for (int i = 0; i < numBuildings; i++)
+            {
+                list[i].paths = new GameObject[numBuildings];
+            }
+        }
     }
     void toggleConnection(int i, int j)
     {
+        //if (i > numBuildings || j > numBuildings) return;
         if (i == j) return;
         indexTable[i, j] = (indexTable[i, j] == 0 ? 1 : 0);
 
@@ -119,9 +141,10 @@ public class BuildingController : MonoBehaviour {
     IEnumerator updateAllPaths()
     {
         if (numBuildings <= 1) yield return null;
-
+       // Debug.Log(numBuildings);
         for (int i = 0; i < numBuildings; i++)
         {
+           // if (list[i] == null) yield return null;
             GameObject path = list[i].paths[i];
             if (list[i].paths[i] != null) path = list[i].paths[i].gameObject;
             if (list[i].paths[i] == null) yield return null;
@@ -135,8 +158,14 @@ public class BuildingController : MonoBehaviour {
                 if (path == null && indexTable[i, j] == 1)
                 {
                     //path = Instantiate(, list[i].transform);
-                    GameObject pref = (GameObject)Instantiate(pathPrefab, list[i].transform);
-                    pref.name = i + "," + j;
+                    string pathname = i + "," + j;
+                    GameObject pref = GameObject.Find(pathname);
+                    if (pref == null)
+                    {
+                        pref = (GameObject)Instantiate(pathPrefab, list[i].transform);
+                        pref.name = pathname;
+                    }
+
                     list[i].paths[j] = pref;
                     updatePath(list[i].paths[j].GetComponent<LineRenderer>(), i, j);
 
