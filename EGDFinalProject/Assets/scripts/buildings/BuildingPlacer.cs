@@ -42,6 +42,7 @@ public class BuildingPlacer : MonoBehaviour {
         if (result.collider != null)
         {
             placeAt = result.point;
+            placeAt.y += 0.5f;
             transform.position = placeAt;
         }
         if (!Input.GetMouseButton(0))

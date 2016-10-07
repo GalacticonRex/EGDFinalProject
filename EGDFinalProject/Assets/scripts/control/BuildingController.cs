@@ -58,9 +58,6 @@ public class BuildingController : MonoBehaviour {
         printTable(copy);
         createIndexTable(size);
         //testing path connection
-        toggleConnection(0, 1);
-        toggleConnection(0, 2);
-        toggleConnection(0, 3);
 
         for (int i = 0; i < numBuildings; i++)
         {
