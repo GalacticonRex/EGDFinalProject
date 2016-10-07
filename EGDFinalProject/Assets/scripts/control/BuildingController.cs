@@ -10,13 +10,14 @@ public class BuildingController : MonoBehaviour {
     public GameObject pathPrefab;
     public int numBuildings;
 
-	// Use this for initialization
-	void Start () {
+    public int[] selectedBuildings;
+    public int selectedCount = 0;
+
+    // Use this for initialization
+    void Start () {
+        selectedBuildings = new int[2];
         initBuildings();
         createIndexTable(list.Length);
-        toggleConnection(1, 0);
-
-        toggleConnection(2, 0);
 
     }
 
@@ -40,7 +41,7 @@ public class BuildingController : MonoBehaviour {
         }
         else
         {
-            list = new BuildingInstance[20];
+            list = new BuildingInstance[5];
 
         }
 
@@ -88,18 +89,21 @@ public class BuildingController : MonoBehaviour {
                 indexTable[i, j] = i == j ? 1 : 0;
             }
         }
-      //  printTable(indexTable);
+        printTable(indexTable);
     }
      int[,] copyTable(int[,] table)
     {
         int length = numBuildings;
         int[,] copyTable = new int[length, length];
      //   Debug.Log(table[1, 0]);
-        for (int i = 0; i < length; i++)
+     Debug.Log(length);
+        for (int i = 0; i < length-1; i++)
         {
-            for (int j = 0; j < length; j++)
+            for (int j = 0; j < length-1; j++)
             {
-               // if (i == j) copyTable[i, j] = 1;
+                // if (i == j) copyTable[i, j] = 1;
+                Debug.Log(indexTable.Length);
+                Debug.Log(copyTable.Length);
                 if (indexTable[i, j] == 1) copyTable[i, j] = 1;
                 else copyTable[i, j] = indexTable[i, j];
 
@@ -141,6 +145,13 @@ public class BuildingController : MonoBehaviour {
     }
     IEnumerator updateAllPaths()
     {
+        if (selectedCount == 2) {
+            toggleConnection(selectedBuildings[0], selectedBuildings[1]);
+            selectedBuildings = new int[2];
+            selectedCount = 0;
+            printTable(indexTable);
+        };
+
         if (numBuildings <= 1) yield return null;
        // Debug.Log(numBuildings);
         for (int i = 0; i < numBuildings; i++)
@@ -223,6 +234,19 @@ public class BuildingController : MonoBehaviour {
             table += " ] \n";
         }
         Debug.Log(table);
+    }
+    public void selectBuilding(GameObject building, int index)
+    {
+        if (selectedCount == 2)
+        {
+          //  toggleConnection(selectedBuildings[0], selectedBuildings[1]);
+          //  selectedBuildings = new int[2];
+          //  selectedCount = 0;
+        }
+
+        selectedBuildings[selectedCount] = index;
+        selectedCount++;
+
     }
 
 }

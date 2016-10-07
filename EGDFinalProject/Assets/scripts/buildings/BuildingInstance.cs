@@ -26,6 +26,11 @@ public class BuildingInstance : MonoBehaviour {
     {
         screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
         offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
+        BuildingController buildings = transform.parent.GetComponent<BuildingController>();
+        //       buildings.selectedBuildings[buildings.selectedCount] = index;
+        //        buildings.selectedCount++;
+        buildings.selectBuilding(gameObject, index);
+        //.selectedBuildings[]
     }
     //Drag and move building
     void OnMouseDrag()
