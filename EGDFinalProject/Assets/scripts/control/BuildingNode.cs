@@ -11,14 +11,9 @@ public class BuildingNode : Node {
 
     // Update is called once per frame
     void Update () {
-        StartCoroutine("connectNodes");
     }
     void setIndex(int newIndex)
     {
         index = newIndex;
-    }
-    void addConnection(BuildingNode node)
-    {
-     //   connectedNodes[connectedNodes.Length] = node;
     }
 }

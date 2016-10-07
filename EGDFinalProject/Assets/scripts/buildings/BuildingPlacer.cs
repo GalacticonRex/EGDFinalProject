@@ -13,8 +13,11 @@ public class BuildingPlacer : MonoBehaviour {
     private Vector3 placeAt;
     private Material source;
 
+    public BuildingController buildings;
+
     void Start()
     {
+        buildings = GameObject.Find("BuildingController").GetComponent<BuildingController>();
         gameObject.layer = Globals.PLACEMENT_LAYER;
         GenerateHexGrid g = FindObjectOfType<GenerateHexGrid>();
         if (g != null)
@@ -35,23 +38,54 @@ public class BuildingPlacer : MonoBehaviour {
         if (result.collider != null)
         {
             placeAt = result.point;
+            placeAt.y += 0.5f;
             transform.position = placeAt;
         }
         if (!Input.GetMouseButton(0))
         {
-            if (overlapping.Count == 0 && validPosition && Globals.SpendResources(100))
+            bool no_overlap = (overlapping.Count == 0);
+            if (no_overlap && validPosition && Globals.SpendResources(100))
             {
-                GameObject building = Instantiate(toGenerate);
-                building.transform.position = placeAt;
+                addBuilding();
             }
             Destroy(gameObject);
         }
+
         if (overlapping.Count == 0 && validPosition)
             source.color = Active;
         else
             source.color = Invalid;
     }
 
+    void addBuilding()
+    {
+        GameObject building = Instantiate(toGenerate);
+        building.tag = "building";
+        building.transform.position = placeAt;
+        building.transform.parent = buildings.transform;
+        int numBuildings = GameObject.FindGameObjectsWithTag("building").Length;//gameObject.GetComponentsInChildren<BuildingInstance>().Length;
+        building.GetComponent<BuildingInstance>().index = numBuildings - 1;
+
+        if (buildings.list.Length < numBuildings)
+        {
+            buildings.list = new BuildingInstance[(numBuildings * 2)-1];
+            for (int j = 0; j < numBuildings; j++)
+            {
+                buildings.list[j] = building.GetComponent<BuildingInstance>();
+            }
+        }
+
+        buildings.list[numBuildings - 1] = buildings.addBuilding(building, numBuildings);
+
+        //this resizes the index table every time a building is added
+        //need a more efficient way to do this...
+        if (numBuildings > 1)
+        {
+            buildings.handleIndexTable(numBuildings);
+
+        }
+
+    }
     void OnTriggerEnter(Collider collid)
     {
         if (collid == ground)

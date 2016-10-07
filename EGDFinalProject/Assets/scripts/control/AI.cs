@@ -66,8 +66,11 @@ public class AI : MonoBehaviour {
     }
     public void move(Vector3 dest)
     {
+        
         Vector3 dir = (dest - transform.position).normalized;
         if (speed > maxSpeed) speed = maxSpeed;
         rigidBdy.velocity = dir * speed;
+
+        //lets lerp instead
     }
 }
