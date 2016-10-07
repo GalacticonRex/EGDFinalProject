@@ -36,8 +36,13 @@ public class HexStack
     public Vector2 location;
     public List<Hexagon> layers;
     public HexStack[] adjacent;
-    public int vertex_start; // initial vertex in parent buffer
+    public bool isFlagged;
     public int index_created;
+    public int vertex_start; // initial vertex in parent buffer
+
+    public float generation_veloc = 0f;
+    public float generation_accel = 0f;
+    public float generation_value = 0f;
 
     public HexStack(float x, float y, float r, int v = 0)
     {
@@ -48,6 +53,7 @@ public class HexStack
         adjacent = new HexStack[6] { null, null, null, null, null, null };
         vertex_start = -1;
         index_created = creation_index ++ ;
+        isFlagged = false;
     }
     public HexStack(Vector2 loc, float r, int v = 0)
     {
@@ -58,8 +64,18 @@ public class HexStack
         adjacent = new HexStack[6] { null, null, null, null, null, null };
         vertex_start = -1;
         index_created = creation_index ++ ;
+        isFlagged = false;
     }
 
+    public void UnsetAllFlags()
+    {
+        if (isFlagged)
+        {
+            isFlagged = false;
+            foreach (HexStack hex in adjacent)
+                hex.UnsetAllFlags();
+        }
+    }
     public void AddFloor(float value)
     {
         Hexagon newlayer = new Hexagon(this, value);
@@ -77,7 +93,16 @@ public class HexStack
             int other = reverse(i);
             newlayer.connections[i] = hex;
             hex.connections[other] = newlayer;
-
+            if (Mathf.Abs(hex.surface - newlayer.surface) > 1.5f)
+            {
+                newlayer.isRamp[i] = false;
+                hex.isRamp[other] = false;
+            }
+            else
+            {
+                newlayer.isRamp[i] = true;
+                hex.isRamp[other] = true;
+            }
         }
         layers.Add(newlayer);
     }
@@ -126,7 +151,8 @@ public class Hexagon {
     public float surface;
     public Hexagon[] connections;
     public bool[] isRamp;
-    private bool searchFlag;
+    public int vertex_start; // initial vertex in parent buffer
+    private bool isFlagged;
 
     public Hexagon(HexStack stack, float layer)
     {
@@ -134,17 +160,18 @@ public class Hexagon {
         surface = layer;
 
         connections = new Hexagon[6] { null, null, null, null, null, null };
-        isRamp = new bool[6] { true, true, true, true, true, true };
+        isRamp = new bool[6] { false, false, false, false, false, false };
 
-        searchFlag = false;
+        isFlagged = false;
+        vertex_start = -1;
     }
 
     //------------- Modify Flags ---------------------------------------------
     public void UnsetAllFlags()
     {
-        if (searchFlag)
+        if (isFlagged)
         {
-            searchFlag = false;
+            isFlagged = false;
             foreach (Hexagon hex in connections)
                 hex.UnsetAllFlags();
         }
@@ -154,20 +181,29 @@ public class Hexagon {
 public class GenerateHexGrid : MonoBehaviour {
 
     public float hexRadius = 1.0f;
-    HexStack root;
+    private HexStack root;
+    private GameObject surface;
+    private GameObject cliffs;
 
-    private void generateStackSurface(List<Vector3> vertices, List<int> indices, HexStack hexes)
+    public Collider Ground
+    {
+        get
+        {
+            return surface.GetComponent<MeshCollider>() as Collider;
+        }
+    }
+
+    private void generateFloorSurface(List<Vector3> vertices, List<int> indices, HexStack hexes)
     {
         if (hexes.vertex_start != -1)
             return;
         hexes.vertex_start = vertices.Count;
         foreach (Hexagon hex in hexes.layers)
             generateFloorSurface(vertices, indices, hex);
-        foreach(HexStack hex in hexes.adjacent)
+        foreach (HexStack hex in hexes.adjacent)
             if( hex != null )
-                generateStackSurface(vertices, indices, hex);
+                generateFloorSurface(vertices, indices, hex);
     }
-
     private void generateFloorSurface(List<Vector3> vertices, List<int> indices, Hexagon hex)
     {
         Vector3[] local_vertices = new Vector3[7];
@@ -181,6 +217,7 @@ public class GenerateHexGrid : MonoBehaviour {
             e, e+6, e+5,
             e, e+1, e+6
         };
+        hex.vertex_start = e;
 
         local_vertices[0] = new Vector3(hex.parent.location.x, 0, hex.parent.location.y);
 
@@ -222,7 +259,68 @@ public class GenerateHexGrid : MonoBehaviour {
         indices.AddRange(local_indices);
     }
 
-    private void generateMesh(List<Vector3> vertices, List<int> indices)
+    private void generateCliffSurface(List<Vector3> vertices, List<int> indices, List<Vector3> surf_vertices, List<int> surf_indices, HexStack hexes)
+    {
+        if (hexes.isFlagged)
+            return;
+        hexes.isFlagged = true;
+        foreach (Hexagon hex in hexes.layers)
+            generateCliffSurface(vertices, indices, surf_vertices, surf_indices, hex);
+        foreach (HexStack hex in hexes.adjacent)
+            if (hex != null)
+                generateCliffSurface(vertices, indices, surf_vertices, surf_indices, hex);
+    }
+    private void generateCliffSurface(List<Vector3> vertices, List<int> indices, List<Vector3> surf_vertices, List<int> surf_indices, Hexagon hex)
+    {
+        int st = hex.vertex_start;
+        for (int i = 0; i < 6; i++)
+        {
+            // if there is no ramp then we need a cliff
+            if (hex.isRamp[i])
+                continue;
+
+            int a = i;
+            int b = HexStack.reverse(i);
+            Vector3 selfA = surf_vertices[hex.vertex_start + a + 1];
+            Vector3 selfB = surf_vertices[hex.vertex_start + HexStack.succ(a) + 1];
+            Vector3 otherA;
+            Vector3 otherB;
+            if (hex.connections[i] == null)
+            {
+                otherA = new Vector3(selfA.x, -100, selfA.z);
+                otherB = new Vector3(selfB.x, -100, selfB.z);
+            }
+            else
+            {
+                Hexagon other = hex.connections[i];
+                otherA = surf_vertices[other.vertex_start + HexStack.succ(b) + 1];
+                otherB = surf_vertices[other.vertex_start + b + 1];
+            }
+
+            Vector3[] local_vertices = new Vector3[4];
+            int[] local_indices = new int[6];
+
+            local_vertices[0] = selfA;
+            local_vertices[1] = selfB;
+
+            local_vertices[2] = otherA;
+            local_vertices[3] = otherB;
+
+            int e = vertices.Count;
+            local_indices[0] = e + 0;
+            local_indices[1] = e + 1;
+            local_indices[2] = e + 2;
+
+            local_indices[3] = e + 1;
+            local_indices[4] = e + 3;
+            local_indices[5] = e + 2;
+
+            vertices.AddRange(local_vertices);
+            indices.AddRange(local_indices);
+        }
+    }
+
+    private GameObject generateMesh(List<Vector3> vertices, List<int> indices)
     {
         Mesh mesh = new Mesh();
         mesh.vertices = vertices.ToArray();
@@ -231,20 +329,28 @@ public class GenerateHexGrid : MonoBehaviour {
         mesh.RecalculateBounds();
         mesh.Optimize();
 
-        MeshFilter mfilter = gameObject.AddComponent<MeshFilter>();
+        GameObject go = new GameObject("GeneratedMesh");
+        go.transform.parent = transform;
+
+        MeshFilter mfilter = go.AddComponent<MeshFilter>();
         mfilter.mesh = mesh;
 
-        MeshRenderer mrender = gameObject.AddComponent<MeshRenderer>();
+        MeshRenderer mrender = go.AddComponent<MeshRenderer>();
         mrender.material = new Material(Shader.Find("Diffuse"));
         mrender.material.color = Color.gray;
 
-        MeshCollider mcollid = gameObject.AddComponent<MeshCollider>();
+        MeshCollider mcollid = go.AddComponent<MeshCollider>();
         mcollid.sharedMesh = mesh;
+
+        return go;
     }
 
-    private void GenerateTerrain(HexStack src, int remaining)
+    private void generateTerrain(HexStack src, int remaining, float scale)
     {
         Queue<HexStack> queue = new Queue<HexStack>();
+        float initial = (float)remaining;
+        float effect = 1f / scale;
+        float offset = 1f / (scale * scale);
 
         queue.Enqueue(src);
         int count = 0;
@@ -252,13 +358,31 @@ public class GenerateHexGrid : MonoBehaviour {
         while ( queue.Count > 0 && count < remaining)
         {
             HexStack hex = queue.Dequeue();
-            hex.AddFloor(Random.Range(-1.0f, 1.0f));
+            int empty = 1;
             for (int i = 0; i < 6; i++)
             {
                 HexStack s0 = hex.CreateAdjacent(i);
                 if (s0 == null)
+                {
+                    if (hex.adjacent[i].layers.Count == 0)
+                        empty++;
                     continue;
+                }
+
+                s0.generation_accel = hex.generation_accel * 0.99f + Random.Range(-1,1) * offset;
+                s0.generation_veloc = hex.generation_veloc + s0.generation_accel;
+                s0.generation_value = hex.generation_value + s0.generation_veloc;
+
                 queue.Enqueue(s0);
+            }
+            float val = Random.value * count * empty * offset * offset;
+            if ( val <= Mathf.Abs(hex.generation_value))
+            {
+                if (hex.location.y < -10000 && Random.value * count * count > initial)
+                    hex.AddFloor(100.0f);
+                else
+                    hex.AddFloor(Random.Range(-4.0f * hex.generation_value / scale - 0.2f,
+                                              10.0f * hex.generation_value / scale + 0.2f));
             }
             count++;
         }
@@ -267,12 +391,16 @@ public class GenerateHexGrid : MonoBehaviour {
     void Start()
     {
         root = new HexStack(0, 0, hexRadius);
-        GenerateTerrain(root, 200);
-        
-        List<Vector3> vertices = new List<Vector3>();
-        List<int> indices = new List<int>();
+        generateTerrain(root, 1000, 10.0f);
 
-        generateStackSurface(vertices, indices, root);
-        generateMesh(vertices, indices);
+        List<Vector3> surface_vertices = new List<Vector3>();
+        List<int> surface_indices = new List<int>();
+        generateFloorSurface(surface_vertices, surface_indices, root);
+        surface = generateMesh(surface_vertices, surface_indices);
+
+        List<Vector3> cliff_vertices = new List<Vector3>();
+        List<int> cliff_indices = new List<int>();
+        generateCliffSurface(cliff_vertices, cliff_indices, surface_vertices, surface_indices, root);
+        cliffs = generateMesh(cliff_vertices, cliff_indices);
     }
 }

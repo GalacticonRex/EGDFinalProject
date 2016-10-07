@@ -19,7 +19,7 @@ public class BuildingPlacer : MonoBehaviour {
         GenerateHexGrid g = FindObjectOfType<GenerateHexGrid>();
         if (g != null)
         {
-            ground = (Collider)g.GetComponent<MeshCollider>();
+            ground = g.Ground;
         }
         self = GetComponent<MeshRenderer>();
         source = self.material;
@@ -28,10 +28,6 @@ public class BuildingPlacer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (overlapping.Count == 0)
-            source.color = Active;
-        else
-            source.color = Invalid;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit result;
         Physics.Raycast(ray, out result, float.PositiveInfinity, Globals.GROUND_LAYER);
@@ -50,7 +46,11 @@ public class BuildingPlacer : MonoBehaviour {
             }
             Destroy(gameObject);
         }
-	}
+        if (overlapping.Count == 0 && validPosition)
+            source.color = Active;
+        else
+            source.color = Invalid;
+    }
 
     void OnTriggerEnter(Collider collid)
     {

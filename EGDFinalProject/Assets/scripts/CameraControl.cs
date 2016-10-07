@@ -4,10 +4,21 @@ using System.Collections;
 public class CameraControl : MonoBehaviour
 {
     public float CamSpeed = 1.0f;
+    private Vector2 oldMouse;
+
+    void Start()
+    {
+        oldMouse = Input.mousePosition;
+    }
 
     // Update is called once per frame
     void Update()
     {
+        Quaternion rotation = transform.rotation;
+
+        if ( Input.GetMouseButton(1) && oldMouse.x != Input.mousePosition.x )
+            rotation = Quaternion.AngleAxis(Input.mousePosition.x - oldMouse.x, Vector3.up) * rotation;
+
         Vector3 cf = Camera.main.transform.forward;
         Vector3 forward = Vector3.Normalize(new Vector3(cf.x, 0, cf.z));
         Vector3 right = Camera.main.transform.right;
@@ -23,5 +34,7 @@ public class CameraControl : MonoBehaviour
             position += forward * Time.deltaTime * CamSpeed;
 
         transform.position = position;
+        transform.rotation = rotation;
+        oldMouse = Input.mousePosition;
     }
 }
