@@ -14,6 +14,10 @@ public class BuildingController : MonoBehaviour {
 	void Start () {
         initBuildings();
         createIndexTable(list.Length);
+        toggleConnection(1, 0);
+
+        toggleConnection(2, 0);
+
     }
 
     // Update is called once per frame
@@ -52,10 +56,7 @@ public class BuildingController : MonoBehaviour {
      * */
     public void handleIndexTable(int size)
     {
-        createIndexTable(size);
         //testing functions here
-        toggleConnection(1, 0);
-        toggleConnection(2, 0);
 
         int[,] copy = copyTable(indexTable);
         printTable(copy);

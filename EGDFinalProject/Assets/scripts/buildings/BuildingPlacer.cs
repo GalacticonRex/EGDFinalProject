@@ -59,8 +59,8 @@ public class BuildingPlacer : MonoBehaviour {
         GameObject building = Instantiate(toGenerate);
         building.tag = "building";
         building.transform.position = placeAt;
-
-        int numBuildings =  GameObject.FindGameObjectsWithTag("building").Length;
+        building.transform.parent = buildings.transform;
+        int numBuildings = GameObject.FindGameObjectsWithTag("building").Length;//gameObject.GetComponentsInChildren<BuildingInstance>().Length;
         building.GetComponent<BuildingInstance>().index = numBuildings;
 
         if (buildings.list.Length < numBuildings)
