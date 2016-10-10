@@ -32,9 +32,9 @@ public class Globals : MonoBehaviour {
     public static void initResources()
     {
       //  resourceValues = new int[Enum.GetNames(typeof(Globals.resourceTypes)).Length];
-        resources.Add(resourceTypes.POPULATION, 0);
-        resources.Add(resourceTypes.ENERGY, 1);
-        resources.Add(resourceTypes.FOOD, 200);
+        resources.Add(resourceTypes.POPULATION, 3);
+        resources.Add(resourceTypes.ENERGY, 3);
+        resources.Add(resourceTypes.FOOD, 3);
 
     }
     // Update is called once per frame

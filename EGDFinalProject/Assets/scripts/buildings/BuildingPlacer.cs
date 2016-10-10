@@ -44,14 +44,16 @@ public class BuildingPlacer : MonoBehaviour {
         if (!Input.GetMouseButton(0))
         {
             bool no_overlap = (overlapping.Count == 0);
-            if (no_overlap && validPosition && Globals.SpendResources(100, Globals.resourceTypes.FOOD))
+            bool cost = Globals.SpendResources(1, Globals.resourceTypes.FOOD) && Globals.SpendResources(1, Globals.resourceTypes.ENERGY);
+            if (no_overlap && validPosition && cost && findNearestPylon())
             {
                 addBuilding();
             }
+
             Destroy(gameObject);
         }
 
-        if (overlapping.Count == 0 && validPosition)
+        if (overlapping.Count == 0 && validPosition && findNearestPylon())
             source.color = Active;
         else
             source.color = Invalid;
@@ -85,6 +87,29 @@ public class BuildingPlacer : MonoBehaviour {
 
         }
 
+    }
+    bool findNearestPylon()
+    {
+        bool withinRadius = false;
+        if (toGenerate.name == "Pylon")
+        {
+            return true;
+        }
+        else
+        {
+            PylonInstance[] pylons = GameObject.FindObjectsOfType<PylonInstance>();
+
+            for (int i = 0; i < pylons.Length; i++)
+            {
+                if (pylons[i].withinRadius(transform.position))
+                {
+                    withinRadius = true;
+                    return withinRadius;
+                }
+            }
+
+        }
+        return withinRadius;
     }
     void OnTriggerEnter(Collider collid)
     {

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System.Collections.Generic;
+using System;
 public class BuildingInstance : MonoBehaviour {
     public int index;
     public GameObject[] paths;
@@ -9,11 +10,15 @@ public class BuildingInstance : MonoBehaviour {
     RaycastHit hit;
     float dist;
     Vector3 dir;
+    //= new int[Enum.GetNames(typeof(Globals.resourceTypes)).Length];
+    public static Dictionary<Globals.resourceTypes, int> costs;
+    public static int EnergyCost;
+    public static int FoodCost;
     // Use this for initialization
     void Start()
     {
         gameObject.layer = Globals.BUILDING_LAYER;
-        transform.parent = GameObject.Find("BuildingController").transform;
+        initCosts();
     }	
     void setIndex(int newIndex)
     {
@@ -27,7 +32,11 @@ public class BuildingInstance : MonoBehaviour {
     {
         screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
         offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
-        BuildingController buildings = transform.parent.GetComponent<BuildingController>();
+        BuildingController buildings;
+        if (transform.parent == null) {
+            transform.parent = GameObject.Find("BuildingController").transform;
+        }
+        buildings = transform.parent.GetComponent<BuildingController>();
         //       buildings.selectedBuildings[buildings.selectedCount] = index;
         //        buildings.selectedCount++;
         buildings.selectBuilding(gameObject, index);
@@ -60,5 +69,24 @@ public class BuildingInstance : MonoBehaviour {
         {
 
         }
+    }
+    static void initCosts() {
+        costs = new Dictionary<Globals.resourceTypes, int>();
+        foreach (Globals.resourceTypes type in Enum.GetValues(typeof(Globals.resourceTypes)))
+        {
+            costs.Add(type, 10);
+            switch (type)
+            {
+                case Globals.resourceTypes.ENERGY:
+                    EnergyCost = 10;
+                    break;
+                case Globals.resourceTypes.FOOD:
+                    FoodCost = 10;
+                    break;
+            }
+        }
+      //  costs.Add(Globals.resourceTypes.FOOD, 10);
+
+
     }
 }
