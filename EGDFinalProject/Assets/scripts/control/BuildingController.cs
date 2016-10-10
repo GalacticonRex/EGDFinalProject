@@ -18,7 +18,6 @@ public class BuildingController : MonoBehaviour {
         selectedBuildings = new int[2];
         initBuildings();
         createIndexTable(list.Length);
-
     }
 
     // Update is called once per frame
@@ -89,14 +88,13 @@ public class BuildingController : MonoBehaviour {
                 indexTable[i, j] = i == j ? 1 : 0;
             }
         }
-        printTable(indexTable);
+     //   printTable(indexTable);
     }
      int[,] copyTable(int[,] table)
     {
         int length = numBuildings;
         int[,] copyTable = new int[length, length];
      //   Debug.Log(table[1, 0]);
-     Debug.Log(length);
         for (int i = 0; i < length-1; i++)
         {
             for (int j = 0; j < length-1; j++)

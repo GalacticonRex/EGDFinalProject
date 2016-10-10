@@ -44,7 +44,7 @@ public class BuildingPlacer : MonoBehaviour {
         if (!Input.GetMouseButton(0))
         {
             bool no_overlap = (overlapping.Count == 0);
-            if (no_overlap && validPosition && Globals.SpendResources(100))
+            if (no_overlap && validPosition && Globals.SpendResources(100, Globals.resourceTypes.FOOD))
             {
                 addBuilding();
             }
@@ -56,7 +56,7 @@ public class BuildingPlacer : MonoBehaviour {
         else
             source.color = Invalid;
     }
-
+     
     void addBuilding()
     {
         GameObject building = Instantiate(toGenerate);

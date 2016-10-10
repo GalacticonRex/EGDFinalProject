@@ -13,6 +13,7 @@ public class BuildingInstance : MonoBehaviour {
     void Start()
     {
         gameObject.layer = Globals.BUILDING_LAYER;
+        transform.parent = GameObject.Find("BuildingController").transform;
     }	
     void setIndex(int newIndex)
     {
