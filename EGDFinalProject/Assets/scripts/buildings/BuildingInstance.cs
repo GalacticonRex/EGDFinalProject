@@ -13,7 +13,7 @@ public class BuildingInstance : MonoBehaviour {
     private HashSet<PathInstance> connections;
     private PathPlacer current;
     private MeshRenderer render;
-    private Material material;
+    protected Material material;
 
     RaycastHit hit;
     float dist;
@@ -29,7 +29,7 @@ public class BuildingInstance : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start()
+    protected void Start()
     {
         gameObject.layer = Globals.BUILDING_LAYER;
         current = null;
@@ -42,11 +42,11 @@ public class BuildingInstance : MonoBehaviour {
     {
         index = newIndex;
     }
-    void OnMouseEnter()
+    protected void OnMouseEnter()
     {
         material.color = Color.green;
     }
-    void OnMouseExit()
+    protected void OnMouseExit()
     {
         material.color = Color.white;
         screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
@@ -56,10 +56,7 @@ public class BuildingInstance : MonoBehaviour {
             transform.parent = GameObject.Find("BuildingController").transform;
         }
         buildings = transform.parent.GetComponent<BuildingController>();
-        //       buildings.selectedBuildings[buildings.selectedCount] = index;
-        //        buildings.selectedCount++;
         buildings.selectBuilding(gameObject, index);
-        //.selectedBuildings[]
     }
     void OnMouseDown()
     {
