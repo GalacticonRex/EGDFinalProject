@@ -7,6 +7,7 @@ public class PylonInstance : BuildingInstance {
 
 	// Use this for initialization
 	void Start () {
+        base.Start();
        // cost = new int[Enum.GetNames(typeof(Globals.resourceTypes)).Length];
 	}
 	
@@ -14,10 +15,7 @@ public class PylonInstance : BuildingInstance {
 	void Update () {
         this.transform.Rotate(new Vector3(transform.rotation.x, transform.rotation.y + 0.5f, transform.rotation.z));
 	}
-    void Bounce()
-    { 
-
-    }
+    
     public bool withinRadius(Vector3 checkPos)
     {
         if (Vector3.Distance(transform.position, checkPos) < buildRadius)
