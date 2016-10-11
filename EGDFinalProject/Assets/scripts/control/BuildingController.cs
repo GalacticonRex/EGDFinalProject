@@ -39,13 +39,8 @@ public class BuildingController : MonoBehaviour {
             }
         }
         else
-<<<<<<< HEAD
         {
             list = new BuildingInstance[50];
-=======
-        {   
-            list = new BuildingInstance[5];
->>>>>>> ee0d692aaf7cc1c920d6cf598cf76df5d89dce2b
 
         }
 

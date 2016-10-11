@@ -12,18 +12,19 @@ public class HouseInstance : BuildingInstance {
         FoodCost = 1;
         PopulationRequirement = 0;
         Globals.GainResource(1, Globals.resourceTypes.POPULATION);
+        base.Start();
     }
 
     // Update is called once per frame
     void Update () {
     }
     
-    public override int[] produceResources()
+  /*  public override int[] produceResources()
     {
         int[] res = new int[2];
         res[0] = energyValue;
         res[1] = foodValue;
         return res;
-
-    }
+        
+    }*/
 }

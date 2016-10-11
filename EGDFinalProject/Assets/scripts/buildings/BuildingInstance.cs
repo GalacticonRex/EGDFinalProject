@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class BuildingInstance : MonoBehaviour {
+public class BuildingInstance : MonoBehaviour
+{
     public int index;
     public Hexagon ground;
     public GameObject pathPlacer;
@@ -20,8 +21,9 @@ public class BuildingInstance : MonoBehaviour {
     Vector3 dir;
     //= new int[Enum.GetNames(typeof(Globals.resourceTypes)).Length];
     public static Dictionary<Globals.resourceTypes, int> costs;
-    public static int EnergyCost;
-    public static int FoodCost;
+    protected int EnergyCost;
+    protected int FoodCost;
+    protected int PopulationRequirement;
 
     public void AddConnection(PathInstance p)
     {
@@ -37,7 +39,7 @@ public class BuildingInstance : MonoBehaviour {
         render = GetComponent<MeshRenderer>();
         material = render.material;
         initCosts();
-    }	
+    }
     void setIndex(int newIndex)
     {
         index = newIndex;
@@ -52,7 +54,8 @@ public class BuildingInstance : MonoBehaviour {
         screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
         offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
         BuildingController buildings;
-        if (transform.parent == null) {
+        if (transform.parent == null)
+        {
             transform.parent = GameObject.Find("BuildingController").transform;
         }
         buildings = transform.parent.GetComponent<BuildingController>();
@@ -64,23 +67,23 @@ public class BuildingInstance : MonoBehaviour {
         PathPlacer pp = go.GetComponent<PathPlacer>();
         pp.source = this;
     }
-    static void initCosts() {
+    protected void initCosts()
+    {
         costs = new Dictionary<Globals.resourceTypes, int>();
         foreach (Globals.resourceTypes type in Enum.GetValues(typeof(Globals.resourceTypes)))
         {
-            costs.Add(type, 10);
             switch (type)
             {
                 case Globals.resourceTypes.ENERGY:
-                    EnergyCost = 10;
+                    costs.Add(type, EnergyCost);
                     break;
                 case Globals.resourceTypes.FOOD:
-                    FoodCost = 10;
+                    costs.Add(type, FoodCost);
+                    break;
+                case Globals.resourceTypes.POPULATION:
+                    costs.Add(type, PopulationRequirement);
                     break;
             }
         }
-      //  costs.Add(Globals.resourceTypes.FOOD, 10);
-
-
     }
 }
