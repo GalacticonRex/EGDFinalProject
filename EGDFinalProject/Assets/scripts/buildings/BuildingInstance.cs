@@ -2,11 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+
 public class BuildingInstance : MonoBehaviour {
     public int index;
+    public Hexagon ground;
+    public GameObject pathPlacer;
     public GameObject[] paths;
     private Vector3 screenPoint;
     private Vector3 offset;
+    private HashSet<PathInstance> connections;
+    private PathPlacer current;
+    private MeshRenderer render;
+    protected Material material;
+
     RaycastHit hit;
     float dist;
     Vector3 dir;
@@ -14,22 +22,33 @@ public class BuildingInstance : MonoBehaviour {
     public static Dictionary<Globals.resourceTypes, int> costs;
     public static int EnergyCost;
     public static int FoodCost;
+
+    public void AddConnection(PathInstance p)
+    {
+        connections.Add(p);
+    }
+
     // Use this for initialization
-    void Start()
+    protected void Start()
     {
         gameObject.layer = Globals.BUILDING_LAYER;
+        current = null;
+        connections = new HashSet<PathInstance>();
+        render = GetComponent<MeshRenderer>();
+        material = render.material;
         initCosts();
     }	
     void setIndex(int newIndex)
     {
         index = newIndex;
     }
-	// Update is called once per frame
-	void Update () {
-
-    }
-    void OnMouseDown()
+    protected void OnMouseEnter()
     {
+        material.color = Color.green;
+    }
+    protected void OnMouseExit()
+    {
+        material.color = Color.white;
         screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
         offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
         BuildingController buildings;
@@ -37,38 +56,13 @@ public class BuildingInstance : MonoBehaviour {
             transform.parent = GameObject.Find("BuildingController").transform;
         }
         buildings = transform.parent.GetComponent<BuildingController>();
-        //       buildings.selectedBuildings[buildings.selectedCount] = index;
-        //        buildings.selectedCount++;
         buildings.selectBuilding(gameObject, index);
-        //.selectedBuildings[]
     }
-    //Drag and move building
-    void OnMouseDrag()
+    void OnMouseDown()
     {
-        Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
-        Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
-        //locking y axis until raycast function implemented
-
-        gameObject.transform.position = new Vector3(curPosition.x, gameObject.transform.position.y, curPosition.z);
-
-        hit = new RaycastHit();
-        if (Physics.Raycast(transform.position, -Vector3.up, out hit))
-        {
-            Vector3 p = hit.point;
-            if (hit.distance > 0)
-            {
-                p.y += 0.5f;
-                transform.position = p;
-            }
-        }
-        else if (Physics.Raycast(transform.position, Vector3.up, out hit))
-        {
-            transform.position = hit.point;
-        }
-        else
-        {
-
-        }
+        GameObject go = Instantiate(pathPlacer);
+        PathPlacer pp = go.GetComponent<PathPlacer>();
+        pp.source = this;
     }
     static void initCosts() {
         costs = new Dictionary<Globals.resourceTypes, int>();

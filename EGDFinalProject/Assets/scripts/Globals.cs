@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 public class Globals : MonoBehaviour {
-    public const int GROUND_LAYER = 1;
-    public const int PLACEMENT_LAYER = 4;
-    public const int BUILDING_LAYER = 5;
+    public const int GROUND_LAYER = 0x01;
+    public const int PLACEMENT_LAYER = 0x02;
+    public const int BUILDING_LAYER = 0x04;
     static public int Resources = int.MaxValue;
     /*
      * POP:0,ENERGY:1,FOOD:2

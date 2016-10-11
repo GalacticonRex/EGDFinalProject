@@ -9,6 +9,55 @@ using System.Collections.Generic;
 // 4 = 100
 // 5 = 101
 
+public class GraphMap<T> where T : HexStack
+{
+    public class GraphIndexer
+    {
+        private Dictionary<int, T> mapping;
+        public GraphIndexer(Dictionary<int, T> n)
+        {
+            mapping = n;
+        }
+        public T this[int key]
+        {
+            get
+            {
+                if (mapping == null)
+                    return null;
+                T output;
+                if (!mapping.TryGetValue(key, out output))
+                    return null;
+                return output;
+            }
+            set
+            {
+                if (mapping == null)
+                    return;
+                mapping[key] = value;
+            }
+        }
+    }
+
+    private Dictionary<int, Dictionary<int, T>> mapping;
+    public GraphIndexer this[int key]
+    {
+        get
+        {
+            Dictionary<int, T> dict;
+            if ( !mapping.TryGetValue(key, out dict) )
+            {
+                dict = new Dictionary<int, T>();
+                mapping[key] = dict;
+            }
+            return new GraphIndexer(dict);
+        }
+    }
+    public GraphMap()
+    {
+        mapping = new Dictionary<int, Dictionary<int, T>>();
+    }
+}
+
 public class vertex_surface
 {
     List<Vector3> vertices;
@@ -17,6 +66,8 @@ public class vertex_surface
 
 public class HexStack
 {
+    private static readonly int[] adjacentX = { 1, 0, -1, -1, 0, 1 };
+    private static readonly int[] adjacentY = { 1, 2, 1, -1, -2, -1 };
     private static int creation_index = 0;
     public static int reverse(int index)
     {
@@ -31,6 +82,8 @@ public class HexStack
         return (index + 5) % 6;
     }
 
+    public int locationX;
+    public int locationY;
     public int vertical_offset;
     public float radius;
     public Vector2 location;
@@ -44,8 +97,10 @@ public class HexStack
     public float generation_accel = 0f;
     public float generation_value = 0f;
 
-    public HexStack(float x, float y, float r, int v = 0)
+    public HexStack(int lx, int ly, float x, float y, float r, int v = 0)
     {
+        locationX = lx;
+        locationY = ly;
         vertical_offset = v;
         radius = r;
         location = new Vector2(x, y);
@@ -55,8 +110,10 @@ public class HexStack
         index_created = creation_index ++ ;
         isFlagged = false;
     }
-    public HexStack(Vector2 loc, float r, int v = 0)
+    public HexStack(int lx, int ly, Vector2 loc, float r, int v = 0)
     {
+        locationX = lx;
+        locationY = ly;
         vertical_offset = v;
         radius = r;
         location = loc;
@@ -115,7 +172,9 @@ public class HexStack
         else
         {
             Vector2 added = Quaternion.AngleAxis(60.0f * direction + 30, Vector3.forward) * new Vector2(radius*Mathf.Sqrt(3), 0);
-            HexStack ret = new HexStack(added + location, radius, vertical_offset + offset);
+            HexStack ret = new HexStack(locationX + adjacentX[direction],
+                                        locationY + adjacentY[direction],
+                                        added + location, radius, vertical_offset + offset);
 
             Connect(ret, direction);
 
@@ -149,32 +208,37 @@ public class HexStack
 public class Hexagon {
     public HexStack parent;
     public float surface;
+    public int gScore;
+    public int fScore;
     public Hexagon[] connections;
     public bool[] isRamp;
     public int vertex_start; // initial vertex in parent buffer
-    private bool isFlagged;
+    private bool[] hasCliff;
 
     public Hexagon(HexStack stack, float layer)
     {
         parent = stack;
         surface = layer;
+        gScore = -1;
+        fScore = -1;
 
         connections = new Hexagon[6] { null, null, null, null, null, null };
         isRamp = new bool[6] { false, false, false, false, false, false };
-
-        isFlagged = false;
+        hasCliff = new bool[6] { false, false, false, false, false, false };
         vertex_start = -1;
     }
-
-    //------------- Modify Flags ---------------------------------------------
-    public void UnsetAllFlags()
+    public void ResetScore()
     {
-        if (isFlagged)
-        {
-            isFlagged = false;
-            foreach (Hexagon hex in connections)
-                hex.UnsetAllFlags();
-        }
+        if (gScore < 0) return;
+        gScore = -1;
+        fScore = -1;
+        for (int i = 0; i < 6; i++)
+            if (connections[i] != null)
+                connections[i].ResetScore();
+    }
+    public int DistanceTo(Hexagon hex)
+    {
+        return Mathf.FloorToInt(Vector2.Distance(parent.location, hex.parent.location));
     }
 }
 
@@ -182,15 +246,25 @@ public class GenerateHexGrid : MonoBehaviour {
 
     public float hexRadius = 1.0f;
     private HexStack root;
+    private GraphMap<HexStack> map = new GraphMap<HexStack>();
     private GameObject surface;
     private GameObject cliffs;
 
-    public Collider Ground
+    public float hexAnchor { get { return hexRadius * Mathf.Sqrt(3.0f) / 2.0f; } }
+    public float hexInnerRadius { get { return hexRadius * 0.75f; } }
+
+    public float hexXOffset { get { return hexRadius * 1.50f; } }
+    public float hexYOffset { get { return hexRadius * Mathf.Sqrt(3.0f); } }
+
+    public Collider Ground { get { return surface.GetComponent<MeshCollider>() as Collider; } }
+    public GraphMap<HexStack>.GraphIndexer this[int key] { get { return map[key]; } }
+    public HexStack Root {  get { return root; } }
+
+    public HexStack GetTile(Vector3 location)
     {
-        get
-        {
-            return surface.GetComponent<MeshCollider>() as Collider;
-        }
+        int x = Mathf.RoundToInt(location.x / hexXOffset);
+        int y = Mathf.RoundToInt(location.z / hexYOffset) * 2 - (System.Math.Abs(x)%2);
+        return map[x][y];
     }
 
     private void generateFloorSurface(List<Vector3> vertices, List<int> indices, HexStack hexes)
@@ -369,6 +443,8 @@ public class GenerateHexGrid : MonoBehaviour {
                     continue;
                 }
 
+                map[s0.locationX][s0.locationY] = s0;
+
                 s0.generation_accel = hex.generation_accel * 0.99f + Random.Range(-1,1) * offset;
                 s0.generation_veloc = hex.generation_veloc + s0.generation_accel;
                 s0.generation_value = hex.generation_value + s0.generation_veloc;
@@ -390,7 +466,7 @@ public class GenerateHexGrid : MonoBehaviour {
 
     void Start()
     {
-        root = new HexStack(0, 0, hexRadius);
+        map[0][0] = root = new HexStack(0,0, 0,0, hexRadius);
         generateTerrain(root, 1000, 10.0f);
 
         List<Vector3> surface_vertices = new List<Vector3>();
