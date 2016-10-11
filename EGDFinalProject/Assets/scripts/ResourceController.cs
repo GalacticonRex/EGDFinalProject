@@ -3,6 +3,7 @@ using System.Collections;
 using System;
 public class ResourceController : MonoBehaviour {
     public int[] resourceValues;
+    public int food, energy, population;
 	// Use this for initialization
 	void Start () {
         //    initResource();
@@ -19,9 +20,12 @@ public class ResourceController : MonoBehaviour {
     }
     IEnumerator updateValues()
     {
-        resourceValues[(int)Globals.resourceTypes.FOOD] = Globals.resources[Globals.resourceTypes.FOOD];
-        resourceValues[(int)Globals.resourceTypes.POPULATION] = Globals.resources[Globals.resourceTypes.POPULATION];
+        //these variables are for debugging.
+        food = resourceValues[(int)Globals.resourceTypes.FOOD] = Globals.resources[Globals.resourceTypes.FOOD];
+        population = resourceValues[(int)Globals.resourceTypes.POPULATION] = Globals.resources[Globals.resourceTypes.POPULATION];
         resourceValues[(int)Globals.resourceTypes.ENERGY] = Globals.resources[Globals.resourceTypes.ENERGY];
+        energy = (Globals.currentEnergy);
+        Debug.Log(resourceValues[(int)Globals.resourceTypes.ENERGY]);
         yield return new WaitForSeconds(5f);
     }
 }

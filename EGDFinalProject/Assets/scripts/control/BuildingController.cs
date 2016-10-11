@@ -40,7 +40,7 @@ public class BuildingController : MonoBehaviour {
         }
         else
         {
-            list = new BuildingInstance[5];
+            list = new BuildingInstance[50];
 
         }
 

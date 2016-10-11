@@ -7,7 +7,12 @@ public class PylonInstance : BuildingInstance {
 
 	// Use this for initialization
 	void Start () {
-       // cost = new int[Enum.GetNames(typeof(Globals.resourceTypes)).Length];
+        // cost = new int[Enum.GetNames(typeof(Globals.resourceTypes)).Length];
+        EnergyCost = 0;
+        FoodCost = 1;
+        PopulationRequirement = 0;
+        initCosts();
+        Globals.GainResource(5, Globals.resourceTypes.ENERGY);
 	}
 	
 	// Update is called once per frame
