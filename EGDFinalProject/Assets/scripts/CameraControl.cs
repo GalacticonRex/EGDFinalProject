@@ -16,8 +16,12 @@ public class CameraControl : MonoBehaviour
     {
         Quaternion rotation = transform.rotation;
 
-        if ( Input.GetMouseButton(1) && oldMouse.x != Input.mousePosition.x )
-            rotation = Quaternion.AngleAxis(Input.mousePosition.x - oldMouse.x, Vector3.up) * rotation;
+        if (Input.GetMouseButton(1) && oldMouse.x != Input.mousePosition.x)
+        {
+            float delta = Input.mousePosition.x - oldMouse.x;
+            float scaled = Mathf.Pow(Mathf.Abs(delta), 0.6f) * delta;
+            rotation = Quaternion.AngleAxis(scaled / 16.0f, Vector3.up) * rotation;
+        }
 
         Vector3 cf = Camera.main.transform.forward;
         Vector3 forward = Vector3.Normalize(new Vector3(cf.x, 0, cf.z));

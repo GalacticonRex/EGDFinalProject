@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class BuildingPlacer : MonoBehaviour {
+    public GenerateHexGrid parent;
     public GameObject toGenerate;
     public Color Active;
     public Color Invalid;
@@ -15,14 +16,23 @@ public class BuildingPlacer : MonoBehaviour {
 
     public BuildingController buildings;
 
+    private Hexagon lockToNearsetHex(Vector3 pt)
+    {
+        HexStack stack = parent.GetTile(pt);
+        if (stack == null || stack.layers.Count == 0)
+            return null;
+        return stack.layers[0];
+    }
+
     void Start()
     {
+        transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
         buildings = GameObject.Find("BuildingController").GetComponent<BuildingController>();
         gameObject.layer = Globals.PLACEMENT_LAYER;
-        GenerateHexGrid g = FindObjectOfType<GenerateHexGrid>();
-        if (g != null)
+        parent = FindObjectOfType<GenerateHexGrid>();
+        if (parent != null)
         {
-            ground = g.Ground;
+            ground = parent.Ground;
         }
         self = GetComponent<MeshRenderer>();
         source = self.material;
@@ -34,19 +44,26 @@ public class BuildingPlacer : MonoBehaviour {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit result;
         Physics.Raycast(ray, out result, float.PositiveInfinity, Globals.GROUND_LAYER);
-        validPosition = (result.collider == ground);
-        if (result.collider != null)
+
+        Hexagon hex = lockToNearsetHex(result.point);
+
+        validPosition = (hex != null && result.collider == ground);
+        if (validPosition)
         {
-            placeAt = result.point;
-            placeAt.y += 0.5f;
+            placeAt = new Vector3(hex.parent.location.x, hex.surface, hex.parent.location.y);
+            self.enabled = true;
             transform.position = placeAt;
+        }
+        else
+        {
+            self.enabled = false;
         }
         if (!Input.GetMouseButton(0))
         {
             bool no_overlap = (overlapping.Count == 0);
             if (no_overlap && validPosition && Globals.SpendResources(100))
             {
-                addBuilding();
+                addBuilding(hex);
             }
             Destroy(gameObject);
         }
@@ -57,9 +74,16 @@ public class BuildingPlacer : MonoBehaviour {
             source.color = Invalid;
     }
 
-    void addBuilding()
+    void addBuilding(Hexagon hex)
     {
         GameObject building = Instantiate(toGenerate);
+        BuildingInstance bb = building.GetComponent<BuildingInstance>();
+        if(bb != null)
+        {
+            bb.ground = hex;
+        }
+
+
         building.tag = "building";
         building.transform.position = placeAt;
         building.transform.parent = buildings.transform;

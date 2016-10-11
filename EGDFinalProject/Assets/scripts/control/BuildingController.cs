@@ -40,7 +40,7 @@ public class BuildingController : MonoBehaviour {
             }
         }
         else
-        {
+        {   
             list = new BuildingInstance[5];
 
         }
@@ -96,7 +96,7 @@ public class BuildingController : MonoBehaviour {
         int length = numBuildings;
         int[,] copyTable = new int[length, length];
      //   Debug.Log(table[1, 0]);
-     Debug.Log(length);
+     //Debug.Log(length);
         for (int i = 0; i < length-1; i++)
         {
             for (int j = 0; j < length-1; j++)
