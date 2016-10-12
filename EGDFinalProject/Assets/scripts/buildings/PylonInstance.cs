@@ -15,10 +15,6 @@ public class PylonInstance : BuildingInstance {
         Globals.GainResource(5, Globals.resourceTypes.ENERGY);
 
     }
-
-    // Update is called once per frame
-    void Update () {
-	}
     
     public bool withinRadius(Vector3 checkPos)
     {

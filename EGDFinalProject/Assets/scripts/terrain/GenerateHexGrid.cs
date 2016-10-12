@@ -215,6 +215,9 @@ public class Hexagon {
     public int vertex_start; // initial vertex in parent buffer
     private bool[] hasCliff;
 
+    public Vector3 Position
+    { get { return new Vector3(parent.location.x, surface, parent.location.y); } }
+
     public Hexagon(HexStack stack, float layer)
     {
         parent = stack;

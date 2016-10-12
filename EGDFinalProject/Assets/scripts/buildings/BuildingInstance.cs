@@ -43,6 +43,10 @@ public class BuildingInstance : MonoBehaviour
         material = render.material;
         initCosts();
     }
+    protected void Update()
+    {
+
+    }
     void setIndex(int newIndex)
     {
         index = newIndex;
