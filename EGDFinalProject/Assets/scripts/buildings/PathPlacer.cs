@@ -19,6 +19,7 @@ public class PathPlacer : MonoBehaviour {
     public BuildingInstance source;
     public float Weight = 1.0f;
     public GameObject instance;
+    public AudioClip PlayOnPlace;
     private Hexagon goal;
     private bool pathValid = false;
     private GenerateHexGrid parent;
@@ -185,6 +186,8 @@ public class PathPlacer : MonoBehaviour {
         {
             if( pathValid && inst != null && inst != source && !inst.ConnectedTo(source) )
             {
+                if( PlayOnPlace != null )
+                    AudioSource.PlayClipAtPoint(PlayOnPlace, Camera.main.transform.position);
                 GameObject go = Instantiate(instance);
                 PathInstance p = go.GetComponent<PathInstance>();
                 p.Build(source, inst, positions.ToArray());

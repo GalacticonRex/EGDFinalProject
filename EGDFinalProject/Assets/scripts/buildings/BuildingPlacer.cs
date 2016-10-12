@@ -7,6 +7,7 @@ public class BuildingPlacer : MonoBehaviour {
     public GameObject toGenerate;
     public Color Active;
     public Color Invalid;
+    public AudioClip PlayOnPlace;
     private Collider ground;
     private MeshRenderer self;
     private bool validPosition;
@@ -70,6 +71,8 @@ public class BuildingPlacer : MonoBehaviour {
          //   if (overlapping.Count > 0) Debug.Log(overlapping[0]);
             if (no_overlap && validPosition && cost && findNearestPylon())
             {
+                if( PlayOnPlace != null )
+                    AudioSource.PlayClipAtPoint(PlayOnPlace, Camera.main.transform.position);
                 addBuilding(hex);
             }
 
