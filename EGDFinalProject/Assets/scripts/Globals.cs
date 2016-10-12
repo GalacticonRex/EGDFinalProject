@@ -21,8 +21,11 @@ public class Globals : MonoBehaviour {
         OBSTACLE = 100
     }
     public static Dictionary<resourceTypes, int> resources = new Dictionary<resourceTypes, int>();
+    /* ENVIRONMENT VARIABLES */
     public static Dictionary<resourceTypes, int> environment = new Dictionary<resourceTypes, int>();
     static public int numEnergyNodes = 0;
+    static public int numFoodNodes = 0;
+    /*                       */
     static public bool EnoughResources(int cost, resourceTypes type)
     {
         return (resources[type] >= cost);
