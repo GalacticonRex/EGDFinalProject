@@ -54,7 +54,7 @@ public class BuildingPlacer : MonoBehaviour {
 
         if (validPosition)
         {
-            placeAt = new Vector3(hex.parent.location.x, hex.surface, hex.parent.location.y);
+            placeAt = hex.Position;
             self.enabled = true;
             transform.position = placeAt;
         }
@@ -62,7 +62,7 @@ public class BuildingPlacer : MonoBehaviour {
         {
             self.enabled = false;
         }
-        if (!Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0))
         {
             bool no_overlap = (overlapping.Count == 0);
             
@@ -84,6 +84,10 @@ public class BuildingPlacer : MonoBehaviour {
                 }
             }
 
+            Destroy(gameObject);
+        }
+        else if ( Input.GetKeyDown(KeyCode.Escape) )
+        {
             Destroy(gameObject);
         }
 

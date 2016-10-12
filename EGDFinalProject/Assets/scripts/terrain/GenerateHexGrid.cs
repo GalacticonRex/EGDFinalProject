@@ -235,12 +235,20 @@ public class Hexagon {
     public HexStack parent;
     public EnvironmentInstance environment;
     public float surface;
-    public int gScore;
-    public int fScore;
-    public Hexagon[] connections;
-    public bool[] isRamp;
-    public int vertex_start; // initial vertex in parent buffer
-    private bool[] hasCliff;
+
+    public Hexagon[] connections = new Hexagon[6] { null, null, null, null, null, null };
+    public bool[] isRamp = new bool[6] { false, false, false, false, false, false };
+    private bool[] hasCliff = new bool[6] { false, false, false, false, false, false };
+
+    public int vertex_start = -1; // initial vertex in parent buffer
+
+    // search algorithm
+    public int gScore = -1;
+    public int fScore = -1;
+
+    // placement values
+    public int buildAccess = 0;
+    public int connectionAccess = 0;
 
     public Vector3 Position
     { get { return new Vector3(parent.location.x, surface, parent.location.y); } }
@@ -249,19 +257,14 @@ public class Hexagon {
     {
         parent = stack;
         surface = layer;
-        gScore = -1;
-        fScore = -1;
-
-        connections = new Hexagon[6] { null, null, null, null, null, null };
-        isRamp = new bool[6] { false, false, false, false, false, false };
-        hasCliff = new bool[6] { false, false, false, false, false, false };
-        vertex_start = -1;
     }
     public void ResetScore()
     {
         if (gScore < 0) return;
+
         gScore = -1;
         fScore = -1;
+
         for (int i = 0; i < 6; i++)
             if (connections[i] != null)
                 connections[i].ResetScore();
