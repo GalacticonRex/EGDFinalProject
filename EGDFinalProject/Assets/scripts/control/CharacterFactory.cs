@@ -23,6 +23,7 @@ public class CharacterFactory : MonoBehaviour {
         GameObject go = Instantiate(ToGenerate);
         GameObject child = Instantiate(Proficiency[prof - 1]);
         child.transform.parent = go.transform;
+        child.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
         go.transform.position = build.transform.position;
 
         Character ch = go.GetComponent<Character>();

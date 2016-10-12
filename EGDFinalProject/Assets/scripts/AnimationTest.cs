@@ -9,6 +9,7 @@ public class AnimationTest : MonoBehaviour
     {
         Animator anim = GetComponent<Animator>();
         anim.SetBool("IsMoving", true);
+        anim.Play("Person_walking");
     }
 
     // Update is called once per frame

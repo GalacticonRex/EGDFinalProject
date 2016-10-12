@@ -31,7 +31,7 @@ public class CameraControl : MonoBehaviour
         Vector3 position = transform.position;
 
         if (Input.mouseScrollDelta.magnitude != 0)
-            cam.orthographicSize = Mathf.Max(2.0f, cam.orthographicSize - Input.mouseScrollDelta.y);
+            cam.orthographicSize = Mathf.Max(2.0f, cam.orthographicSize -    Input.mouseScrollDelta.y);
 
         float spd = cam.orthographicSize / 5.0f * CamSpeed;
 

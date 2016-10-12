@@ -14,6 +14,8 @@ public class BuildingInstance : MonoBehaviour
     private Dictionary<PathInstance, BuildingInstance> connections;
     private PathPlacer current;
     private MeshRenderer render;
+    private CharacterFactory factory;
+
     protected Material material;
     //= new int[Enum.GetNames(typeof(Globals.resourceTypes)).Length];
     public static Dictionary<Globals.resourceTypes, int> costs;
@@ -41,10 +43,12 @@ public class BuildingInstance : MonoBehaviour
         render = GetComponent<MeshRenderer>();
         material = render.material;
         initCosts();
+
+        factory = FindObjectOfType<CharacterFactory>();
     }
     protected void Update()
     {
-        if (UnityEngine.Random.value < 0.001f)
+        if (UnityEngine.Random.value < 0.01f)
         {
             int j = UnityEngine.Random.Range(0, connections.Count);
             int i = 0;
@@ -52,7 +56,8 @@ public class BuildingInstance : MonoBehaviour
             {
                 if (i == j)
                 {
-
+                    Character ch = factory.Create(UnityEngine.Random.Range(1,5), this, kv.Key);
+                    ch.speed *= 3.0f;
                     break;
                 }
                 i++;
