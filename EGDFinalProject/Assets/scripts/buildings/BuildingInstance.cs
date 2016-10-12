@@ -15,7 +15,6 @@ public class BuildingInstance : MonoBehaviour
     private PathPlacer current;
     private MeshRenderer render;
     protected Material material;
-
     //= new int[Enum.GetNames(typeof(Globals.resourceTypes)).Length];
     public static Dictionary<Globals.resourceTypes, int> costs;
     protected int EnergyCost;

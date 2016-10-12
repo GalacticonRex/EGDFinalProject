@@ -14,6 +14,7 @@ public class BuildingPlacer : MonoBehaviour {
     private HashSet<BuildingInstance> overlapping;
     private Vector3 placeAt;
     private Material source;
+    private bool isPylon;
 
     private Hexagon lockToNearsetHex(Vector3 pt)
     {
@@ -35,6 +36,7 @@ public class BuildingPlacer : MonoBehaviour {
         self = GetComponent<MeshRenderer>();
         source = self.material;
         overlapping = new HashSet<BuildingInstance>();
+        if (toGenerate.GetComponent<PylonInstance>() != null) isPylon = true;
     }
 	
 	// Update is called once per frame
@@ -42,16 +44,14 @@ public class BuildingPlacer : MonoBehaviour {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit result;
         Physics.Raycast(ray, out result, float.PositiveInfinity, 1<<LayerMask.NameToLayer("Ground"));
-        Debug.Log(result.distance.ToString());
+        //Debug.Log(result.distance.ToString());
 
         Hexagon hex = lockToNearsetHex(result.point);
-
         validPosition = (hex != null && result.collider == ground);
-        if (toGenerate.GetComponent<PylonInstance>() != null)
-        {
-            Debug.Log("This is a pylon");
 
-        }
+      
+         
+
         if (validPosition)
         {
             placeAt = new Vector3(hex.parent.location.x, hex.surface, hex.parent.location.y);
@@ -67,13 +67,21 @@ public class BuildingPlacer : MonoBehaviour {
             bool no_overlap = (overlapping.Count == 0);
             
             bool cost = Globals.SpendResources(1, Globals.resourceTypes.FOOD) && Globals.SpendResources(1, Globals.resourceTypes.ENERGY);
+            if (isPylon)
+            {
+                validPosition = (hex != null && result.collider == ground && hex.environment != null);
+            }
 
-         //   if (overlapping.Count > 0) Debug.Log(overlapping[0]);
+            //   if (overlapping.Count > 0) Debug.Log(overlapping[0]);
             if (no_overlap && validPosition && cost && findNearestPylon())
             {
                 if( PlayOnPlace != null )
                     AudioSource.PlayClipAtPoint(PlayOnPlace, Camera.main.transform.position);
                 addBuilding(hex);
+                if (isPylon)
+                {
+                    if (hex.environment != null) hex.environment.gameObject.SetActive(false);
+                }
             }
 
             Destroy(gameObject);
