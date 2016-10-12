@@ -5,10 +5,12 @@ public class CameraControl : MonoBehaviour
 {
     public float CamSpeed = 1.0f;
     private Vector2 oldMouse;
+    private Camera cam;
 
     void Start()
     {
         oldMouse = Input.mousePosition;
+        cam = GetComponent<Camera>();
     }
 
     // Update is called once per frame
@@ -28,14 +30,19 @@ public class CameraControl : MonoBehaviour
         Vector3 right = Camera.main.transform.right;
         Vector3 position = transform.position;
 
+        if (Input.mouseScrollDelta.magnitude != 0)
+            cam.orthographicSize = Mathf.Max(2.0f, cam.orthographicSize - Input.mouseScrollDelta.y);
+
+        float spd = cam.orthographicSize / 5.0f * CamSpeed;
+
         if (Input.GetKey(KeyCode.A))
-            position -= right * Time.deltaTime * CamSpeed;
+            position -= right * Time.deltaTime * spd;
         if (Input.GetKey(KeyCode.D))
-            position += right * Time.deltaTime * CamSpeed;
+            position += right * Time.deltaTime * spd;
         if (Input.GetKey(KeyCode.S))
-            position -= forward * Time.deltaTime * CamSpeed;
+            position -= forward * Time.deltaTime * spd;
         if (Input.GetKey(KeyCode.W))
-            position += forward * Time.deltaTime * CamSpeed;
+            position += forward * Time.deltaTime * spd;
 
         transform.position = position;
         transform.rotation = rotation;

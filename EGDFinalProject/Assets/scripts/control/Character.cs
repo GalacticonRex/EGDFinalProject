@@ -6,7 +6,7 @@ public class Character : MonoBehaviour {
     public PathInstance path;
     public float speed;
 
-    /*static Character Create(BuildingInstance, PathInstance)
+    /*  static Character Create(BuildingInstance, PathInstance)
     {
         GameObject 
     }*/
