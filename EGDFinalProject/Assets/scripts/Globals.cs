@@ -26,23 +26,50 @@ public class Globals : MonoBehaviour {
     {
         return (resources[type] >= cost);
     }
+
+    static public int currentEnergy = 0;
+    static public int currentPopulation = 0;
     static public bool SpendResources(int cost, resourceTypes type)
     {
-        if (resources[type] < cost)
+        //have required energy amount for energy resource
+        if (type == resourceTypes.POPULATION)
+        {
+            if (currentPopulation + cost > resources[resourceTypes.POPULATION])
+            {
+                return false;
+            }
+            else currentPopulation += cost;
+            return true;
+        }
+        if (type == resourceTypes.ENERGY)
+        {
+            if (currentEnergy + cost > resources[resourceTypes.ENERGY])
+            {
+                return false;
+            }
+            else currentEnergy += cost;
+            return true;
+        }
+        else if (resources[type] < cost)
             return false;
         resources[type] -= cost;
         return true;
     }
-	// Use this for initialization
-	void Start () {
+    static public void GainResource(int amount, resourceTypes type)
+    {
+        Debug.Log(amount);
+        resources[type] += amount;
+    }
+
+    // Use this for initialization
+    void Start () {
         
     }
     public static void initResources()
     {
-      //  resourceValues = new int[Enum.GetNames(typeof(Globals.resourceTypes)).Length];
-        resources.Add(resourceTypes.POPULATION, 3);
-        resources.Add(resourceTypes.ENERGY, 3);
-        resources.Add(resourceTypes.FOOD, 3);
+        resources.Add(resourceTypes.POPULATION, 100);
+        resources.Add(resourceTypes.ENERGY, 100);
+        resources.Add(resourceTypes.FOOD, 100);
 
     }
     // Update is called once per frame
