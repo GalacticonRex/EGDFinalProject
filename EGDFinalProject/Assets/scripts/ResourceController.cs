@@ -9,6 +9,7 @@ public class ResourceController : MonoBehaviour {
 	void Start () {
         //    initResource();
         Globals.initResources();
+        Globals.initEnvironment();
         resourceValues = new int[Enum.GetNames(typeof(Globals.resourceTypes)).Length];
 
     }

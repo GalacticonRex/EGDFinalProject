@@ -10,7 +10,6 @@ public class Globals : MonoBehaviour {
     { get { return 1 << LayerMask.NameToLayer("Buildings"); } }
 
     static public int Resources = int.MaxValue;
-
     /*
      * POP:0,ENERGY:1,FOOD:2
      */
@@ -19,15 +18,18 @@ public class Globals : MonoBehaviour {
         POPULATION = 0,
         ENERGY = 1,
         FOOD = 2,
+        OBSTACLE = 100
     }
     public static Dictionary<resourceTypes, int> resources = new Dictionary<resourceTypes, int>();
-
+    public static Dictionary<resourceTypes, int> environment = new Dictionary<resourceTypes, int>();
+    static public int numEnergyNodes = 0;
     static public bool EnoughResources(int cost, resourceTypes type)
     {
         return (resources[type] >= cost);
     }
 
     static public int currentEnergy = 0;
+    static public int energyNodes = 10, farmNodes  = 10, obstacleNodes = 10;
     static public int currentPopulation = 0;
     static public bool SpendResources(int cost, resourceTypes type)
     {
@@ -64,6 +66,12 @@ public class Globals : MonoBehaviour {
     // Use this for initialization
     void Start () {
         
+    }
+    public static void initEnvironment()
+    {
+        environment.Add(resourceTypes.ENERGY, energyNodes);
+        environment.Add(resourceTypes.FOOD, farmNodes);
+        environment.Add(resourceTypes.OBSTACLE, obstacleNodes);
     }
     public static void initResources()
     {

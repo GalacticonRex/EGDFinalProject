@@ -133,9 +133,35 @@ public class HexStack
                 hex.UnsetAllFlags();
         }
     }
-    public void AddFloor(float value)
+    public EnvironmentInstance AddEnvironmentInstance(Hexagon hex, GameObject envObject)
+    {
+        if (Globals.numEnergyNodes < Globals.environment[Globals.resourceTypes.ENERGY])
+        {
+            int random = Random.Range(0, 100);
+            if (random <= 33)
+            {
+                GameObject env = GameObject.Instantiate(envObject);
+                env.transform.position = hex.Position;
+                Globals.numEnergyNodes++;
+                return env.GetComponent<EnvironmentInstance>();
+            }
+            else
+            {
+                return null;
+            }
+        }
+        return null;
+    }
+    public void AddFloor(float value, GameObject energy)
     {
         Hexagon newlayer = new Hexagon(this, value);
+
+        EnvironmentInstance env = AddEnvironmentInstance(newlayer, energy);
+        if (env != null)
+        {
+            newlayer.environment = env;
+        }
+
         int match0 = layers.Count;
         for ( int i=0;i<6;i++ )
         {
@@ -207,6 +233,7 @@ public class HexStack
 
 public class Hexagon {
     public HexStack parent;
+    public EnvironmentInstance environment;
     public float surface;
 
     public Hexagon[] connections = new Hexagon[6] { null, null, null, null, null, null };
@@ -249,6 +276,7 @@ public class Hexagon {
 }
 
 public class GenerateHexGrid : MonoBehaviour {
+    public GameObject energyPrefab;
 
     public float hexRadius = 1.0f;
     private HexStack root;
@@ -462,10 +490,10 @@ public class GenerateHexGrid : MonoBehaviour {
             if ( val <= Mathf.Abs(hex.generation_value))
             {
                 if (hex.location.y < -10000 && Random.value * count * count > initial)
-                    hex.AddFloor(100.0f);
+                    hex.AddFloor(100.0f, energyPrefab);
                 else
                     hex.AddFloor(Random.Range(-4.0f * hex.generation_value / scale - 0.2f,
-                                              10.0f * hex.generation_value / scale + 0.2f));
+                                              10.0f * hex.generation_value / scale + 0.2f), energyPrefab);
             }
             count++;
         }
