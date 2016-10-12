@@ -135,27 +135,51 @@ public class HexStack
     }
     public EnvironmentInstance AddEnvironmentInstance(Hexagon hex, GameObject envObject)
     {
-        if (Globals.numEnergyNodes < Globals.environment[Globals.resourceTypes.ENERGY])
+        EnvironmentInstance inst = envObject.GetComponent<EnvironmentInstance>();
+        Globals.resourceTypes envType = inst.resource;
+        if (envType == Globals.resourceTypes.ENERGY)
         {
-            int random = Random.Range(0, 100);
-            if (random <= 33)
+            if (Globals.numEnergyNodes < Globals.environment[envType])
             {
-                GameObject env = GameObject.Instantiate(envObject);
-                env.transform.position = hex.Position;
-                Globals.numEnergyNodes++;
-                return env.GetComponent<EnvironmentInstance>();
-            }
-            else
-            {
-                return null;
+                int random = Random.Range(0, 100);
+                if (random <= 33)
+                {
+                    GameObject env = GameObject.Instantiate(envObject);
+                    env.transform.position = hex.Position;
+                    Globals.numEnergyNodes++;
+                    return env.GetComponent<EnvironmentInstance>();
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
+        else if (envType == Globals.resourceTypes.FOOD)
+        {
+            if (Globals.numFoodNodes < Globals.environment[envType])
+            {
+                int random = Random.Range(0, 100);
+                if (random <= 33)
+                {
+                    GameObject env = GameObject.Instantiate(envObject);
+                    env.transform.position = hex.Position;
+                    Globals.numEnergyNodes++;
+                    return env.GetComponent<EnvironmentInstance>();
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
         return null;
     }
+
     public void AddFloor(float value, GameObject energy)
     {
         Hexagon newlayer = new Hexagon(this, value);
-
         EnvironmentInstance env = AddEnvironmentInstance(newlayer, energy);
         if (env != null)
         {

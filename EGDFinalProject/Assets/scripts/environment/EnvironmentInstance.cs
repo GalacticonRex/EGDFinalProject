@@ -2,18 +2,14 @@
 using System.Collections;
 
 public class EnvironmentInstance : MonoBehaviour {
-    public GenerateHexGrid parent;
-    private Collider ground;
-    private Material source;
-    private MeshRenderer self;
+    protected GenerateHexGrid parent;
+    protected Collider ground;
+    protected Material source;
+    protected MeshRenderer self;
+    public Globals.resourceTypes resource;
+    public int resourceAmount;
     // Use this for initialization
-    void Start () {
-        parent = FindObjectOfType<GenerateHexGrid>();
-        if (parent != null)
-        {
-            ground = parent.Ground;
-        }
-        self = GetComponent<MeshRenderer>();
+    protected void Start () {
     }
 
     // Update is called once per frame

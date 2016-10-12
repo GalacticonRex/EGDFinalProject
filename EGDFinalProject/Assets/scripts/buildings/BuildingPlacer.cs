@@ -49,9 +49,6 @@ public class BuildingPlacer : MonoBehaviour {
         Hexagon hex = lockToNearsetHex(result.point);
         validPosition = (hex != null && result.collider == ground);
 
-      
-         
-
         if (validPosition)
         {
             placeAt = hex.Position;
@@ -71,7 +68,10 @@ public class BuildingPlacer : MonoBehaviour {
             {
                 validPosition = (hex != null && result.collider == ground && hex.environment != null);
             }
-
+            else if (!isPylon)
+            {
+                validPosition = (hex != null && result.collider == ground && hex.environment == null);
+            }
             //   if (overlapping.Count > 0) Debug.Log(overlapping[0]);
             if (no_overlap && validPosition && cost && findNearestPylon())
             {
@@ -80,7 +80,7 @@ public class BuildingPlacer : MonoBehaviour {
                 addBuilding(hex);
                 if (isPylon)
                 {
-                    if (hex.environment != null) hex.environment.gameObject.SetActive(false);
+                    if (hex.environment != null) hex.environment.gameObject.GetComponent<MeshRenderer>().enabled = false;
                 }
             }
 
