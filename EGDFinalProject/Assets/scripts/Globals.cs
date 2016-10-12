@@ -2,13 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 public class Globals : MonoBehaviour {
-    public const int GROUND_LAYER = 0x01;
-    public const int PLACEMENT_LAYER = 0x02;
-    public const int BUILDING_LAYER = 0x04;
+    public static int GROUND_LAYER
+    { get { return 1 << LayerMask.NameToLayer("Ground"); } }
+    public static int PLACEMENT_LAYER
+    { get { return 1 << LayerMask.NameToLayer("Placement"); } }
+    public static int BUILDING_LAYER
+    { get { return 1 << LayerMask.NameToLayer("Buildings"); } }
+
     static public int Resources = int.MaxValue;
+
     /*
      * POP:0,ENERGY:1,FOOD:2
-     * 
      */
     public enum resourceTypes
     {
@@ -18,6 +22,10 @@ public class Globals : MonoBehaviour {
     }
     public static Dictionary<resourceTypes, int> resources = new Dictionary<resourceTypes, int>();
 
+    static public bool EnoughResources(int cost, resourceTypes type)
+    {
+        return (resources[type] >= cost);
+    }
     static public bool SpendResources(int cost, resourceTypes type)
     {
         if (resources[type] < cost)

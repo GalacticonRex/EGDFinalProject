@@ -10,7 +10,7 @@ public class BuildingInstance : MonoBehaviour {
     public GameObject[] paths;
     private Vector3 screenPoint;
     private Vector3 offset;
-    private HashSet<PathInstance> connections;
+    private Dictionary<PathInstance, BuildingInstance> connections;
     private PathPlacer current;
     private MeshRenderer render;
     protected Material material;
@@ -23,17 +23,23 @@ public class BuildingInstance : MonoBehaviour {
     public static int EnergyCost;
     public static int FoodCost;
 
-    public void AddConnection(PathInstance p)
+    public void AddConnection(PathInstance p, BuildingInstance b)
     {
-        connections.Add(p);
+        connections.Add(p, b);
+    }
+    public bool ConnectedTo(BuildingInstance inst)
+    {
+        foreach(BuildingInstance b in connections.Values)
+            if (b == inst) return true;
+        return false;
     }
 
     // Use this for initialization
     protected void Start()
     {
-        gameObject.layer = Globals.BUILDING_LAYER;
+        gameObject.layer = LayerMask.NameToLayer("Buildings");
         current = null;
-        connections = new HashSet<PathInstance>();
+        connections = new Dictionary<PathInstance, BuildingInstance>();
         render = GetComponent<MeshRenderer>();
         material = render.material;
         initCosts();

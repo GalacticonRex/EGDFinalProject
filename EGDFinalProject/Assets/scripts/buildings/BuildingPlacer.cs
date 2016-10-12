@@ -14,8 +14,6 @@ public class BuildingPlacer : MonoBehaviour {
     private Vector3 placeAt;
     private Material source;
 
-    public BuildingController buildings;
-
     private Hexagon lockToNearsetHex(Vector3 pt)
     {
         HexStack stack = parent.GetTile(pt);
@@ -27,8 +25,7 @@ public class BuildingPlacer : MonoBehaviour {
     void Start()
     {
         transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
-        buildings = GameObject.Find("BuildingController").GetComponent<BuildingController>();
-        gameObject.layer = Globals.PLACEMENT_LAYER;
+        gameObject.layer = LayerMask.NameToLayer("Placement");
         parent = FindObjectOfType<GenerateHexGrid>();
         if (parent != null)
         {
@@ -43,7 +40,8 @@ public class BuildingPlacer : MonoBehaviour {
 	void Update () {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit result;
-        Physics.Raycast(ray, out result, float.PositiveInfinity, Globals.GROUND_LAYER);
+        Physics.Raycast(ray, out result, float.PositiveInfinity, 1<<LayerMask.NameToLayer("Ground"));
+        Debug.Log(result.distance.ToString());
 
         Hexagon hex = lockToNearsetHex(result.point);
 
@@ -85,32 +83,8 @@ public class BuildingPlacer : MonoBehaviour {
             bb.ground = hex;
         }
 
-
         building.tag = "building";
         building.transform.position = placeAt;
-        building.transform.parent = buildings.transform;
-        int numBuildings = GameObject.FindGameObjectsWithTag("building").Length;//gameObject.GetComponentsInChildren<BuildingInstance>().Length;
-        building.GetComponent<BuildingInstance>().index = numBuildings - 1;
-
-        if (buildings.list.Length < numBuildings)
-        {
-            buildings.list = new BuildingInstance[(numBuildings * 2)-1];
-            for (int j = 0; j < numBuildings; j++)
-            {
-                buildings.list[j] = building.GetComponent<BuildingInstance>();
-            }
-        }
-
-        buildings.list[numBuildings - 1] = buildings.addBuilding(building, numBuildings);
-
-        //this resizes the index table every time a building is added
-        //need a more efficient way to do this...
-        if (numBuildings > 1)
-        {
-            buildings.handleIndexTable(numBuildings);
-
-        }
-
     }
     bool findNearestPylon()
     {

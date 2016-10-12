@@ -405,6 +405,7 @@ public class GenerateHexGrid : MonoBehaviour {
 
         GameObject go = new GameObject("GeneratedMesh");
         go.transform.parent = transform;
+        go.layer = LayerMask.NameToLayer("Ground");
 
         MeshFilter mfilter = go.AddComponent<MeshFilter>();
         mfilter.mesh = mesh;

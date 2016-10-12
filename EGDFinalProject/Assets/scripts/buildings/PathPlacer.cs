@@ -92,7 +92,7 @@ public class PathPlacer : MonoBehaviour {
     }
     private void BuildPath(Hexagon[] path)
     {
-        pathValid = (path == null);
+        pathValid = (path != null);
         if (path == null)
             liner.enabled = false;
         else
@@ -157,7 +157,6 @@ public class PathPlacer : MonoBehaviour {
             inst = result.collider.GetComponent<BuildingInstance>();
             if (inst != null)
             {
-                Debug.Log("HELLO!");
                 Hexagon hex = inst.ground;
                 if (goal != hex)
                 {
@@ -184,7 +183,7 @@ public class PathPlacer : MonoBehaviour {
 
         if( Input.GetMouseButtonUp(0) )
         {
-            if( pathValid && inst != null)
+            if( pathValid && inst != null && inst != source && !inst.ConnectedTo(source) )
             {
                 GameObject go = Instantiate(instance);
                 PathInstance p = go.GetComponent<PathInstance>();

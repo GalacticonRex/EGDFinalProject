@@ -8,8 +8,8 @@ public class PathInstance : MonoBehaviour {
 
     public void Build(BuildingInstance a, BuildingInstance b, Vector3[] path)
     {
-        a.AddConnection(this);
-        b.AddConnection(this);
+        a.AddConnection(this, b);
+        b.AddConnection(this, a);
         liner = GetComponent<LineRenderer>();
         liner.SetVertexCount(path.Length);  
         liner.SetPositions(path);
