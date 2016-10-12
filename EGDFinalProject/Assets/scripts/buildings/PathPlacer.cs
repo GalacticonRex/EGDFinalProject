@@ -17,6 +17,8 @@ public class ScoreComparer : IComparer<int>
 
 public class PathPlacer : MonoBehaviour {
     public BuildingInstance source;
+    public Color Invalid;
+    public Color Valid;
     public float Weight = 1.0f;
     public GameObject instance;
     public AudioClip PlayOnPlace;
@@ -24,6 +26,7 @@ public class PathPlacer : MonoBehaviour {
     private bool pathValid = false;
     private GenerateHexGrid parent;
     private LineRenderer liner;
+    private Material material;
     private List<Vector3> positions = new List<Vector3>();
     private List<GameObject> elements = new List<GameObject>();
 
@@ -143,6 +146,8 @@ public class PathPlacer : MonoBehaviour {
     {
         parent = FindObjectOfType<GenerateHexGrid>();
         liner = FindObjectOfType<LineRenderer>();
+        material = liner.material;
+        material.color = Invalid;
     }
 
     // Update is called once per frame
@@ -158,6 +163,7 @@ public class PathPlacer : MonoBehaviour {
             inst = result.collider.GetComponent<BuildingInstance>();
             if (inst != null)
             {
+                material.color = Valid;
                 Hexagon hex = inst.ground;
                 if (goal != hex)
                 {
@@ -168,6 +174,7 @@ public class PathPlacer : MonoBehaviour {
             }
             else
             {
+                material.color = Invalid;
                 HexStack stack = parent.GetTile(result.point);
                 if (stack != null && stack.layers.Count != 0)
                 {

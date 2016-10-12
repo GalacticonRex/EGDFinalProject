@@ -64,6 +64,7 @@ public class BuildingButton : MonoBehaviour, IPointerDownHandler {
 
     public void OnPointerDown(PointerEventData pt)
     {
-        Instantiate(Building);
+        GameObject go = Instantiate(Building);
+        go.transform.position = new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
     }
 }

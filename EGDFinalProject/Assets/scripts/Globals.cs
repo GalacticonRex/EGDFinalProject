@@ -57,7 +57,7 @@ public class Globals : MonoBehaviour {
     }
     static public void GainResource(int amount, resourceTypes type)
     {
-        Debug.Log(amount);
+        //Debug.Log(amount);
         resources[type] += amount;
     }
 
