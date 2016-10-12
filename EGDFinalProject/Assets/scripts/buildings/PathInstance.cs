@@ -14,4 +14,13 @@ public class PathInstance : MonoBehaviour {
         liner.SetVertexCount(path.Length);  
         liner.SetPositions(path);
     }
+    public float GetDirectionFromSource(BuildingInstance b)
+    {
+        if (b == source)
+            return 1.0f;
+        else if (b == dest)
+            return -1.0f;
+        else
+            return 0.0f;
+    }
 }

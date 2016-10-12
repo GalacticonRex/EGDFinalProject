@@ -45,7 +45,20 @@ public class BuildingInstance : MonoBehaviour
     }
     protected void Update()
     {
+        if (UnityEngine.Random.value < 0.001f)
+        {
+            int j = UnityEngine.Random.Range(0, connections.Count);
+            int i = 0;
+            foreach( KeyValuePair<PathInstance, BuildingInstance> kv in connections )
+            {
+                if (i == j)
+                {
 
+                    break;
+                }
+                i++;
+            }
+        }
     }
     void setIndex(int newIndex)
     {
