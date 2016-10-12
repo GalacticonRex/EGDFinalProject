@@ -48,6 +48,11 @@ public class BuildingPlacer : MonoBehaviour {
         Hexagon hex = lockToNearsetHex(result.point);
 
         validPosition = (hex != null && result.collider == ground);
+        if (toGenerate.GetComponent<PylonInstance>() != null)
+        {
+            Debug.Log("This is a pylon");
+
+        }
         if (validPosition)
         {
             placeAt = new Vector3(hex.parent.location.x, hex.surface, hex.parent.location.y);
@@ -61,7 +66,10 @@ public class BuildingPlacer : MonoBehaviour {
         if (!Input.GetMouseButton(0))
         {
             bool no_overlap = (overlapping.Count == 0);
+            
             bool cost = Globals.SpendResources(1, Globals.resourceTypes.FOOD) && Globals.SpendResources(1, Globals.resourceTypes.ENERGY);
+
+         //   if (overlapping.Count > 0) Debug.Log(overlapping[0]);
             if (no_overlap && validPosition && cost && findNearestPylon())
             {
                 addBuilding(hex);

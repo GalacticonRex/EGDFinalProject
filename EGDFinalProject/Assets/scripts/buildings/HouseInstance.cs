@@ -17,14 +17,15 @@ public class HouseInstance : BuildingInstance {
 
     // Update is called once per frame
     void Update () {
+        produceResources();
     }
     
-  /*  public override int[] produceResources()
+    protected void produceResources()
     {
-        int[] res = new int[2];
-        res[0] = energyValue;
-        res[1] = foodValue;
-        return res;
-        
-    }*/
+       // Globals.SpendResources(1, Globals.resourceTypes.FOOD);
+        Globals.GainResource(1, Globals.resourceTypes.POPULATION);
+
+
+
+    }
 }

@@ -18,10 +18,19 @@ public class Globals : MonoBehaviour {
     }
     public static Dictionary<resourceTypes, int> resources = new Dictionary<resourceTypes, int>();
     static public int currentEnergy = 0;
-
+    static public int currentPopulation = 0;
     static public bool SpendResources(int cost, resourceTypes type)
     {
         //have required energy amount for energy resource
+        if (type == resourceTypes.POPULATION)
+        {
+            if (currentPopulation + cost > resources[resourceTypes.POPULATION])
+            {
+                return false;
+            }
+            else currentPopulation += cost;
+            return true;
+        }
         if (type == resourceTypes.ENERGY)
         {
             if (currentEnergy + cost > resources[resourceTypes.ENERGY])
@@ -38,6 +47,7 @@ public class Globals : MonoBehaviour {
     }
     static public void GainResource(int amount, resourceTypes type)
     {
+        Debug.Log(amount);
         resources[type] += amount;
     }
 
@@ -47,7 +57,6 @@ public class Globals : MonoBehaviour {
     }
     public static void initResources()
     {
-      //  resourceValues = new int[Enum.GetNames(typeof(Globals.resourceTypes)).Length];
         resources.Add(resourceTypes.POPULATION, 100);
         resources.Add(resourceTypes.ENERGY, 100);
         resources.Add(resourceTypes.FOOD, 100);

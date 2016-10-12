@@ -9,16 +9,11 @@ public class BuildingInstance : MonoBehaviour
     public Hexagon ground;
     public GameObject pathPlacer;
     public GameObject[] paths;
-    private Vector3 screenPoint;
-    private Vector3 offset;
     private HashSet<PathInstance> connections;
     private PathPlacer current;
     private MeshRenderer render;
     protected Material material;
 
-    RaycastHit hit;
-    float dist;
-    Vector3 dir;
     //= new int[Enum.GetNames(typeof(Globals.resourceTypes)).Length];
     public static Dictionary<Globals.resourceTypes, int> costs;
     protected int EnergyCost;
@@ -51,8 +46,6 @@ public class BuildingInstance : MonoBehaviour
     protected void OnMouseExit()
     {
         material.color = Color.white;
-        screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
-        offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
         BuildingController buildings;
         if (transform.parent == null)
         {
