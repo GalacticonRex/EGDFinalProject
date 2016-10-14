@@ -13,11 +13,12 @@ public class HouseInstance : BuildingInstance {
         PopulationRequirement = 0;
         Globals.GainResource(1, Globals.resourceTypes.POPULATION);
         base.Start();
+        produceResources();
     }
 
     // Update is called once per frame
     void Update () {
-        produceResources();
+        //produceResources();
     }
     
     protected void produceResources()

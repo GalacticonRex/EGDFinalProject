@@ -15,20 +15,19 @@ public class FarmInstance : BuildingInstance
         PopulationRequirement = 0;
         Globals.SpendResources(1, Globals.resourceTypes.POPULATION);
         base.Start();
-
+        produceResources();
     }
 
     // Update is called once per frame
     void Update()
     {
-        StartCoroutine("produceResources");
+        //StartCoroutine("produceResources");
     }
 
-    protected IEnumerator produceResources()
+    protected void produceResources()
     {
         // Globals.SpendResources(1, Globals.resourceTypes.FOOD);
-        Globals.GainResource(1, Globals.resourceTypes.FOOD);
-        yield return new WaitForSeconds(10f);
+        Globals.GainResource(5, Globals.resourceTypes.FOOD);
 
 
     }

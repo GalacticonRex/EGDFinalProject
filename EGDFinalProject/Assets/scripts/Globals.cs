@@ -60,9 +60,33 @@ public class Globals : MonoBehaviour {
         resources[type] -= cost;
         return true;
     }
+    static public bool sufficientResources(int cost, resourceTypes type)
+    {
+        if (type == resourceTypes.POPULATION)
+        {
+            if (currentPopulation + cost > resources[resourceTypes.POPULATION])
+            {
+                return false;
+            }
+            return true;
+        }
+        if (type == resourceTypes.ENERGY)
+        {
+            if (currentEnergy + cost > resources[resourceTypes.ENERGY])
+            {
+                return false;
+            }
+            return true;
+        }
+        else if (resources[type] < cost)
+            return false;
+        return true;
+    }
     static public void GainResource(int amount, resourceTypes type)
     {
         //Debug.Log(amount);
+        Debug.Log(type);
+        Debug.Log("gained..." + amount);
         resources[type] += amount;
     }
 
@@ -78,9 +102,9 @@ public class Globals : MonoBehaviour {
     }
     public static void initResources()
     {
-        resources.Add(resourceTypes.POPULATION, 100);
-        resources.Add(resourceTypes.ENERGY, 100);
-        resources.Add(resourceTypes.FOOD, 100);
+        resources.Add(resourceTypes.POPULATION, 1);
+        resources.Add(resourceTypes.ENERGY, 1);
+        resources.Add(resourceTypes.FOOD, 5);
 
     }
     // Update is called once per frame

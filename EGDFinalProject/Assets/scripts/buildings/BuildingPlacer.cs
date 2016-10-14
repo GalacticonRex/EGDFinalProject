@@ -63,7 +63,7 @@ public class BuildingPlacer : MonoBehaviour {
         {
             bool no_overlap = (overlapping.Count == 0);
             
-            bool cost = Globals.SpendResources(1, Globals.resourceTypes.FOOD) && Globals.SpendResources(1, Globals.resourceTypes.ENERGY);
+            bool cost = Globals.sufficientResources(1, Globals.resourceTypes.FOOD) && Globals.sufficientResources(1, Globals.resourceTypes.ENERGY);//Globals.SpendResources(1, Globals.resourceTypes.FOOD) && Globals.SpendResources(1, Globals.resourceTypes.ENERGY);
             if (isPylon)
             {
                 validPosition = (hex != null && result.collider == ground && hex.environment != null);
@@ -75,7 +75,9 @@ public class BuildingPlacer : MonoBehaviour {
             //   if (overlapping.Count > 0) Debug.Log(overlapping[0]);
             if (no_overlap && validPosition && cost && findNearestPylon())
             {
-                if( PlayOnPlace != null )
+                Globals.SpendResources(1, Globals.resourceTypes.FOOD);
+                Globals.SpendResources(1, Globals.resourceTypes.ENERGY);
+                if ( PlayOnPlace != null )
                     AudioSource.PlayClipAtPoint(PlayOnPlace, Camera.main.transform.position);
                 addBuilding(hex);
                 if (isPylon)
@@ -112,7 +114,7 @@ public class BuildingPlacer : MonoBehaviour {
     bool findNearestPylon()
     {
         bool withinRadius = false;
-        if (toGenerate.name == "Pylon")
+        if (toGenerate.GetComponent<PylonInstance>() != null)
         {
             return true;
         }
