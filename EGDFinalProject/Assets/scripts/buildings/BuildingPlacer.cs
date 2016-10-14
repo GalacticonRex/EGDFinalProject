@@ -66,7 +66,7 @@ public class BuildingPlacer : MonoBehaviour {
             bool cost = Globals.sufficientResources(1, Globals.resourceTypes.FOOD) && Globals.sufficientResources(1, Globals.resourceTypes.ENERGY);//Globals.SpendResources(1, Globals.resourceTypes.FOOD) && Globals.SpendResources(1, Globals.resourceTypes.ENERGY);
             if (isPylon)
             {
-                validPosition = (hex != null && result.collider == ground && hex.environment != null);
+                validPosition = (hex != null && result.collider == ground && hex.environment.GetComponent<envEnergyInstance>() != null);
             }
             else if (!isPylon)
             {

@@ -194,7 +194,7 @@ public class HexStack
             EnvironmentInstance foodInstance = AddEnvironmentInstance(newlayer, food);
             newlayer.environment = foodInstance;
         }
-        else if (energyInstance != null)
+        if (energyInstance != null)
         {
             newlayer.environment = energyInstance;
         }
