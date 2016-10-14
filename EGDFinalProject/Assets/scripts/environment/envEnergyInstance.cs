@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class FoodNodeInstance : EnvironmentInstance
+public class envEnergyInstance : EnvironmentInstance
 {
     // Use this for initialization
-    protected void Start()
+    void Start()
     {
         base.Start();
-        resource = Globals.resourceTypes.FOOD;
-        resourceAmount = 200;
+        resource = Globals.resourceTypes.ENERGY;
+        resourceAmount = 100;
     }
 
     // Update is called once per frame

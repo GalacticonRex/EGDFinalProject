@@ -135,19 +135,24 @@ public class HexStack
     }
     public EnvironmentInstance AddEnvironmentInstance(Hexagon hex, GameObject envObject)
     {
+
+        int random = Random.Range(-50, 1000);
+
         EnvironmentInstance inst = envObject.GetComponent<EnvironmentInstance>();
         Globals.resourceTypes envType = inst.resource;
         if (envType == Globals.resourceTypes.ENERGY)
         {
             if (Globals.numEnergyNodes < Globals.environment[envType])
             {
-                int random = Random.Range(0, 100);
-                if (random <= 33)
+                if (random <= 50)
                 {
-                    GameObject env = GameObject.Instantiate(envObject);
-                    env.transform.position = hex.Position;
-                    Globals.numEnergyNodes++;
-                    return env.GetComponent<EnvironmentInstance>();
+                    if (random % 2 == 0)
+                    {
+                        GameObject env = GameObject.Instantiate(envObject);
+                        env.transform.position = hex.Position;
+                        Globals.numEnergyNodes++;
+                        return env.GetComponent<EnvironmentInstance>();
+                    }
                 }
                 else
                 {
@@ -159,13 +164,16 @@ public class HexStack
         {
             if (Globals.numFoodNodes < Globals.environment[envType])
             {
-                int random = Random.Range(0, 100);
-                if (random <= 33)
+                if (random <= 100)
                 {
-                    GameObject env = GameObject.Instantiate(envObject);
-                    env.transform.position = hex.Position;
-                    Globals.numEnergyNodes++;
-                    return env.GetComponent<EnvironmentInstance>();
+                    if (random % 2 == 1)
+                    {
+                        GameObject env = GameObject.Instantiate(envObject);
+                        env.transform.position = hex.Position;
+                        Globals.numFoodNodes++;
+                        return env.GetComponent<EnvironmentInstance>();
+
+                    }
                 }
                 else
                 {
@@ -177,13 +185,18 @@ public class HexStack
         return null;
     }
 
-    public void AddFloor(float value, GameObject energy)
+    public void AddFloor(float value, GameObject energy, GameObject food)
     {
         Hexagon newlayer = new Hexagon(this, value);
-        EnvironmentInstance env = AddEnvironmentInstance(newlayer, energy);
-        if (env != null)
+        EnvironmentInstance energyInstance = AddEnvironmentInstance(newlayer, energy);
+        if (newlayer.environment == null)
         {
-            newlayer.environment = env;
+            EnvironmentInstance foodInstance = AddEnvironmentInstance(newlayer, food);
+            newlayer.environment = foodInstance;
+        }
+        else if (energyInstance != null)
+        {
+            newlayer.environment = energyInstance;
         }
 
         int match0 = layers.Count;
@@ -258,6 +271,7 @@ public class HexStack
 public class Hexagon {
     public HexStack parent;
     public EnvironmentInstance environment;
+
     public float surface;
 
     public Hexagon[] connections = new Hexagon[6] { null, null, null, null, null, null };
@@ -301,6 +315,7 @@ public class Hexagon {
 
 public class GenerateHexGrid : MonoBehaviour {
     public GameObject energyPrefab;
+    public GameObject foodPrefab;
 
     public float hexRadius = 1.0f;
     private HexStack root;
@@ -514,10 +529,10 @@ public class GenerateHexGrid : MonoBehaviour {
             if ( val <= Mathf.Abs(hex.generation_value))
             {
                 if (hex.location.y < -10000 && Random.value * count * count > initial)
-                    hex.AddFloor(100.0f, energyPrefab);
+                    hex.AddFloor(100.0f, energyPrefab, foodPrefab);
                 else
                     hex.AddFloor(Random.Range(-4.0f * hex.generation_value / scale - 0.2f,
-                                              10.0f * hex.generation_value / scale + 0.2f), energyPrefab);
+                                              10.0f * hex.generation_value / scale + 0.2f), energyPrefab, foodPrefab);
             }
             count++;
         }
