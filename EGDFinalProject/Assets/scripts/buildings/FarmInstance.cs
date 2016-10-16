@@ -21,6 +21,7 @@ public class FarmInstance : BuildingInstance
     // Update is called once per frame
     void Update()
     {
+        base.Update();
         //StartCoroutine("produceResources");
     }
 
@@ -30,5 +31,13 @@ public class FarmInstance : BuildingInstance
         Globals.GainResource(5, Globals.resourceTypes.FOOD);
 
 
+    }
+    void OnMouseEnter()
+    {
+        base.OnMouseEnter();
+    }
+    void OnMouseExit()
+    {
+        base.OnMouseExit();
     }
 }

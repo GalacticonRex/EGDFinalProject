@@ -15,13 +15,15 @@ public class BuildingInstance : MonoBehaviour
     private PathPlacer current;
     private MeshRenderer render;
     private CharacterFactory factory;
-
     protected Material material;
     //= new int[Enum.GetNames(typeof(Globals.resourceTypes)).Length];
     public static Dictionary<Globals.resourceTypes, int> costs;
     protected int EnergyCost;
     protected int FoodCost;
     protected int PopulationRequirement;
+    protected float buildRadius = 10f;
+
+    protected EnvironmentInstance environmentInstance;
 
     public void AddConnection(PathInstance p, BuildingInstance b)
     {
@@ -43,7 +45,9 @@ public class BuildingInstance : MonoBehaviour
         render = GetComponent<MeshRenderer>();
         material = render.material;
         initCosts();
-
+        EnergyCost = 0;
+        FoodCost = 0;
+        PopulationRequirement = 0;
         factory = FindObjectOfType<CharacterFactory>();
     }
     protected void Update()
@@ -107,5 +111,22 @@ public class BuildingInstance : MonoBehaviour
                     break;
             }
         }
+    }
+    public int getCost(Globals.resourceTypes type)
+    {
+        if (costs == null) initCosts();
+        return costs[type];
+    }
+    public bool withinRadius(Vector3 checkPos)
+    {
+        if (Vector3.Distance(transform.position, checkPos) < buildRadius)
+        {
+            return true;
+        }
+        return false;
+    }
+    public void setEnvironment(EnvironmentInstance env)
+    {
+        environmentInstance = env;
     }
 }

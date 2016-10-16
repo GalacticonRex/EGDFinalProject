@@ -15,6 +15,7 @@ public class BuildingPlacer : MonoBehaviour {
     private Vector3 placeAt;
     private Material source;
     private bool isPylon;
+    private bool isFarm;
 
     private Hexagon lockToNearsetHex(Vector3 pt)
     {
@@ -37,10 +38,12 @@ public class BuildingPlacer : MonoBehaviour {
         source = self.material;
         overlapping = new HashSet<BuildingInstance>();
         if (toGenerate.GetComponent<PylonInstance>() != null) isPylon = true;
+        if (toGenerate.GetComponent<FarmInstance>() != null) isFarm = true;
+
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit result;
         Physics.Raycast(ray, out result, float.PositiveInfinity, 1<<LayerMask.NameToLayer("Ground"));
@@ -62,27 +65,31 @@ public class BuildingPlacer : MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
         {
             bool no_overlap = (overlapping.Count == 0);
-            
+            BuildingInstance building = toGenerate.GetComponent<BuildingInstance>();
             bool cost = Globals.sufficientResources(1, Globals.resourceTypes.FOOD) && Globals.sufficientResources(1, Globals.resourceTypes.ENERGY);//Globals.SpendResources(1, Globals.resourceTypes.FOOD) && Globals.SpendResources(1, Globals.resourceTypes.ENERGY);
-            if (isPylon)
+            if (isFarm)
+            {
+                validPosition = (hex != null && result.collider == ground && hex.environment.GetComponent<envFoodInstance>() != null);
+            }
+            else if (isPylon)
             {
                 validPosition = (hex != null && result.collider == ground && hex.environment.GetComponent<envEnergyInstance>() != null);
             }
-            else if (!isPylon)
+            else if (!isPylon && !isFarm)
             {
                 validPosition = (hex != null && result.collider == ground && hex.environment == null);
             }
-            //   if (overlapping.Count > 0) Debug.Log(overlapping[0]);
             if (no_overlap && validPosition && cost && findNearestPylon())
             {
-                Globals.SpendResources(1, Globals.resourceTypes.FOOD);
-                Globals.SpendResources(1, Globals.resourceTypes.ENERGY);
+                Globals.SpendResources(building.getCost(Globals.resourceTypes.FOOD), Globals.resourceTypes.FOOD);
+                Globals.SpendResources(building.getCost(Globals.resourceTypes.ENERGY), Globals.resourceTypes.ENERGY);
                 if ( PlayOnPlace != null )
                     AudioSource.PlayClipAtPoint(PlayOnPlace, Camera.main.transform.position);
                 addBuilding(hex);
-                if (isPylon)
+                if (hex.environment != null)
                 {
-                    if (hex.environment != null) hex.environment.gameObject.GetComponent<MeshRenderer>().enabled = false;
+                    toGenerate.GetComponent<BuildingInstance>().setEnvironment(hex.environment);
+                    hex.environment.gameObject.GetComponent<MeshRenderer>().enabled = false;
                 }
             }
 
@@ -102,6 +109,7 @@ public class BuildingPlacer : MonoBehaviour {
     void addBuilding(Hexagon hex)
     {
         GameObject building = Instantiate(toGenerate);
+        building.transform.parent = GameObject.Find("BuildingController").transform;
         BuildingInstance bb = building.GetComponent<BuildingInstance>();
         if(bb != null)
         {
@@ -132,6 +140,22 @@ public class BuildingPlacer : MonoBehaviour {
             }
 
         }
+        return withinRadius;
+    }
+    bool findNearestBuilding()
+    {
+        bool withinRadius = false;
+        
+            BuildingInstance[] buildings = GameObject.FindObjectsOfType<BuildingInstance>();
+
+            for (int i = 0; i < buildings.Length; i++)
+            {
+                if (buildings[i].withinRadius(transform.position))
+                {
+                    withinRadius = true;
+                    return withinRadius;
+                }
+            }
         return withinRadius;
     }
     void OnTriggerEnter(Collider collid)

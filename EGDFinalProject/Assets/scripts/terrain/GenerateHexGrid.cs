@@ -188,15 +188,19 @@ public class HexStack
     public void AddFloor(float value, GameObject energy, GameObject food)
     {
         Hexagon newlayer = new Hexagon(this, value);
-        EnvironmentInstance energyInstance = AddEnvironmentInstance(newlayer, energy);
+        //environment randomizer
         if (newlayer.environment == null)
         {
-            EnvironmentInstance foodInstance = AddEnvironmentInstance(newlayer, food);
-            newlayer.environment = foodInstance;
-        }
-        if (energyInstance != null)
-        {
-            newlayer.environment = energyInstance;
+            int rand = Random.Range(0, 2);
+            if (rand % 2 == 0)
+            {
+                EnvironmentInstance foodInstance = AddEnvironmentInstance(newlayer, food);
+                newlayer.environment = foodInstance;
+            } else
+            {
+                EnvironmentInstance energyInstance = AddEnvironmentInstance(newlayer, energy);
+                newlayer.environment = energyInstance;
+            }
         }
 
         int match0 = layers.Count;
