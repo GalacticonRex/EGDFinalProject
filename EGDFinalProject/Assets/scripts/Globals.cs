@@ -31,6 +31,7 @@ public class Globals : MonoBehaviour {
         return (resources[type] >= cost);
     }
 
+    static public bool isPaused;
     static public int currentEnergy = 0;
     static public int energyNodes = 10, farmNodes  = 10, obstacleNodes = 10;
     static public int currentPopulation = 0;
