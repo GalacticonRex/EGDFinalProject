@@ -46,7 +46,9 @@ public class BuildingInstance : MonoBehaviour
         render = GetComponent<MeshRenderer>();
         if (render!=null) material = render.material;
         sprite = GetComponent<SpriteRenderer>();
+
         transform.localScale = new Vector2(0.5f, 0.5f);
+        
         initCosts();
         EnergyCost = 0;
         FoodCost = 0;
