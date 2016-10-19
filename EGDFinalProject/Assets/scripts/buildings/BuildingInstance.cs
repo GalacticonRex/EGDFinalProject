@@ -14,6 +14,7 @@ public class BuildingInstance : MonoBehaviour
     private Dictionary<PathInstance, BuildingInstance> connections;
     private PathPlacer current;
     private MeshRenderer render;
+    private SpriteRenderer sprite;
     private CharacterFactory factory;
     protected Material material;
     //= new int[Enum.GetNames(typeof(Globals.resourceTypes)).Length];
@@ -43,7 +44,9 @@ public class BuildingInstance : MonoBehaviour
         current = null;
         connections = new Dictionary<PathInstance, BuildingInstance>();
         render = GetComponent<MeshRenderer>();
-        material = render.material;
+        if (render!=null) material = render.material;
+        sprite = GetComponent<SpriteRenderer>();
+        transform.localScale = new Vector2(0.5f, 0.5f);
         initCosts();
         EnergyCost = 0;
         FoodCost = 0;
@@ -74,11 +77,11 @@ public class BuildingInstance : MonoBehaviour
     }
     protected void OnMouseEnter()
     {
-        material.color = Color.green;
+      //  material.color = Color.green;
     }
     protected void OnMouseExit()
     {
-        material.color = Color.white;
+       // material.color = Color.white;
         BuildingController buildings;
         if (transform.parent == null)
         {
