@@ -45,7 +45,7 @@ public class CameraControl : MonoBehaviour
             position += forward * Time.deltaTime * spd;
 
         transform.position = position;
-        transform.rotation = rotation;
+        //transform.rotation = rotation;
         oldMouse = Input.mousePosition;
     }
 }
