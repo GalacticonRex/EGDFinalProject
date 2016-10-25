@@ -5,7 +5,7 @@ public class FarmInstance : BuildingInstance
 {
     int foodValue = 2;
     int energyValue = 1;
-
+    envFoodInstance resource;
     // Use this for initialization
     void Start()
     {
@@ -15,6 +15,8 @@ public class FarmInstance : BuildingInstance
         PopulationRequirement = 0;
         Globals.SpendResources(1, Globals.resourceTypes.POPULATION);
         base.Start();
+        resource = GetComponentInChildren<envFoodInstance>();
+        base.setEnvironment(resource);
         produceResources();
     }
 
@@ -22,15 +24,20 @@ public class FarmInstance : BuildingInstance
     void Update()
     {
         base.Update();
-        //StartCoroutine("produceResources");
+       // envFoodInstance e = GetComponentInChildren<envFoodInstance>();
     }
 
     protected void produceResources()
     {
         // Globals.SpendResources(1, Globals.resourceTypes.FOOD);
-        Globals.GainResource(5, Globals.resourceTypes.FOOD);
-
-
+        if (environmentInstance.resourceAmount > 0)
+        {
+            Globals.GainResource(resource.harvestResource(5), Globals.resourceTypes.FOOD);
+        }
+    }
+    public void setEnvironment(EnvironmentInstance env)
+    {
+        base.setEnvironment(env);
     }
     void OnMouseEnter()
     {

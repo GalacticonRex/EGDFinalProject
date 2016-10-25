@@ -85,14 +85,14 @@ public class BuildingPlacer : MonoBehaviour {
                 Globals.SpendResources(building.getCost(Globals.resourceTypes.ENERGY), Globals.resourceTypes.ENERGY);
                 if ( PlayOnPlace != null )
                     AudioSource.PlayClipAtPoint(PlayOnPlace, Camera.main.transform.position);
-                addBuilding(hex);
+                GameObject newBuilding = addBuilding(hex);
                 if (hex.environment != null)
                 {
-                    toGenerate.GetComponent<BuildingInstance>().setEnvironment(hex.environment);
+                    hex.environment.transform.parent = newBuilding.transform;
                     hex.environment.gameObject.GetComponent<MeshRenderer>().enabled = false;
                 }
-            }
 
+            }
             Destroy(gameObject);
         }
         else if ( Input.GetKeyDown(KeyCode.Escape) )
@@ -106,7 +106,7 @@ public class BuildingPlacer : MonoBehaviour {
             source.color = Invalid;
     }
 
-    void addBuilding(Hexagon hex)
+    GameObject addBuilding(Hexagon hex)
     {
         GameObject building = Instantiate(toGenerate);
         building.transform.parent = GameObject.Find("BuildingController").transform;
@@ -118,6 +118,7 @@ public class BuildingPlacer : MonoBehaviour {
 
         building.tag = "building";
         building.transform.position = placeAt;
+        return building;
     }
     bool findNearestPylon()
     {

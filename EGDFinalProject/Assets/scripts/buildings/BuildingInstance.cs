@@ -6,6 +6,7 @@ using System;
 public class BuildingInstance : MonoBehaviour
 {
     public int index;
+    public bool active;
     public Hexagon ground;
     public GameObject pathPlacer;
     public GameObject[] paths;
@@ -36,7 +37,10 @@ public class BuildingInstance : MonoBehaviour
             if (b == inst) return true;
         return false;
     }
-
+    protected void setActive()
+    {
+        active = !active;
+    }
     // Use this for initialization
     protected void Start()
     {
@@ -46,14 +50,13 @@ public class BuildingInstance : MonoBehaviour
         render = GetComponent<MeshRenderer>();
         if (render!=null) material = render.material;
         sprite = GetComponent<SpriteRenderer>();
-
         transform.localScale = new Vector2(0.5f, 0.5f);
-        
         initCosts();
         EnergyCost = 0;
         FoodCost = 0;
         PopulationRequirement = 0;
         factory = FindObjectOfType<CharacterFactory>();
+        active = true;
     }
     protected void Update()
     {
@@ -130,7 +133,7 @@ public class BuildingInstance : MonoBehaviour
         }
         return false;
     }
-    public void setEnvironment(EnvironmentInstance env)
+    protected void setEnvironment(EnvironmentInstance env)
     {
         environmentInstance = env;
     }

@@ -16,4 +16,8 @@ public class envEnergyInstance : EnvironmentInstance
     {
 
     }
+    public int harvestResource(int amount)
+    {
+        return base.harvestResource(amount);
+    }
 }
