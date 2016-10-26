@@ -22,6 +22,7 @@ public class BuildingInstance : MonoBehaviour
     public static Dictionary<Globals.resourceTypes, int> costs;
     protected int EnergyCost;
     protected int FoodCost;
+    protected int WaterCost;
     protected int PopulationRequirement;
     protected float buildRadius = 10f;
 
@@ -52,6 +53,7 @@ public class BuildingInstance : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
         transform.localScale = new Vector2(0.5f, 0.5f);
         initCosts();
+        WaterCost = 0;
         EnergyCost = 0;
         FoodCost = 0;
         PopulationRequirement = 0;
@@ -116,6 +118,9 @@ public class BuildingInstance : MonoBehaviour
                     break;
                 case Globals.resourceTypes.POPULATION:
                     costs.Add(type, PopulationRequirement);
+                    break;
+                case Globals.resourceTypes.WATER:
+                    costs.Add(type, WaterCost);
                     break;
             }
         }

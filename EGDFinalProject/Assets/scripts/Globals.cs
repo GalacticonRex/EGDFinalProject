@@ -18,6 +18,7 @@ public class Globals : MonoBehaviour {
         POPULATION = 0,
         ENERGY = 1,
         FOOD = 2,
+        WATER = 3,
         OBSTACLE = 100
     }
     public static Dictionary<resourceTypes, int> resources = new Dictionary<resourceTypes, int>();
@@ -25,6 +26,7 @@ public class Globals : MonoBehaviour {
     public static Dictionary<resourceTypes, int> environment = new Dictionary<resourceTypes, int>();
     static public int numEnergyNodes = 0;
     static public int numFoodNodes = 0;
+    static public int numWaterNodes = 0;
     /*                       */
     static public bool EnoughResources(int cost, resourceTypes type)
     {
@@ -32,8 +34,8 @@ public class Globals : MonoBehaviour {
     }
 
     static public bool isPaused;
+    static public int energyNodes = 20, farmNodes  = 20, obstacleNodes = 10, waterNodes = 10;
     static public int currentEnergy = 0;
-    static public int energyNodes = 10, farmNodes  = 10, obstacleNodes = 10;
     static public int currentPopulation = 0;
     static public bool SpendResources(int cost, resourceTypes type)
     {
@@ -106,7 +108,6 @@ public class Globals : MonoBehaviour {
         resources.Add(resourceTypes.POPULATION, 1);
         resources.Add(resourceTypes.ENERGY, 1);
         resources.Add(resourceTypes.FOOD, 5);
-
     }
     // Update is called once per frame
     void Update () {

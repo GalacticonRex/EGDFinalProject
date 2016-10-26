@@ -144,7 +144,7 @@ public class HexStack
         {
             if (Globals.numEnergyNodes < Globals.environment[envType])
             {
-                if (random <= 50)
+                if (random <= 30)
                 {
                     if (random % 2 == 0)
                     {
@@ -164,7 +164,7 @@ public class HexStack
         {
             if (Globals.numFoodNodes < Globals.environment[envType])
             {
-                if (random <= 100)
+                if (random <= 30)
                 {
                     if (random % 2 == 1)
                     {
@@ -545,7 +545,7 @@ public class GenerateHexGrid : MonoBehaviour {
     void Start()
     {
         map[0][0] = root = new HexStack(0,0, 0,0, hexRadius);
-        generateTerrain(root, 1000, 10.0f);
+        generateTerrain(root, 3000, 20.0f);
 
         List<Vector3> surface_vertices = new List<Vector3>();
         List<int> surface_indices = new List<int>();
