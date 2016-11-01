@@ -6,6 +6,7 @@ public class Character : MonoBehaviour {
     public PathInstance path;
     public float speed;
     private float total;
+    public int proficiency;
 
     void Start()
     {
