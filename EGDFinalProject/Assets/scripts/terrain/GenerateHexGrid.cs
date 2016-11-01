@@ -144,7 +144,7 @@ public class HexStack
         {
             if (Globals.numEnergyNodes < Globals.environment[envType])
             {
-                if (random <= 30)
+                if (random <= 100)
                 {
                     if (random % 2 == 0)
                     {
@@ -164,16 +164,12 @@ public class HexStack
         {
             if (Globals.numFoodNodes < Globals.environment[envType])
             {
-                if (random <= 30)
+                if (random <= 100)
                 {
-                    if (random % 2 == 1)
-                    {
-                        GameObject env = GameObject.Instantiate(envObject);
-                        env.transform.position = hex.Position;
-                        Globals.numFoodNodes++;
-                        return env.GetComponent<EnvironmentInstance>();
-
-                    }
+                    GameObject env = GameObject.Instantiate(envObject);
+                    env.transform.position = hex.Position;
+                    Globals.numFoodNodes++;
+                    return env.GetComponent<EnvironmentInstance>();
                 }
                 else
                 {
