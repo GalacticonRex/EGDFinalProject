@@ -545,7 +545,7 @@ public class GenerateHexGrid : MonoBehaviour {
     void Start()
     {
         map[0][0] = root = new HexStack(0,0, 0,0, hexRadius);
-        generateTerrain(root, 3000, 20.0f);
+        generateTerrain(root, 4000, 20.0f);
 
         List<Vector3> surface_vertices = new List<Vector3>();
         List<int> surface_indices = new List<int>();

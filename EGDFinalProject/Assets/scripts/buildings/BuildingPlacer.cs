@@ -117,8 +117,10 @@ public class BuildingPlacer : MonoBehaviour {
         }
 
         building.tag = "building";
+        if (isFarm) placeAt.y = 1.8f;
+
         building.transform.position = placeAt;
-        return building;
+            return building;
     }
     bool findNearestPylon()
     {

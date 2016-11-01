@@ -34,7 +34,7 @@ public class Globals : MonoBehaviour {
     }
 
     static public bool isPaused;
-    static public int energyNodes = 20, farmNodes  = 20, obstacleNodes = 10, waterNodes = 10;
+    static public int energyNodes = 100, farmNodes  = 100, obstacleNodes = 10, waterNodes = 10;
     static public int currentEnergy = 0;
     static public int currentPopulation = 0;
     static public bool SpendResources(int cost, resourceTypes type)
@@ -106,8 +106,8 @@ public class Globals : MonoBehaviour {
     public static void initResources()
     {
         resources.Add(resourceTypes.POPULATION, 1);
-        resources.Add(resourceTypes.ENERGY, 1);
-        resources.Add(resourceTypes.FOOD, 5);
+        resources.Add(resourceTypes.ENERGY, 5000);
+        resources.Add(resourceTypes.FOOD, 5000);
     }
     // Update is called once per frame
     void Update () {
