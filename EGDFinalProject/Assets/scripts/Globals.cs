@@ -37,6 +37,7 @@ public class Globals : MonoBehaviour {
     static public int energyNodes = 100, farmNodes  = 100, obstacleNodes = 10, waterNodes = 10;
     static public int currentEnergy = 0;
     static public int currentPopulation = 0;
+    static public int characters = 0;
     static public bool SpendResources(int cost, resourceTypes type)
     {
         //have required energy amount for energy resource

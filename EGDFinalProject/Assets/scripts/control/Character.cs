@@ -8,8 +8,13 @@ public class Character : MonoBehaviour {
     private float total;
     public int proficiency;
 
+    public bool alive;
+    public float hunger;
     void Start()
     {
+        alive = true;
+        hunger = 100f;
+        StartCoroutine("checkHunger");
         if (speed < 0)
             total = path.Length;
         else
@@ -18,6 +23,7 @@ public class Character : MonoBehaviour {
 
     void Update()
     {
+ 
         total += speed * Time.deltaTime;
         Vector3 pt = path.GetPositionAlongPath(total);
         Vector3 move = pt - transform.position;
@@ -32,5 +38,22 @@ public class Character : MonoBehaviour {
         if (pt == path.end || pt == path.start)
             Destroy(gameObject);
         transform.position = pt;
+    }
+    IEnumerator checkHunger()
+    {
+        while (alive)
+        {
+            if (hunger <= 0)
+            {
+                alive = !alive;
+                Destroy(gameObject);
+                Globals.currentPopulation -= 1;
+            }
+            if (Globals.resources[Globals.resourceTypes.FOOD] < Globals.currentPopulation)
+            {
+                hunger -= 1;
+            }
+            yield return new WaitForSeconds(10f);
+        }
     }
 }

@@ -17,6 +17,7 @@ public class HouseInstance : BuildingInstance {
         child.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
         go.transform.position = this.transform.position;
         Character ch = go.GetComponent<Character>();
+        Globals.currentPopulation += 1;
         ch.proficiency = 1;
         characters[0] = ch;
 
