@@ -1,12 +1,17 @@
 fileFormatVersion: 2
 guid: 2aa1207a795873e4d8f4418e80f3fa23
-timeCreated: 1476656025
+timeCreated: 1478706897
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: PowerPlant_base
     21300002: PowerPlant_glow2
     21300004: PowerPlant_glow1
+    21300006: PowerPlant_smog
+    21300008: PowerPlant_smog
+    21300010: PowerPlant_glow2
+    21300012: PowerPlant_glow1
+    21300014: PowerPlant_base
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -56,15 +61,15 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PowerPlant_base
+      name: PowerPlant_smog
       rect:
         serializedVersion: 2
-        x: 40
-        y: 313
-        width: 1229
-        height: 761
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 904
+        y: 881
+        width: 216
+        height: 199
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -72,10 +77,10 @@ TextureImporter:
       name: PowerPlant_glow2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 26
-        width: 944
-        height: 284
+        x: 1259
+        y: 18
+        width: 297
+        height: 1062
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -85,12 +90,25 @@ TextureImporter:
       name: PowerPlant_glow1
       rect:
         serializedVersion: 2
-        x: 976
-        y: 23
-        width: 944
-        height: 284
+        x: 1666
+        y: 74
+        width: 186
+        height: 975
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PowerPlant_base
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1256
+        height: 880
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
