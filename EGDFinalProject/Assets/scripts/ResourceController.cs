@@ -4,12 +4,11 @@ using System;
 public class ResourceController : MonoBehaviour {
     //THIS SCRIPT IS FOR DEBUGGING USAGE ONLY
     public int[] resourceValues;
-    public int food, energy, population;
+    public int food, energy, water, population;
     public bool on;
 	// Use this for initialization
 	void Start () {
         on = true;
-        //    initResource();
         Globals.initResources();
         Globals.initEnvironment();
         resourceValues = new int[Enum.GetNames(typeof(Globals.resourceTypes)).Length];

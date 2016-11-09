@@ -37,9 +37,19 @@ public class Globals : MonoBehaviour {
     static public int energyNodes = 100, farmNodes  = 100, obstacleNodes = 10, waterNodes = 10;
     static public int currentEnergy = 0;
     static public int currentPopulation = 0;
+    static public int currentWater = 0;
     static public int characters = 0;
     static public bool SpendResources(int cost, resourceTypes type)
     {
+        if (type == resourceTypes.WATER)
+        {
+            if (currentWater + cost > resources[resourceTypes.WATER])
+            {
+                return false;
+            }
+            else resources[type] -= cost;
+            return true;
+        }
         //have required energy amount for energy resource
         if (type == resourceTypes.POPULATION)
         {
@@ -66,6 +76,15 @@ public class Globals : MonoBehaviour {
     }
     static public bool sufficientResources(int cost, resourceTypes type)
     {
+        if (type == resourceTypes.WATER)
+        {
+            if (currentWater + cost > resources[resourceTypes.WATER])
+            {
+                return false;
+            }
+            return true;
+        }
+        
         if (type == resourceTypes.POPULATION)
         {
             if (currentPopulation + cost > resources[resourceTypes.POPULATION])
@@ -88,9 +107,6 @@ public class Globals : MonoBehaviour {
     }
     static public void GainResource(int amount, resourceTypes type)
     {
-        //Debug.Log(amount);
-      //  Debug.Log(type);
-      //  Debug.Log("gained..." + amount);
         resources[type] += amount;
     }
 
@@ -109,6 +125,7 @@ public class Globals : MonoBehaviour {
         resources.Add(resourceTypes.POPULATION, 1);
         resources.Add(resourceTypes.ENERGY, 5000);
         resources.Add(resourceTypes.FOOD, 5000);
+        resources.Add(resourceTypes.WATER, 1000);
     }
     // Update is called once per frame
     void Update () {
