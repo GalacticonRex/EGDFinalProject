@@ -23,6 +23,7 @@ public class BuildingInstance : MonoBehaviour
     protected int EnergyCost;
     protected int FoodCost;
     protected int WaterCost;
+    protected int GoldCost;
     protected int PopulationRequirement;
     protected float buildRadius = 10f;
 
@@ -112,6 +113,9 @@ public class BuildingInstance : MonoBehaviour
             {
                 case Globals.resourceTypes.ENERGY:
                     costs.Add(type, EnergyCost);
+                    break;
+                case Globals.resourceTypes.GOLD:
+                    costs.Add(type, GoldCost);
                     break;
                 case Globals.resourceTypes.FOOD:
                     costs.Add(type, FoodCost);

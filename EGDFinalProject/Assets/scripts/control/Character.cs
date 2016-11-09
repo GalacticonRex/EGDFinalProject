@@ -18,24 +18,25 @@ public class Character : MonoBehaviour {
         alive = true;
         hunger = 100f;
         thirst = 100f;
-        happiness = 80f;
-        sprite = GetComponent<SpriteRenderer>();
-        SpriteRenderer[] sprites = GetComponentsInChildren<SpriteRenderer>();
-        foreach (SpriteRenderer s in sprites)
-        {
-            if (s)
-            {
-                s.sortingOrder = 0;
-                s.sortingLayerName = LAYER_NAME;
-
-            }
-        }
-
+        happiness = 100f;
+        
         StartCoroutine("checkHunger");
         if (speed < 0)
             total = path.Length;
         else
             total = 0.0f;
+    }
+    public void setSortingLayer(GameObject c, int layer)
+    {
+        SpriteRenderer[] sprites = c.GetComponentsInChildren<SpriteRenderer>();
+        foreach (SpriteRenderer s in sprites)
+        {
+            if (s)
+            {
+                s.sortingOrder = (int)Camera.main.WorldToScreenPoint(s.bounds.min).y * -1;
+            }
+        }
+
     }
     void calcProficiency()
     {
@@ -62,6 +63,10 @@ public class Character : MonoBehaviour {
             proficiency = 5;
         }
     }
+    void LateUpdate()
+    {
+        setSortingLayer(this.gameObject, 10);
+    }
     void Update()
     {
  
@@ -79,8 +84,8 @@ public class Character : MonoBehaviour {
 
         if (pt == path.end || pt == path.start)
             Destroy(gameObject);
-        transform.position = pt;
-            }
+            transform.position = pt;
+        }
     }
     IEnumerator checkHunger()
     {

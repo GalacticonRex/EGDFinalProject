@@ -19,6 +19,7 @@ public class Globals : MonoBehaviour {
         ENERGY = 1,
         FOOD = 2,
         WATER = 3,
+        GOLD = 4,
         OBSTACLE = 100
     }
     public static Dictionary<resourceTypes, int> resources = new Dictionary<resourceTypes, int>();
@@ -27,6 +28,7 @@ public class Globals : MonoBehaviour {
     static public int numEnergyNodes = 0;
     static public int numFoodNodes = 0;
     static public int numWaterNodes = 0;
+    static public int numGoldNodes = 0;
     /*                       */
     static public bool EnoughResources(int cost, resourceTypes type)
     {
@@ -38,6 +40,7 @@ public class Globals : MonoBehaviour {
     static public int currentEnergy = 0;
     static public int currentPopulation = 0;
     static public int currentWater = 0;
+    static public int currentGold = 0;
     static public int characters = 0;
     static public bool SpendResources(int cost, resourceTypes type)
     {
@@ -118,11 +121,13 @@ public class Globals : MonoBehaviour {
     {
         environment.Add(resourceTypes.ENERGY, energyNodes);
         environment.Add(resourceTypes.FOOD, farmNodes);
+        environment.Add(resourceTypes.WATER, waterNodes);
         environment.Add(resourceTypes.OBSTACLE, obstacleNodes);
     }
     public static void initResources()
     {
         resources.Add(resourceTypes.POPULATION, 1);
+        resources.Add(resourceTypes.GOLD, 1);
         resources.Add(resourceTypes.ENERGY, 5000);
         resources.Add(resourceTypes.FOOD, 5000);
         resources.Add(resourceTypes.WATER, 1000);

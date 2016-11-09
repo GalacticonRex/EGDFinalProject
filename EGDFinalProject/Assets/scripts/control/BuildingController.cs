@@ -16,8 +16,8 @@ public class BuildingController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         selectedBuildings = new int[2];
-        initBuildings();
-        createIndexTable(list.Length);
+       //    initBuildings();
+     //   createIndexTable(list.Length);
     }
 
     // Update is called once per frame
@@ -224,7 +224,7 @@ public class BuildingController : MonoBehaviour {
             }
             table += " ] \n";
         }
-        Debug.Log(table);
+      //  Debug.Log(table);
     }
     public void selectBuilding(GameObject building, int index)
     {

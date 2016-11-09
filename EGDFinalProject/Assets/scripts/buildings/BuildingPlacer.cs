@@ -16,6 +16,8 @@ public class BuildingPlacer : MonoBehaviour {
     private Material source;
     private bool isPylon;
     private bool isFarm;
+    private bool isGeyser;
+    private bool isMine;
 
     private Hexagon lockToNearsetHex(Vector3 pt)
     {
@@ -39,7 +41,8 @@ public class BuildingPlacer : MonoBehaviour {
         overlapping = new HashSet<BuildingInstance>();
         if (toGenerate.GetComponent<PylonInstance>() != null) isPylon = true;
         if (toGenerate.GetComponent<FarmInstance>() != null) isFarm = true;
-
+        if (toGenerate.GetComponent<GeyserFarmInstance>() != null) isGeyser = true;
+        if (toGenerate.GetComponent<MineInstance>() != null) isMine = true;
     }
 
     // Update is called once per frame
@@ -67,6 +70,10 @@ public class BuildingPlacer : MonoBehaviour {
             bool no_overlap = (overlapping.Count == 0);
             BuildingInstance building = toGenerate.GetComponent<BuildingInstance>();
             bool cost = Globals.sufficientResources(1, Globals.resourceTypes.FOOD) && Globals.sufficientResources(1, Globals.resourceTypes.ENERGY);//Globals.SpendResources(1, Globals.resourceTypes.FOOD) && Globals.SpendResources(1, Globals.resourceTypes.ENERGY);
+            if (isGeyser)
+            {
+                validPosition = (hex != null && result.collider == ground && hex.environment.GetComponent<envGeyserInstance>() != null);
+            }
             if (isFarm)
             {
                 validPosition = (hex != null && result.collider == ground && hex.environment.GetComponent<envFoodInstance>() != null);

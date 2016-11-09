@@ -181,14 +181,15 @@ public class HexStack
         return null;
     }
 
-    public void AddFloor(float value, GameObject energy, GameObject food)
+    public void AddFloor(float value, GameObject energy, GameObject food, GameObject water)
     {
         Hexagon newlayer = new Hexagon(this, value);
         //environment randomizer
         if (newlayer.environment == null)
         {
-            int rand = Random.Range(0, 2);
-            if (rand % 2 == 0)
+            int rand = Random.Range(0, 3);
+            Debug.Log(rand);
+            if (rand % 3 == 0)
             {
                 EnvironmentInstance foodInstance = AddEnvironmentInstance(newlayer, food);
                 newlayer.environment = foodInstance;
@@ -316,6 +317,9 @@ public class Hexagon {
 public class GenerateHexGrid : MonoBehaviour {
     public GameObject energyPrefab;
     public GameObject foodPrefab;
+    public GameObject geyserPrefab;
+    public GameObject minePrefab;
+    public GameObject obstaclePrefab;
 
     public float hexRadius = 1.0f;
     private HexStack root;
@@ -529,10 +533,10 @@ public class GenerateHexGrid : MonoBehaviour {
             if ( val <= Mathf.Abs(hex.generation_value))
             {
                 if (hex.location.y < -10000 && Random.value * count * count > initial)
-                    hex.AddFloor(100.0f, energyPrefab, foodPrefab);
+                    hex.AddFloor(100.0f, energyPrefab, foodPrefab, geyserPrefab);
                 else
                     hex.AddFloor(Random.Range(-4.0f * hex.generation_value / scale - 0.2f,
-                                              10.0f * hex.generation_value / scale + 0.2f), energyPrefab, foodPrefab);
+                                              10.0f * hex.generation_value / scale + 0.2f), energyPrefab, foodPrefab, geyserPrefab);
             }
             count++;
         }

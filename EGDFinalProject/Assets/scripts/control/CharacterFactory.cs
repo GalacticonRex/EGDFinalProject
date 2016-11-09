@@ -11,7 +11,7 @@ public class CharacterFactory : MonoBehaviour {
         if (ch == null)
             Debug.LogError("ToGenerate in character controller does not have Character component");
     }
-
+ 
     public Character Create(int prof, BuildingInstance build, PathInstance path)
     {
         if (prof < 1 || prof > 5)
