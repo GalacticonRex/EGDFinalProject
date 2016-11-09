@@ -10,10 +10,14 @@ public class Character : MonoBehaviour {
 
     public bool alive;
     public float hunger;
+    public float thirst;
+    public float happiness;
     void Start()
     {
         alive = true;
         hunger = 100f;
+        thirst = 100f;
+        happiness = 80f;
         StartCoroutine("checkHunger");
         if (speed < 0)
             total = path.Length;
@@ -43,7 +47,7 @@ public class Character : MonoBehaviour {
     {
         while (alive)
         {
-            if (hunger <= 0)
+            if (hunger <= 0 || thirst <= 0)
             {
                 alive = !alive;
                 Destroy(gameObject);
@@ -52,6 +56,10 @@ public class Character : MonoBehaviour {
             if (Globals.resources[Globals.resourceTypes.FOOD] < Globals.currentPopulation)
             {
                 hunger -= 1;
+            }
+            if (Globals.resources[Globals.resourceTypes.WATER] < Globals.currentPopulation)
+            {
+                thirst -= 1;
             }
             yield return new WaitForSeconds(10f);
         }
