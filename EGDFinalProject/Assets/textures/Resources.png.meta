@@ -1,9 +1,18 @@
 fileFormatVersion: 2
 guid: 87c1fedb755f1a44dbc08da40f5051cf
-timeCreated: 1477980931
+timeCreated: 1478749796
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: Resources_Energy
+    21300002: Resources_1
+    21300004: Resources_Health
+    21300006: Resources_Proficiency
+    21300008: Resources_Proficiency_none
+    21300010: Resources_Water
+    21300012: Resources_Luxury
+    21300014: Resources_Food
+    21300016: Resources_Population
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -30,28 +39,132 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 16
     mipBias: -1
-    wrapMode: -1
-  nPOTScale: 1
+    wrapMode: 1
+  nPOTScale: 0
   lightmap: 0
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 0
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
-  alphaIsTransparency: 0
+  alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: -1
+  textureType: 8
   buildTargetSettings: []
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Resources_Energy
+      rect:
+        serializedVersion: 2
+        x: 43
+        y: 14
+        width: 484
+        height: 283
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Resources_Health
+      rect:
+        serializedVersion: 2
+        x: 2117
+        y: 43
+        width: 216
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Resources_Proficiency
+      rect:
+        serializedVersion: 2
+        x: 2388
+        y: 0
+        width: 306
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Resources_Proficiency_none
+      rect:
+        serializedVersion: 2
+        x: 2741
+        y: 0
+        width: 308
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Resources_Water
+      rect:
+        serializedVersion: 2
+        x: 1325
+        y: 41
+        width: 144
+        height: 209
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Resources_Luxury
+      rect:
+        serializedVersion: 2
+        x: 1623
+        y: 28
+        width: 398
+        height: 225
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Resources_Food
+      rect:
+        serializedVersion: 2
+        x: 599
+        y: 58
+        width: 309
+        height: 167
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Resources_Population
+      rect:
+        serializedVersion: 2
+        x: 1021
+        y: 57
+        width: 138
+        height: 186
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
     outline: []
   spritePackingTag: 
   userData: 

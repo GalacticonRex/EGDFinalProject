@@ -1,15 +1,16 @@
 fileFormatVersion: 2
 guid: e8d0cb70582f33d4eac59c952b988839
-timeCreated: 1478727603
+timeCreated: 1478749385
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Geyser_0
-    21300002: Geyser_1
-    21300004: Geyser_2
-    21300006: Geyser_3
+    21300000: Geyser_spout1
+    21300002: Geyser_spout2
+    21300004: Geyser_spout3
+    21300006: Geyser_spout4
     21300008: Geyser_4
-    21300010: Geyser_5
+    21300010: Geyser_2
+    21300012: Geyser_1
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -59,54 +60,54 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Geyser_0
+      name: Geyser_spout1
       rect:
         serializedVersion: 2
         x: 66
         y: 241
         width: 194
         height: 298
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Geyser_1
+      name: Geyser_spout2
       rect:
         serializedVersion: 2
-        x: 111
-        y: 10
-        width: 565
-        height: 989
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 259
+        y: 240
+        width: 240
+        height: 761
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Geyser_2
+      name: Geyser_spout3
       rect:
         serializedVersion: 2
-        x: 546
-        y: 301
+        x: 552
+        y: 306
         width: 593
-        height: 729
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        height: 723
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Geyser_3
+      name: Geyser_spout4
       rect:
         serializedVersion: 2
         x: 1150
         y: 311
         width: 766
         height: 716
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -119,20 +120,33 @@ TextureImporter:
         width: 5
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Geyser_5
+      name: Geyser_2
       rect:
         serializedVersion: 2
         x: 1112
         y: 12
         width: 693
         height: 260
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Geyser_1
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 8
+        width: 553
+        height: 230
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
