@@ -325,6 +325,8 @@ public class GenerateHexGrid : MonoBehaviour {
     public GameObject minePrefab;
     public GameObject obstaclePrefab;
 
+    public Material mat;
+
     public float hexRadius = 1.0f;
     private HexStack root;
     private GraphMap<HexStack> map = new GraphMap<HexStack>();
@@ -348,20 +350,21 @@ public class GenerateHexGrid : MonoBehaviour {
         return map[x][y];
     }
 
-    private void generateFloorSurface(List<Vector3> vertices, List<int> indices, HexStack hexes)
+    private void generateFloorSurface(List<Vector3> vertices, List<Vector2> uvs, List<int> indices, HexStack hexes)
     {
         if (hexes.vertex_start != -1)
             return;
         hexes.vertex_start = vertices.Count;
         foreach (Hexagon hex in hexes.layers)
-            generateFloorSurface(vertices, indices, hex);
+            generateFloorSurface(vertices, uvs, indices, hex);
         foreach (HexStack hex in hexes.adjacent)
             if( hex != null )
-                generateFloorSurface(vertices, indices, hex);
+                generateFloorSurface(vertices, uvs, indices, hex);
     }
-    private void generateFloorSurface(List<Vector3> vertices, List<int> indices, Hexagon hex)
+    private void generateFloorSurface(List<Vector3> vertices, List<Vector2> uvs, List<int> indices, Hexagon hex)
     {
         Vector3[] local_vertices = new Vector3[7];
+        Vector2[] local_uvs = new Vector2[7];
         int e = vertices.Count;
         int[] local_indices = new int[18]
         {
@@ -372,6 +375,8 @@ public class GenerateHexGrid : MonoBehaviour {
             e, e+6, e+5,
             e, e+1, e+6
         };
+        local_uvs[0] = new Vector2(0.5f, 0.5f);
+
         hex.vertex_start = e;
 
         local_vertices[0] = new Vector3(hex.parent.location.x, 0, hex.parent.location.y);
@@ -381,6 +386,7 @@ public class GenerateHexGrid : MonoBehaviour {
 
         for (int i=0;i<6;i++)
         {
+            local_uvs[i + 1] = local_uvs[0] + (new Vector2(rotating.x, rotating.z)/2);
             local_vertices[i + 1] = local_vertices[0] + rotating;
             rotating = rotation * rotating;
         }
@@ -411,6 +417,7 @@ public class GenerateHexGrid : MonoBehaviour {
         local_vertices[0].y = total / 6.0f;
 
         vertices.AddRange(local_vertices);
+        uvs.AddRange(local_uvs);
         indices.AddRange(local_indices);
     }
 
@@ -475,11 +482,12 @@ public class GenerateHexGrid : MonoBehaviour {
         }
     }
 
-    private GameObject generateMesh(List<Vector3> vertices, List<int> indices)
+    private GameObject generateMesh(List<Vector3> vertices, List<int> indices, List<Vector2> uvs, Material input)
     {
         Mesh mesh = new Mesh();
         mesh.vertices = vertices.ToArray();
         mesh.triangles = indices.ToArray();
+        mesh.uv = uvs.ToArray();
         mesh.RecalculateNormals();
         mesh.RecalculateBounds();
         mesh.Optimize();
@@ -492,7 +500,7 @@ public class GenerateHexGrid : MonoBehaviour {
         mfilter.mesh = mesh;
 
         MeshRenderer mrender = go.AddComponent<MeshRenderer>();
-        mrender.material = new Material(Shader.Find("Diffuse"));
+        mrender.material = input;
         mrender.material.color = Color.gray;
 
         MeshCollider mcollid = go.AddComponent<MeshCollider>();
@@ -553,12 +561,13 @@ public class GenerateHexGrid : MonoBehaviour {
 
         List<Vector3> surface_vertices = new List<Vector3>();
         List<int> surface_indices = new List<int>();
-        generateFloorSurface(surface_vertices, surface_indices, root);
-        surface = generateMesh(surface_vertices, surface_indices);
-
+        List<Vector2> surface_uvs = new List<Vector2>();
+        generateFloorSurface(surface_vertices, surface_uvs, surface_indices, root);
+        surface = generateMesh(surface_vertices, surface_indices, surface_uvs, mat);
+        
         List<Vector3> cliff_vertices = new List<Vector3>();
         List<int> cliff_indices = new List<int>();
         generateCliffSurface(cliff_vertices, cliff_indices, surface_vertices, surface_indices, root);
-        cliffs = generateMesh(cliff_vertices, cliff_indices);
+        cliffs = generateMesh(cliff_vertices, cliff_indices, surface_uvs, mat);
     }
 }
