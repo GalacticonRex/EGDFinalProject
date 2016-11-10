@@ -188,12 +188,16 @@ public class HexStack
         if (newlayer.environment == null)
         {
             int rand = Random.Range(0, 3);
-            Debug.Log(rand);
             if (rand % 3 == 0)
             {
                 EnvironmentInstance foodInstance = AddEnvironmentInstance(newlayer, food);
                 newlayer.environment = foodInstance;
-            } else
+            }
+            if (rand % 3 == 1)
+            {
+
+            }
+            else if (rand % 3 == 2)
             {
                 EnvironmentInstance energyInstance = AddEnvironmentInstance(newlayer, energy);
                 newlayer.environment = energyInstance;

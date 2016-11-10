@@ -9,7 +9,7 @@ public class BuildingPlacer : MonoBehaviour {
     public Color Invalid;
     public AudioClip PlayOnPlace;
     private Collider ground;
-    private MeshRenderer self;
+    private SpriteRenderer self;
     private bool validPosition;
     private HashSet<BuildingInstance> overlapping;
     private Vector3 placeAt;
@@ -29,14 +29,14 @@ public class BuildingPlacer : MonoBehaviour {
 
     void Start()
     {
-        transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+        transform.localScale = new Vector3(0.5f, 0.5f, 1f);
         gameObject.layer = LayerMask.NameToLayer("Placement");
         parent = FindObjectOfType<GenerateHexGrid>();
         if (parent != null)
         {
             ground = parent.Ground;
         }
-        self = GetComponent<MeshRenderer>();
+        self = GetComponent<SpriteRenderer>();
         source = self.material;
         overlapping = new HashSet<BuildingInstance>();
         if (toGenerate.GetComponent<PylonInstance>() != null) isPylon = true;
