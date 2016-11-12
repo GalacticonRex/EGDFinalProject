@@ -1,6 +1,10 @@
 fileFormatVersion: 2
 guid: 6f9dcc6c81f3466438f0dec2a3c8d4bf
+<<<<<<< HEAD
 timeCreated: 1478902644
+=======
+timeCreated: 1478915179
+>>>>>>> bdba5ab000ee3512530573dc5572c418c8724c24
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -42,21 +46,29 @@ TextureImporter:
     aniso: 16
     mipBias: -1
     wrapMode: 1
+<<<<<<< HEAD
   nPOTScale: 1
+=======
+  nPOTScale: 0
+>>>>>>> bdba5ab000ee3512530573dc5572c418c8724c24
   lightmap: 0
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 0
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
-  alphaIsTransparency: 0
+  alphaIsTransparency: 1
   spriteTessellationDetail: -1
+<<<<<<< HEAD
   textureType: 0
+=======
+  textureType: 8
+>>>>>>> bdba5ab000ee3512530573dc5572c418c8724c24
   buildTargetSettings: []
   spriteSheet:
     serializedVersion: 2
@@ -70,7 +82,11 @@ TextureImporter:
         width: 1024
         height: 1024
       alignment: 0
+<<<<<<< HEAD
       pivot: {x: 0, y: 0}
+=======
+      pivot: {x: 0.5, y: 0.5}
+>>>>>>> bdba5ab000ee3512530573dc5572c418c8724c24
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -83,7 +99,11 @@ TextureImporter:
         width: 1024
         height: 1024
       alignment: 0
+<<<<<<< HEAD
       pivot: {x: 0, y: 0}
+=======
+      pivot: {x: 0.5, y: 0.5}
+>>>>>>> bdba5ab000ee3512530573dc5572c418c8724c24
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -96,7 +116,11 @@ TextureImporter:
         width: 1024
         height: 1024
       alignment: 0
+<<<<<<< HEAD
       pivot: {x: 0, y: 0}
+=======
+      pivot: {x: 0.5, y: 0.5}
+>>>>>>> bdba5ab000ee3512530573dc5572c418c8724c24
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -109,7 +133,11 @@ TextureImporter:
         width: 1024
         height: 1024
       alignment: 0
+<<<<<<< HEAD
       pivot: {x: 0, y: 0}
+=======
+      pivot: {x: 0.5, y: 0.5}
+>>>>>>> bdba5ab000ee3512530573dc5572c418c8724c24
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -117,12 +145,20 @@ TextureImporter:
       name: ResourceTiles_1_4
       rect:
         serializedVersion: 2
+<<<<<<< HEAD
         x: 1024
+=======
+        x: 1021
+>>>>>>> bdba5ab000ee3512530573dc5572c418c8724c24
         y: 1024
         width: 1024
         height: 1024
       alignment: 0
+<<<<<<< HEAD
       pivot: {x: 0, y: 0}
+=======
+      pivot: {x: 0.5, y: 0.5}
+>>>>>>> bdba5ab000ee3512530573dc5572c418c8724c24
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -135,7 +171,11 @@ TextureImporter:
         width: 1024
         height: 1024
       alignment: 0
+<<<<<<< HEAD
       pivot: {x: 0, y: 0}
+=======
+      pivot: {x: 0.5, y: 0.5}
+>>>>>>> bdba5ab000ee3512530573dc5572c418c8724c24
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -143,12 +183,20 @@ TextureImporter:
       name: ResourceTiles_1_6
       rect:
         serializedVersion: 2
+<<<<<<< HEAD
         x: 0
+=======
+        x: 10
+>>>>>>> bdba5ab000ee3512530573dc5572c418c8724c24
         y: 0
         width: 1024
         height: 1024
       alignment: 0
+<<<<<<< HEAD
       pivot: {x: 0, y: 0}
+=======
+      pivot: {x: 0.5, y: 0.5}
+>>>>>>> bdba5ab000ee3512530573dc5572c418c8724c24
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -161,7 +209,11 @@ TextureImporter:
         width: 1024
         height: 1024
       alignment: 0
+<<<<<<< HEAD
       pivot: {x: 0, y: 0}
+=======
+      pivot: {x: 0.5, y: 0.5}
+>>>>>>> bdba5ab000ee3512530573dc5572c418c8724c24
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -174,7 +226,11 @@ TextureImporter:
         width: 1024
         height: 1024
       alignment: 0
+<<<<<<< HEAD
       pivot: {x: 0, y: 0}
+=======
+      pivot: {x: 0.5, y: 0.5}
+>>>>>>> bdba5ab000ee3512530573dc5572c418c8724c24
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
