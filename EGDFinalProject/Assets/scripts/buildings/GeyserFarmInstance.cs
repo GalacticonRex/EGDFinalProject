@@ -33,7 +33,7 @@ public class GeyserFarmInstance : BuildingInstance
         // Globals.SpendResources(1, Globals.resourceTypes.FOOD);
         if (environmentInstance.resourceAmount > 0)
         {
-            Globals.GainResource(resource.harvestResource(5), Globals.resourceTypes.WATER);
+            Globals.GainResource(resource.harvestResource(5), Globals.resourceTypes.WATER, environmentInstance);
         }
     }
     public void setEnvironment(EnvironmentInstance env)

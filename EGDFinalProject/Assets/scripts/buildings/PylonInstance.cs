@@ -11,11 +11,11 @@ public class PylonInstance : BuildingInstance {
         EnergyCost = 1;
         FoodCost = 1;
         PopulationRequirement = 0;
+       // transform.localScale = new Vector2(0.2f, 0.2f);
         base.Start();
         resource = GetComponentInChildren<envEnergyInstance>();
         base.setEnvironment(resource);
-        produceResources();
-
+        StartCoroutine(base.ActiveProduction());
     }
     void Update()
     {
@@ -25,20 +25,8 @@ public class PylonInstance : BuildingInstance {
     {
         return base.withinRadius(checkPos);
     }
-    protected void produceResources()
-    {
-        // Globals.SpendResources(1, Globals.resourceTypes.FOOD);
-        if (environmentInstance.resourceAmount > 0)
-        {
-            Globals.GainResource(resource.harvestResource(5), Globals.resourceTypes.ENERGY);
-        }
-    }
     public int getCost(Globals.resourceTypes type)
     {
         return base.getCost(type);
     }
-    //public static bool withinRadius(Vector3 checkPos)
-    //{
-    //    return base.withinRadius(checkPos);
-    //}
 }

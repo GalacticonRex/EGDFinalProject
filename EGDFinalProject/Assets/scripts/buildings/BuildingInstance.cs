@@ -6,7 +6,7 @@ using System;
 public class BuildingInstance : MonoBehaviour
 {
     public int index;
-    public bool active;
+    protected bool active;
     public Hexagon ground;
     public GameObject pathPlacer;
     public GameObject[] paths;
@@ -52,14 +52,13 @@ public class BuildingInstance : MonoBehaviour
         render = GetComponent<MeshRenderer>();
         if (render!=null) material = render.material;
         sprite = GetComponent<SpriteRenderer>();
-        transform.localScale = new Vector2(0.5f, 0.5f);
         initCosts();
+        setActive();
         WaterCost = 0;
         EnergyCost = 0;
         FoodCost = 0;
         PopulationRequirement = 0;
         factory = FindObjectOfType<CharacterFactory>();
-        active = true;
     }
     protected void Update()
     {
@@ -145,5 +144,22 @@ public class BuildingInstance : MonoBehaviour
     protected void setEnvironment(EnvironmentInstance env)
     {
         environmentInstance = env;
+    }
+    public void produceResources()
+    {
+        // base.produceResources();
+        // Globals.SpendResources(1, Globals.resourceTypes.FOOD);
+        if (environmentInstance != null && environmentInstance.resourceAmount > 0)
+        {
+            Globals.GainResource(environmentInstance.harvestResource(5), environmentInstance.resource, environmentInstance);
+        }
+    }
+    protected IEnumerator ActiveProduction()
+    {
+        while (active)
+        {
+            produceResources();
+            yield return new WaitForSeconds(1f);
+        }
     }
 }

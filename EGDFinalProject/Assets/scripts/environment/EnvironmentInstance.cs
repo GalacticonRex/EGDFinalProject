@@ -16,7 +16,7 @@ public class EnvironmentInstance : MonoBehaviour {
     void Update () {
 	    
 	}
-    protected int harvestResource(int amount)
+    public int harvestResource(int amount)
     {
         if (resourceAmount - amount <= 0)
         {
@@ -24,6 +24,7 @@ public class EnvironmentInstance : MonoBehaviour {
         }
         else
         {
+            resourceAmount -= amount;
             return amount;
         }
     }

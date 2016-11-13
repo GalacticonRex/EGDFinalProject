@@ -29,7 +29,7 @@ public class BuildingPlacer : MonoBehaviour {
 
     void Start()
     {
-        transform.localScale = new Vector3(0.5f, 0.5f, 1f);
+        transform.localScale = new Vector3(0.3f, 0.3f, 1f);
         gameObject.layer = LayerMask.NameToLayer("Placement");
         parent = FindObjectOfType<GenerateHexGrid>();
         if (parent != null)
@@ -124,8 +124,6 @@ public class BuildingPlacer : MonoBehaviour {
         }
 
         building.tag = "building";
-        if (isFarm) placeAt.y = 1.8f;
-
         building.transform.position = placeAt;
             return building;
     }

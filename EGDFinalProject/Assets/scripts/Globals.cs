@@ -108,6 +108,14 @@ public class Globals : MonoBehaviour {
             return false;
         return true;
     }
+    static public void GainResource(int amount, resourceTypes type, EnvironmentInstance env)
+    {
+        if (env != null)
+        {
+            env.harvestResource(amount);
+        }
+        resources[type] += amount;
+    }
     static public void GainResource(int amount, resourceTypes type)
     {
         resources[type] += amount;

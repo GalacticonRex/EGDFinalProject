@@ -17,7 +17,8 @@ public class FarmInstance : BuildingInstance
         base.Start();
         resource = GetComponentInChildren<envFoodInstance>();
         base.setEnvironment(resource);
-        produceResources();
+        StartCoroutine(base.ActiveProduction());
+
     }
 
     // Update is called once per frame
@@ -27,15 +28,6 @@ public class FarmInstance : BuildingInstance
        // envFoodInstance e = GetComponentInChildren<envFoodInstance>();
     }
 
-    protected void produceResources()
-    {
-        // Globals.SpendResources(1, Globals.resourceTypes.FOOD);
-        if (environmentInstance.resourceAmount > 0)
-        {
-            //harvest at the rate of workers on the farm
-            Globals.GainResource(resource.harvestResource(5), Globals.resourceTypes.FOOD);
-        }
-    }
     public void setEnvironment(EnvironmentInstance env)
     {
         base.setEnvironment(env);

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 0e9d34e84424ba0418dcea5a844dbb9d
-timeCreated: 1478749413
+timeCreated: 1478988284
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -57,8 +57,8 @@ TextureImporter:
       name: Diamond Mines_0
       rect:
         serializedVersion: 2
-        x: 9
-        y: 35
+        x: 0
+        y: 54
         width: 1631
         height: 807
       alignment: 7

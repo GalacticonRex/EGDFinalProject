@@ -326,6 +326,7 @@ public class GenerateHexGrid : MonoBehaviour {
     public GameObject obstaclePrefab;
 
     public Material mat;
+    public Material[] floorMaterials = new Material[5];
 
     public float hexRadius = 1.0f;
     private HexStack root;
@@ -482,7 +483,7 @@ public class GenerateHexGrid : MonoBehaviour {
         }
     }
 
-    private GameObject generateMesh(List<Vector3> vertices, List<int> indices, List<Vector2> uvs, Material input)
+    private GameObject generateMesh(List<Vector3> vertices, List<int> indices, List<Vector2> uvs)
     {
         Mesh mesh = new Mesh();
         mesh.vertices = vertices.ToArray();
@@ -500,7 +501,7 @@ public class GenerateHexGrid : MonoBehaviour {
         mfilter.mesh = mesh;
 
         MeshRenderer mrender = go.AddComponent<MeshRenderer>();
-        mrender.material = input;
+        mrender.material = randomizeMaterial();
         mrender.material.color = Color.gray;
 
         MeshCollider mcollid = go.AddComponent<MeshCollider>();
@@ -563,11 +564,24 @@ public class GenerateHexGrid : MonoBehaviour {
         List<int> surface_indices = new List<int>();
         List<Vector2> surface_uvs = new List<Vector2>();
         generateFloorSurface(surface_vertices, surface_uvs, surface_indices, root);
-        surface = generateMesh(surface_vertices, surface_indices, surface_uvs, mat);
+        surface = generateMesh(surface_vertices, surface_indices, surface_uvs);
         
         List<Vector3> cliff_vertices = new List<Vector3>();
         List<int> cliff_indices = new List<int>();
         generateCliffSurface(cliff_vertices, cliff_indices, surface_vertices, surface_indices, root);
-        cliffs = generateMesh(cliff_vertices, cliff_indices, surface_uvs, mat);
+        cliffs = generateMesh(cliff_vertices, cliff_indices, surface_uvs);
+    }
+    Material randomizeMaterial()
+    {
+        int rand = Random.Range(0, 3);
+        if (rand == 1)
+        {
+            return floorMaterials[0];
+        }
+        else
+        {
+            return floorMaterials[1];
+        }
+
     }
 }
