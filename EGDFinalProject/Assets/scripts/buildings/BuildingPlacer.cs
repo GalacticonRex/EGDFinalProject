@@ -74,7 +74,11 @@ public class BuildingPlacer : MonoBehaviour {
             {
                 validPosition = (hex != null && result.collider == ground && hex.environment.GetComponent<envGeyserInstance>() != null);
             }
-            if (isFarm)
+            else if (isMine)
+            {
+                validPosition = (hex != null && result.collider == ground && hex.environment.GetComponent<envGoldInstance>() != null);
+            }
+            else if (isFarm)
             {
                 validPosition = (hex != null && result.collider == ground && hex.environment.GetComponent<envFoodInstance>() != null);
             }

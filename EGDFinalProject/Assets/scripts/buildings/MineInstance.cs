@@ -6,7 +6,7 @@ public class MineInstance : BuildingInstance
     int foodValue = 2;
     int waterValue = 10;
     int energyValue = 1;
-    envFoodInstance resource;
+    envGoldInstance resource;
     // Use this for initialization
     void Start()
     {
@@ -16,7 +16,7 @@ public class MineInstance : BuildingInstance
         FoodCost = 5;
         PopulationRequirement = 5;
         base.Start();
-        resource = GetComponentInChildren<envFoodInstance>();
+        resource = GetComponentInChildren<envGoldInstance>();
         base.setEnvironment(resource);
         produceResources();
     }

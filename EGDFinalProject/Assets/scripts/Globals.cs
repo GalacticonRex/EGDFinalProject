@@ -36,7 +36,7 @@ public class Globals : MonoBehaviour {
     }
 
     static public bool isPaused;
-    static public int energyNodes = 100, farmNodes  = 100, obstacleNodes = 10, waterNodes = 10;
+    static public int energyNodes = 100, farmNodes  = 50, obstacleNodes = 10, waterNodes = 10, goldNodes = 25;
     static public int currentEnergy = 0;
     static public int currentPopulation = 0;
     static public int currentWater = 0;
@@ -131,6 +131,7 @@ public class Globals : MonoBehaviour {
         environment.Add(resourceTypes.ENERGY, energyNodes);
         environment.Add(resourceTypes.FOOD, farmNodes);
         environment.Add(resourceTypes.WATER, waterNodes);
+        environment.Add(resourceTypes.GOLD, goldNodes);
         environment.Add(resourceTypes.OBSTACLE, obstacleNodes);
     }
     public static void addEnv(resourceTypes res)

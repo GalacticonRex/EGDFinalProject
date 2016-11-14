@@ -140,6 +140,8 @@ public class HexStack
 
         EnvironmentInstance inst = envObject.GetComponent<EnvironmentInstance>();
         Globals.resourceTypes envType = inst.resource;
+      //  Debug.Log(envType);
+
         if (!Globals.environment.ContainsKey(envType))
         {
             Globals.addEnv(envType);
@@ -181,30 +183,70 @@ public class HexStack
                 }
             }
         }
-
+        else if (envType == Globals.resourceTypes.WATER)
+        {
+            if (Globals.numWaterNodes < Globals.environment[envType])
+            {
+                if (random <= 300)
+                {
+                    GameObject env = GameObject.Instantiate(envObject);
+                    env.transform.position = hex.Position;
+                    Globals.numWaterNodes++;
+                    return env.GetComponent<EnvironmentInstance>();
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+        else if (envType == Globals.resourceTypes.GOLD)
+        {
+            if (Globals.numGoldNodes < Globals.environment[envType])
+            {
+                if (random <= 300)
+                {
+                    GameObject env = GameObject.Instantiate(envObject);
+                    env.transform.position = hex.Position;
+                    Globals.numGoldNodes++;
+                    return env.GetComponent<EnvironmentInstance>();
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
         return null;
     }
 
-    public void AddFloor(float value, GameObject energy, GameObject food, GameObject water)
+    public void AddFloor(float value, GameObject energy, GameObject food, GameObject water, GameObject gold)
     {
         Hexagon newlayer = new Hexagon(this, value);
         //environment randomizer
         if (newlayer.environment == null)
         {
-            int rand = Random.Range(0, 3);
-            if (rand % 3 == 0)
+            int rand = Random.Range(0, 4);
+            if (rand % 4 == 0)
             {
                 EnvironmentInstance foodInstance = AddEnvironmentInstance(newlayer, food);
                 newlayer.environment = foodInstance;
             }
-            if (rand % 3 == 1)
+            if (rand % 4 == 1)
             {
-
+                EnvironmentInstance waterInstance = AddEnvironmentInstance(newlayer, water);
+                newlayer.environment = waterInstance;
             }
-            else if (rand % 3 == 2)
+            else if (rand % 4 == 2)
             {
                 EnvironmentInstance energyInstance = AddEnvironmentInstance(newlayer, energy);
                 newlayer.environment = energyInstance;
+            }
+            else if (rand % 4 == 3)
+            {
+                Debug.Log(gold.GetComponent<EnvironmentInstance>().resource);
+                EnvironmentInstance goldInstance = AddEnvironmentInstance(newlayer, gold);
+                newlayer.environment = goldInstance;
             }
         }
 
@@ -550,10 +592,10 @@ public class GenerateHexGrid : MonoBehaviour {
             if ( val <= Mathf.Abs(hex.generation_value))
             {
                 if (hex.location.y < -10000 && Random.value * count * count > initial)
-                    hex.AddFloor(100.0f, energyPrefab, foodPrefab, geyserPrefab);
+                    hex.AddFloor(100.0f, energyPrefab, foodPrefab, geyserPrefab, minePrefab);
                 else
                     hex.AddFloor(Random.Range(-4.0f * hex.generation_value / scale - 0.2f,
-                                              10.0f * hex.generation_value / scale + 0.2f), energyPrefab, foodPrefab, geyserPrefab);
+                                              10.0f * hex.generation_value / scale + 0.2f), energyPrefab, foodPrefab, geyserPrefab, minePrefab);
             }
             count++;
         }
@@ -562,6 +604,7 @@ public class GenerateHexGrid : MonoBehaviour {
     void Start()
     {
         Globals.initEnvironment();
+        Globals.initResources();
         map[0][0] = root = new HexStack(0,0, 0,0, hexRadius);
         generateTerrain(root, 4000, 20.0f);
 
