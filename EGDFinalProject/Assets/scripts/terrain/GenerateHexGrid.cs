@@ -140,6 +140,10 @@ public class HexStack
 
         EnvironmentInstance inst = envObject.GetComponent<EnvironmentInstance>();
         Globals.resourceTypes envType = inst.resource;
+        if (!Globals.environment.ContainsKey(envType))
+        {
+            Globals.addEnv(envType);
+        }
         if (envType == Globals.resourceTypes.ENERGY)
         {
             if (Globals.numEnergyNodes < Globals.environment[envType])
@@ -557,6 +561,7 @@ public class GenerateHexGrid : MonoBehaviour {
 
     void Start()
     {
+        Globals.initEnvironment();
         map[0][0] = root = new HexStack(0,0, 0,0, hexRadius);
         generateTerrain(root, 4000, 20.0f);
 

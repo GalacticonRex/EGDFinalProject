@@ -114,7 +114,8 @@ public class Globals : MonoBehaviour {
         {
             env.harvestResource(amount);
         }
-        resources[type] += amount;
+         resources[type] += amount;
+       
     }
     static public void GainResource(int amount, resourceTypes type)
     {
@@ -131,6 +132,13 @@ public class Globals : MonoBehaviour {
         environment.Add(resourceTypes.FOOD, farmNodes);
         environment.Add(resourceTypes.WATER, waterNodes);
         environment.Add(resourceTypes.OBSTACLE, obstacleNodes);
+    }
+    public static void addEnv(resourceTypes res)
+    {
+        if (!environment.ContainsKey(res))
+        {
+            environment.Add(res, 20);
+        }
     }
     public static void initResources()
     {
