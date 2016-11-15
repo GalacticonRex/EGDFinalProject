@@ -9,7 +9,6 @@ public class ResourceController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         on = true;
-        Globals.initResources();
         resourceValues = new int[Enum.GetNames(typeof(Globals.resourceTypes)).Length];
         StartCoroutine("updateValues");
         StartCoroutine("calculateHunger");
