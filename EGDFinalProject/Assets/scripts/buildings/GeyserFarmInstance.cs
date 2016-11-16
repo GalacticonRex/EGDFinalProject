@@ -15,10 +15,14 @@ public class GeyserFarmInstance : BuildingInstance
         FoodCost = 1;
         PopulationRequirement = 0;
         Globals.SpendResources(1, Globals.resourceTypes.POPULATION);
+        Globals.SpendResources(5, Globals.resourceTypes.FOOD);
         base.Start();
         resource = GetComponentInChildren<envGeyserInstance>();
         base.setEnvironment(resource);
-        produceResources();
+
+        StartCoroutine(base.ActiveProduction());
+       
+     //   produceResources();
     }
 
     // Update is called once per frame
@@ -33,7 +37,7 @@ public class GeyserFarmInstance : BuildingInstance
         // Globals.SpendResources(1, Globals.resourceTypes.FOOD);
         if (environmentInstance.resourceAmount > 0)
         {
-            Globals.GainResource(resource.harvestResource(5), Globals.resourceTypes.WATER, environmentInstance);
+            Globals.GainResource(5, Globals.resourceTypes.WATER, environmentInstance);
         }
     }
     public void setEnvironment(EnvironmentInstance env)

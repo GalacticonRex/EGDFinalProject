@@ -36,7 +36,7 @@ public class Globals : MonoBehaviour {
     }
 
     static public bool isPaused;
-    static public int energyNodes = 100, farmNodes  = 50, obstacleNodes = 10, waterNodes = 10, goldNodes = 25;
+    static public int energyNodes = 100, farmNodes  = 50, obstacleNodes = 20, waterNodes = 20, goldNodes = 25;
     static public int currentEnergy = 0;
     static public int currentPopulation = 0;
     static public int currentWater = 0;
@@ -87,7 +87,14 @@ public class Globals : MonoBehaviour {
             }
             return true;
         }
-        
+        if (type == resourceTypes.GOLD)
+        {
+            if (currentGold + cost > resources[resourceTypes.GOLD])
+            {
+                return false;
+            }
+            return true;
+        }
         if (type == resourceTypes.POPULATION)
         {
             if (currentPopulation + cost > resources[resourceTypes.POPULATION])
@@ -144,9 +151,9 @@ public class Globals : MonoBehaviour {
     public static void initResources()
     {
         resources.Add(resourceTypes.POPULATION, 1);
-        resources.Add(resourceTypes.GOLD, 1);
-        resources.Add(resourceTypes.ENERGY, 5000);
-        resources.Add(resourceTypes.FOOD, 5000);
+        resources.Add(resourceTypes.GOLD, 20);
+        resources.Add(resourceTypes.ENERGY, 1000);
+        resources.Add(resourceTypes.FOOD, 1000);
         resources.Add(resourceTypes.WATER, 1000);
     }
     // Update is called once per frame

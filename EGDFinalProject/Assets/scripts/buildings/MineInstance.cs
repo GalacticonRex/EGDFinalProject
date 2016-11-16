@@ -17,6 +17,7 @@ public class MineInstance : BuildingInstance
         PopulationRequirement = 5;
         base.Start();
         resource = GetComponentInChildren<envGoldInstance>();
+        StartCoroutine(base.ActiveProduction());
         base.setEnvironment(resource);
         produceResources();
     }
@@ -33,7 +34,7 @@ public class MineInstance : BuildingInstance
         // Globals.SpendResources(1, Globals.resourceTypes.FOOD);
         if (environmentInstance.resourceAmount > 0)
         {
-            //harvest at the rate of workers on the farm
+            //harvest at the rate of workers on the building
             Globals.GainResource(resource.harvestResource(5), Globals.resourceTypes.GOLD);
         }
     }

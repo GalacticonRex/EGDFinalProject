@@ -160,7 +160,7 @@ public class BuildingInstance : MonoBehaviour
         // Globals.SpendResources(1, Globals.resourceTypes.FOOD);
         if (environmentInstance != null && environmentInstance.resourceAmount > 0)
         {
-            Globals.GainResource(environmentInstance.harvestResource(5), environmentInstance.resource, environmentInstance);
+            Globals.GainResource(5, environmentInstance.resource, environmentInstance);
         }
     }
     protected IEnumerator ActiveProduction()
