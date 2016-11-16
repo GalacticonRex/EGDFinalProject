@@ -52,6 +52,15 @@ public class BuildingInstance : MonoBehaviour
         render = GetComponent<MeshRenderer>();
         if (render!=null) material = render.material;
         sprite = GetComponent<SpriteRenderer>();
+        sprite.sortingOrder = -500;
+        if (sprite == null)
+        {
+            SpriteRenderer[] sprites = GetComponentsInChildren<SpriteRenderer>();
+            foreach (SpriteRenderer s in sprites)
+            {
+                s.sortingOrder = (int)Camera.main.WorldToScreenPoint(s.bounds.min).y * -1;
+            }
+        }
         initCosts();
         setActive();
         WaterCost = 0;
