@@ -6,6 +6,7 @@ public class GeyserFarmInstance : BuildingInstance
     int foodValue = 0;
     int waterValue = 2;
     int energyValue = 1;
+    int waterProductionRate = 5;
     envGeyserInstance resource;
     // Use this for initialization
     void Start()
@@ -20,7 +21,7 @@ public class GeyserFarmInstance : BuildingInstance
         resource = GetComponentInChildren<envGeyserInstance>();
         base.setEnvironment(resource);
 
-        StartCoroutine(base.ActiveProduction());
+        StartCoroutine(base.ActiveProduction(waterProductionRate));
        
      //   produceResources();
     }
@@ -51,5 +52,9 @@ public class GeyserFarmInstance : BuildingInstance
     void OnMouseExit()
     {
         base.OnMouseExit();
+    }
+    public int getProductionRate()
+    {
+        return waterProductionRate;
     }
 }

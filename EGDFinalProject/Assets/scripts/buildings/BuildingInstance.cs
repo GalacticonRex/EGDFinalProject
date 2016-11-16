@@ -154,20 +154,20 @@ public class BuildingInstance : MonoBehaviour
     {
         environmentInstance = env;
     }
-    public void produceResources()
+    public void produceResources(int resourceProductionRate)
     {
         // base.produceResources();
         // Globals.SpendResources(1, Globals.resourceTypes.FOOD);
         if (environmentInstance != null && environmentInstance.resourceAmount > 0)
         {
-            Globals.GainResource(5, environmentInstance.resource, environmentInstance);
+            Globals.GainResource(resourceProductionRate, environmentInstance.resource, environmentInstance);
         }
     }
-    protected IEnumerator ActiveProduction()
+    protected IEnumerator ActiveProduction(int resourceProductionRate)
     {
         while (active)
         {
-            produceResources();
+            produceResources(resourceProductionRate);
             yield return new WaitForSeconds(1f);
         }
     }

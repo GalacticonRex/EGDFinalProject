@@ -6,6 +6,7 @@ public class MineInstance : BuildingInstance
     int foodValue = 2;
     int waterValue = 10;
     int energyValue = 1;
+    int goldProductionRate = 5;
     envGoldInstance resource;
     // Use this for initialization
     void Start()
@@ -17,7 +18,7 @@ public class MineInstance : BuildingInstance
         PopulationRequirement = 5;
         base.Start();
         resource = GetComponentInChildren<envGoldInstance>();
-        StartCoroutine(base.ActiveProduction());
+        StartCoroutine(base.ActiveProduction(goldProductionRate));
         base.setEnvironment(resource);
         produceResources();
     }
@@ -49,5 +50,9 @@ public class MineInstance : BuildingInstance
     void OnMouseExit()
     {
         base.OnMouseExit();
+    }
+    public int getProductionRate()
+    {
+        return goldProductionRate;
     }
 }

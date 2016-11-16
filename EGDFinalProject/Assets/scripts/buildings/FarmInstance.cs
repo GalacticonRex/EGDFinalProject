@@ -5,6 +5,7 @@ public class FarmInstance : BuildingInstance
 {
     int foodValue = 2;
     int energyValue = 1;
+    int foodProductionRate = 5;
     envFoodInstance resource;
     // Use this for initialization
     void Start()
@@ -17,7 +18,7 @@ public class FarmInstance : BuildingInstance
         base.Start();
         resource = GetComponentInChildren<envFoodInstance>();
         base.setEnvironment(resource);
-        StartCoroutine(base.ActiveProduction());
+        StartCoroutine(base.ActiveProduction(foodProductionRate));
 
     }
 
@@ -39,5 +40,9 @@ public class FarmInstance : BuildingInstance
     void OnMouseExit()
     {
         base.OnMouseExit();
+    }
+    public int getProductionRate()
+    {
+        return foodProductionRate;
     }
 }

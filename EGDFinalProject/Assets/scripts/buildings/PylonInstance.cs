@@ -6,6 +6,7 @@ public class PylonInstance : BuildingInstance {
     //   public float buildRadius = 10f;
     // Use this for initialization
     envEnergyInstance resource;
+    int energyProductionRate = 5;
 
     void Start () {
         EnergyCost = 1;
@@ -15,7 +16,7 @@ public class PylonInstance : BuildingInstance {
         base.Start();
         resource = GetComponentInChildren<envEnergyInstance>();
         base.setEnvironment(resource);
-        StartCoroutine(base.ActiveProduction());
+        StartCoroutine(base.ActiveProduction(energyProductionRate));
     }
     void Update()
     {
@@ -28,5 +29,9 @@ public class PylonInstance : BuildingInstance {
     public int getCost(Globals.resourceTypes type)
     {
         return base.getCost(type);
+    }
+    public int getProductionRate()
+    {
+        return energyProductionRate;
     }
 }
