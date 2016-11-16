@@ -21,6 +21,10 @@ public class ChangeResourceValue : MonoBehaviour {
             value.text = Globals.currentEnergy.ToString();
         else if (resourceType == 2)
             value.text = aRandomInt.ToString(); /* Should be equal to current food */
+        else if (resourceType == 3)
+            value.text = Globals.currentWater.ToString();
+        else if (resourceType == 4)
+            value.text = Globals.currentGold.ToString();
         else
             Debug.LogError("Invalid resourceType value");
 	}
