@@ -33,14 +33,14 @@ public class GeyserFarmInstance : BuildingInstance
         // envFoodInstance e = GetComponentInChildren<envFoodInstance>();
     }
 
-    protected void produceResources()
-    {
-        // Globals.SpendResources(1, Globals.resourceTypes.FOOD);
-        if (environmentInstance.resourceAmount > 0)
-        {
-            Globals.GainResource(5, Globals.resourceTypes.WATER, environmentInstance);
-        }
-    }
+    //protected void produceResources()
+    //{
+    //    // Globals.SpendResources(1, Globals.resourceTypes.FOOD);
+    //    if (environmentInstance.resourceAmount > 0)
+    //    {
+    //        Globals.GainResource(5, Globals.resourceTypes.WATER, environmentInstance);
+    //    }
+    //}
     public void setEnvironment(EnvironmentInstance env)
     {
         base.setEnvironment(env);

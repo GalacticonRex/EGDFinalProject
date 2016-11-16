@@ -244,7 +244,7 @@ public class HexStack
             }
             else if (rand % 4 == 3)
             {
-                Debug.Log(gold.GetComponent<EnvironmentInstance>().resource);
+              //  Debug.Log(gold.GetComponent<EnvironmentInstance>().resource);
                 EnvironmentInstance goldInstance = AddEnvironmentInstance(newlayer, gold);
                 newlayer.environment = goldInstance;
             }
