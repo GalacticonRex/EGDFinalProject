@@ -548,7 +548,7 @@ public class GenerateHexGrid : MonoBehaviour {
 
         MeshRenderer mrender = go.AddComponent<MeshRenderer>();
         mrender.material = randomizeMaterial();
-        mrender.material.color = Color.gray;
+        //mrender.material.color = Color.gray;
 
         MeshCollider mcollid = go.AddComponent<MeshCollider>();
         mcollid.sharedMesh = mesh;

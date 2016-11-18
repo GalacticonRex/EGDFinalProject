@@ -39,20 +39,9 @@ public class Globals : MonoBehaviour {
     static public int energyNodes = 100, farmNodes  = 50, obstacleNodes = 20, waterNodes = 20, goldNodes = 25;
     static public int currentEnergy = 0;
     static public int currentPopulation = 0;
-    static public int currentWater = 0;
-    static public int currentGold = 0;
     static public int characters = 0;
     static public bool SpendResources(int cost, resourceTypes type)
     {
-        if (type == resourceTypes.WATER)
-        {
-            if (currentWater + cost > resources[resourceTypes.WATER])
-            {
-                return false;
-            }
-            else resources[type] -= cost;
-            return true;
-        }
         //have required energy amount for energy resource
         if (type == resourceTypes.POPULATION)
         {
@@ -79,22 +68,6 @@ public class Globals : MonoBehaviour {
     }
     static public bool sufficientResources(int cost, resourceTypes type)
     {
-        if (type == resourceTypes.WATER)
-        {
-            if (currentWater + cost > resources[resourceTypes.WATER])
-            {
-                return false;
-            }
-            return true;
-        }
-        if (type == resourceTypes.GOLD)
-        {
-            if (currentGold + cost > resources[resourceTypes.GOLD])
-            {
-                return false;
-            }
-            return true;
-        }
         if (type == resourceTypes.POPULATION)
         {
             if (currentPopulation + cost > resources[resourceTypes.POPULATION])
