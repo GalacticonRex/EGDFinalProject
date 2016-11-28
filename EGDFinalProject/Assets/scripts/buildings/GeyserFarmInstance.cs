@@ -17,13 +17,11 @@ public class GeyserFarmInstance : BuildingInstance
         PopulationRequirement = 0;
         Globals.SpendResources(1, Globals.resourceTypes.POPULATION);
         Globals.SpendResources(5, Globals.resourceTypes.FOOD);
-        base.Start();
         resource = GetComponentInChildren<envGeyserInstance>();
         base.setEnvironment(resource);
-
         StartCoroutine(base.ActiveProduction(waterProductionRate));
-       
-     //   produceResources();
+        base.Start();
+        //   produceResources();
     }
 
     // Update is called once per frame

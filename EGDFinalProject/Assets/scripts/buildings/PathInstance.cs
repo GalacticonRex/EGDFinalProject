@@ -39,7 +39,7 @@ public class PathInstance : MonoBehaviour {
             cumulative[i] = total_distance;
             total_distance += dist;
         }
-        Debug.Log("Total Distance: " + total_distance.ToString());
+      //  Debug.Log("Total Distance: " + total_distance.ToString());
     }
     public float GetDirectionFromSource(BuildingInstance b)
     {

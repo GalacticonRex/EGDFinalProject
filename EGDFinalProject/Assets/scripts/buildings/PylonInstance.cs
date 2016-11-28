@@ -13,10 +13,12 @@ public class PylonInstance : BuildingInstance {
         FoodCost = 1;
         PopulationRequirement = 0;
        // transform.localScale = new Vector2(0.2f, 0.2f);
-        base.Start();
+        
         resource = GetComponentInChildren<envEnergyInstance>();
         base.setEnvironment(resource);
+        Globals.GainResource(5, Globals.resourceTypes.ENERGY);
         StartCoroutine(base.ActiveProduction(energyProductionRate));
+        base.Start();
     }
     void Update()
     {

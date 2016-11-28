@@ -18,7 +18,7 @@ public class ChangeResourceValue : MonoBehaviour {
         if (resourceType == 0)
             value.text = Globals.currentPopulation.ToString();
         else if (resourceType == 1)
-            value.text = Globals.currentEnergy.ToString();
+            value.text = Globals.resources[Globals.resourceTypes.ENERGY].ToString();
         else if (resourceType == 2)
             value.text = Globals.resources[Globals.resourceTypes.FOOD].ToString(); /* Should be equal to current food */
         else if (resourceType == 3)

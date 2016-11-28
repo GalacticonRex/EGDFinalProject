@@ -33,7 +33,7 @@ public class Character : MonoBehaviour {
         {
             if (s)
             {
-                s.sortingOrder = (int)Camera.main.WorldToScreenPoint(s.bounds.min).y * -1;
+              //  s.sortingOrder = (int)Camera.main.WorldToScreenPoint(s.bounds.min).y * -1;
             }
         }
 
