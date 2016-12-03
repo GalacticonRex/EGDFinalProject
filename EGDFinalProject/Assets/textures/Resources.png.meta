@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 87c1fedb755f1a44dbc08da40f5051cf
-timeCreated: 1478749796
+timeCreated: 1480784025
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -13,6 +13,7 @@ TextureImporter:
     21300012: Resources_Luxury
     21300014: Resources_Food
     21300016: Resources_Population
+    21300018: Resources_happiness
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -160,6 +161,19 @@ TextureImporter:
         y: 57
         width: 138
         height: 186
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Resources_happiness
+      rect:
+        serializedVersion: 2
+        x: 3097
+        y: 8
+        width: 276
+        height: 282
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
