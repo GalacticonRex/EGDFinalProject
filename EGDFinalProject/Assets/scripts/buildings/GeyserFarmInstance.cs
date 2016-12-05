@@ -19,8 +19,9 @@ public class GeyserFarmInstance : BuildingInstance
         Globals.SpendResources(5, Globals.resourceTypes.FOOD);
         resource = GetComponentInChildren<envGeyserInstance>();
         base.setEnvironment(resource);
-        StartCoroutine(base.ActiveProduction(waterProductionRate));
         base.Start();
+        StartCoroutine(base.ActiveProduction(waterProductionRate));
+       
         //   produceResources();
     }
 

@@ -52,7 +52,10 @@ public class BuildingInstance : MonoBehaviour
         render = GetComponent<MeshRenderer>();
         if (render!=null) material = render.material;
         sprite = GetComponent<SpriteRenderer>();
-        sprite.sortingOrder = -500;
+        if (sprite != null)
+        {
+            sprite.sortingOrder = -500;
+        }
         if (sprite == null)
         {
             SpriteRenderer[] sprites = GetComponentsInChildren<SpriteRenderer>();

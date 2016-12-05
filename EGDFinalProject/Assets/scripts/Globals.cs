@@ -52,15 +52,6 @@ public class Globals : MonoBehaviour {
             else currentPopulation += cost;
             return true;
         }
-   /*     if (type == resourceTypes.ENERGY)
-        {
-            if (currentEnergy + cost > resources[resourceTypes.ENERGY])
-            {
-                return false;
-            }
-            else currentEnergy += cost;
-            return true;
-        }*/
         else if (resources[type] < cost)
             return false;
         resources[type] -= cost;
@@ -125,10 +116,10 @@ public class Globals : MonoBehaviour {
     public static void initResources()
     {
         resources.Add(resourceTypes.POPULATION, 1);
-        resources.Add(resourceTypes.GOLD, 0);
-        resources.Add(resourceTypes.ENERGY, 100);
-        resources.Add(resourceTypes.FOOD, 100);
-        resources.Add(resourceTypes.WATER, 100);
+        resources.Add(resourceTypes.GOLD, 5);
+        resources.Add(resourceTypes.ENERGY, 10);
+        resources.Add(resourceTypes.FOOD, 10);
+        resources.Add(resourceTypes.WATER, 10);
     }
     // Update is called once per frame
     void Update () {
