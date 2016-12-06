@@ -9,14 +9,24 @@ public class BuildingMenu : MonoBehaviour {
     {
         buttons = transform.parent.GetComponentsInChildren<BuildingButton>();
         for ( int i=0;i<buttons.Length;i++ )
+        {
             buttons[i].Index = buttons.Length - i;
+        }
         menuOut = false;
     }
     
     public void ClickEvent()
     {
         menuOut = !menuOut;
-        foreach ( BuildingButton button in buttons )
-            button.Active = menuOut;
+        foreach (BuildingButton button in buttons)
+        {
+           if (button.Index == buttons.Length) button.Active = menuOut;
+           else
+            {
+                button.enabled = menuOut;
+                button.self.enabled = menuOut;
+            }
+        }
+
     }
 }

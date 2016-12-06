@@ -8,7 +8,7 @@ public class BuildingButton : MonoBehaviour, IPointerDownHandler {
     public GameObject Building;
     public float Delay = 0.25f;
     private bool isActive;
-    private UnityEngine.UI.Image self;
+    public UnityEngine.UI.Image self;
     private float initPos;
     private float timeAccum;
     private bool inPosition;
@@ -28,6 +28,7 @@ public class BuildingButton : MonoBehaviour, IPointerDownHandler {
 
     float GetCurrentPosition()
     {
+        if (Index != 6) return transform.position.x;
         if (isActive && timeAccum < Index)
         {
             timeAccum += Time.deltaTime / Delay;
@@ -43,7 +44,7 @@ public class BuildingButton : MonoBehaviour, IPointerDownHandler {
                 self.enabled = false;
             }
         }
-        return initPos + (timeAccum-Index+1) * 96.0f;
+        return initPos + (timeAccum - Index + 1) * 96.0f;
     }
 
     void Start()
