@@ -10,6 +10,8 @@ public class MineInstance : BuildingInstance
     envGoldInstance resource;
     public Character[] characters = new Character[5];
     public int charactersSize;
+    public GameObject ToGenerate;
+    public GameObject[] Proficiency = new GameObject[5];
     // Use this for initialization
     void Start()
     {
@@ -17,7 +19,8 @@ public class MineInstance : BuildingInstance
         EnergyCost = 5;
         WaterCost = 5;
         FoodCost = 5;
-        PopulationRequirement = 5;
+        GoldCost = 0;
+        PopulationRequirement = 0;
         base.Start();
         resource = GetComponentInChildren<envGoldInstance>();
         StartCoroutine(base.ActiveProduction(goldProductionRate));
@@ -30,6 +33,20 @@ public class MineInstance : BuildingInstance
     // Update is called once per frame
     void Update()
     {
+        if (UnityEngine.Random.value < 0.01f && charactersSize < 5)
+        {
+            GameObject go = Instantiate(ToGenerate);
+            GameObject child = Instantiate(Proficiency[0]);
+            child.transform.parent = go.transform;
+            child.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+            go.transform.position = this.transform.position;
+            go.transform.localScale = new Vector3(0, 0, 0);
+            Character ch = go.GetComponent<Character>();
+            Globals.currentPopulation += 1;
+            ch.proficiency = 1;
+            characters[charactersSize] = ch;
+            charactersSize += 1;
+        }
         base.Update();
         // envFoodInstance e = GetComponentInChildren<envFoodInstance>();
     }
