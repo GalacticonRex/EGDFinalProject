@@ -16,6 +16,7 @@ public class BuildingInstance : MonoBehaviour
     private PathPlacer current;
     private MeshRenderer render;
     private SpriteRenderer sprite;
+    public float productionTime = 20f;
     private CharacterFactory factory;
     protected Material material;
     //= new int[Enum.GetNames(typeof(Globals.resourceTypes)).Length];
@@ -171,7 +172,7 @@ public class BuildingInstance : MonoBehaviour
         while (active)
         {
             produceResources(resourceProductionRate);
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(productionTime);
         }
     }
 }

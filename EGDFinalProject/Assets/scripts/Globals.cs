@@ -20,7 +20,8 @@ public class Globals : MonoBehaviour {
         FOOD = 2,
         WATER = 3,
         GOLD = 4,
-        OBSTACLE = 100
+        OBSTACLE = 100,
+        DIRT = 101,
     }
     public static Dictionary<resourceTypes, int> resources = new Dictionary<resourceTypes, int>();
     /* ENVIRONMENT VARIABLES */
