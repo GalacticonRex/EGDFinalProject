@@ -7,6 +7,8 @@ public class FarmInstance : BuildingInstance
     int energyValue = 1;
     int foodProductionRate = 5;
     envFoodInstance resource;
+    public Character[] characters = new Character[5];
+    public int charactersSize;
     // Use this for initialization
     void Start()
     {
@@ -19,7 +21,8 @@ public class FarmInstance : BuildingInstance
         resource = GetComponentInChildren<envFoodInstance>();
         base.setEnvironment(resource);
         StartCoroutine(base.ActiveProduction(foodProductionRate));
-
+        charactersSize = 0;
+        foodProductionRate = charactersSize + 1;
     }
 
     // Update is called once per frame

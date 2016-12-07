@@ -83,8 +83,8 @@ public class BuildingInstance : MonoBehaviour
             {
                 if (i == j)
                 {
-                    Character ch = factory.Create(UnityEngine.Random.Range(1,5), this, kv.Key);
-                    ch.speed *= 3.0f;
+                    //Character ch = factory.Create(UnityEngine.Random.Range(1,5), this, kv.Key);
+                    //ch.speed *= 3.0f;
                     break;
                 }
                 i++;

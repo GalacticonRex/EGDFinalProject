@@ -8,6 +8,8 @@ public class GeyserFarmInstance : BuildingInstance
     int energyValue = 1;
     int waterProductionRate = 5;
     envGeyserInstance resource;
+    public Character[] characters = new Character[5];
+    public int charactersSize;
     // Use this for initialization
     void Start()
     {
@@ -21,6 +23,8 @@ public class GeyserFarmInstance : BuildingInstance
         base.setEnvironment(resource);
         base.Start();
         StartCoroutine(base.ActiveProduction(waterProductionRate));
+        charactersSize = 0;
+        waterProductionRate = charactersSize + 1;
        
         //   produceResources();
     }

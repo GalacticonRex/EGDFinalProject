@@ -4,8 +4,8 @@ using System.Collections;
 public class HouseInstance : BuildingInstance {
     int foodValue = 1;
     int energyValue = 1;
-    Character[] characters = new Character[5];
-    int charactersSize;
+    public Character[] characters = new Character[5];
+    public int charactersSize;
     public GameObject ToGenerate;
     public GameObject[] Proficiency = new GameObject[5];
     
@@ -16,10 +16,12 @@ public class HouseInstance : BuildingInstance {
         child.transform.parent = go.transform;
         child.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
         go.transform.position = this.transform.position;
+        go.transform.localScale = new Vector3(0, 0, 0);
         Character ch = go.GetComponent<Character>();
         Globals.currentPopulation += 1;
         ch.proficiency = 1;
         characters[0] = ch;
+        charactersSize = 1;
 
         int[] res = new int[2];
         EnergyCost = 1;

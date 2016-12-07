@@ -8,6 +8,8 @@ public class MineInstance : BuildingInstance
     int energyValue = 1;
     int goldProductionRate = 5;
     envGoldInstance resource;
+    public Character[] characters = new Character[5];
+    public int charactersSize;
     // Use this for initialization
     void Start()
     {
@@ -21,6 +23,8 @@ public class MineInstance : BuildingInstance
         StartCoroutine(base.ActiveProduction(goldProductionRate));
         base.setEnvironment(resource);
         produceResources();
+        charactersSize = 0;
+        goldProductionRate = charactersSize + 1;
     }
 
     // Update is called once per frame

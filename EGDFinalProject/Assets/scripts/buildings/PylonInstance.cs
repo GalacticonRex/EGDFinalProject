@@ -7,11 +7,14 @@ public class PylonInstance : BuildingInstance {
     // Use this for initialization
     envEnergyInstance resource;
     int energyProductionRate = 5;
+    public Character[] characters = new Character[5];
+    public int charactersSize;
 
     void Start () {
         EnergyCost = 1;
         FoodCost = 1;
         PopulationRequirement = 0;
+        charactersSize = 0;
        // transform.localScale = new Vector2(0.2f, 0.2f);
         
         resource = GetComponentInChildren<envEnergyInstance>();
@@ -19,6 +22,7 @@ public class PylonInstance : BuildingInstance {
         Globals.GainResource(5, Globals.resourceTypes.ENERGY);
         StartCoroutine(base.ActiveProduction(energyProductionRate));
         base.Start();
+        energyProductionRate = charactersSize + 1;
     }
     void Update()
     {
