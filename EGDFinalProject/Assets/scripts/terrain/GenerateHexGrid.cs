@@ -220,34 +220,41 @@ public class HexStack
         return null;
     }
 
-    public void AddFloor(float value, GameObject energy, GameObject food, GameObject water, GameObject gold)
+    public void AddFloor(float value, GameObject energy, GameObject food, GameObject water, GameObject gold, GameObject envController)
     {
         Hexagon newlayer = new Hexagon(this, value);
         //environment randomizer
+        EnvironmentInstance instance = null;
         if (newlayer.environment == null)
         {
-            int rand = Random.Range(0, 4);
+            if (newlayer.resType == Globals.resourceTypes.FOOD)
+            {
+                instance = AddEnvironmentInstance(newlayer, food);
+                newlayer.environment = instance;
+            }
+           /* int rand = Random.Range(0, 4);
             if (rand % 4 == 0)
             {
-                EnvironmentInstance foodInstance = AddEnvironmentInstance(newlayer, food);
-                newlayer.environment = foodInstance;
+                instance = AddEnvironmentInstance(newlayer, food);
             }
             if (rand % 4 == 1)
             {
-                EnvironmentInstance waterInstance = AddEnvironmentInstance(newlayer, water);
-                newlayer.environment = waterInstance;
+                instance = AddEnvironmentInstance(newlayer, water);
             }
             else if (rand % 4 == 2)
             {
-                EnvironmentInstance energyInstance = AddEnvironmentInstance(newlayer, energy);
-                newlayer.environment = energyInstance;
+                instance = AddEnvironmentInstance(newlayer, energy);
             }
             else if (rand % 4 == 3)
             {
-              //  Debug.Log(gold.GetComponent<EnvironmentInstance>().resource);
-                EnvironmentInstance goldInstance = AddEnvironmentInstance(newlayer, gold);
-                newlayer.environment = goldInstance;
-            }
+                //  Debug.Log(gold.GetComponent<EnvironmentInstance>().resource);
+                instance = AddEnvironmentInstance(newlayer, gold);
+
+            }*/
+            
+          //  newlayer.environment = instance;
+           
+
         }
 
         int match0 = layers.Count;
@@ -322,13 +329,13 @@ public class HexStack
 public class Hexagon {
     public HexStack parent;
     public EnvironmentInstance environment;
-
+    public GameObject envMesh;
     public float surface;
-
+    public Globals.resourceTypes resType;
     public Hexagon[] connections = new Hexagon[6] { null, null, null, null, null, null };
     public bool[] isRamp = new bool[6] { false, false, false, false, false, false };
     private bool[] hasCliff = new bool[6] { false, false, false, false, false, false };
-
+    public List<Vector2> local_uvs;
     public int vertex_start = -1; // initial vertex in parent buffer
 
     // search algorithm
@@ -346,6 +353,13 @@ public class Hexagon {
     {
         parent = stack;
         surface = layer;
+        int r = Random.Range(0, 4);
+      //  Debug.Log(r);
+        if (r == 3) resType = Globals.resourceTypes.ENERGY;
+        else if (r == 2) resType = Globals.resourceTypes.FOOD;
+        else if (r == 1) resType = Globals.resourceTypes.WATER;
+        else resType = Globals.resourceTypes.DIRT;
+
     }
     public void ResetScore()
     {
@@ -370,7 +384,8 @@ public class GenerateHexGrid : MonoBehaviour {
     public GameObject geyserPrefab;
     public GameObject minePrefab;
     public GameObject obstaclePrefab;
-
+    public GameObject envController;
+    public Material textureMap;
     public Material mat;
     public Material[] floorMaterials = new Material[5];
 
@@ -430,14 +445,51 @@ public class GenerateHexGrid : MonoBehaviour {
 
         Quaternion rotation = Quaternion.AngleAxis(60, -Vector3.up);
         Vector3 rotating = new Vector3(hexRadius, 0, 0);
-
+        int r = Random.Range(0, 2);
+      //  Debug.Log("Randomized dirt: " + r);
         for (int i=0;i<6;i++)
         {
-            local_uvs[i + 1] = local_uvs[0] + (new Vector2(rotating.x, rotating.z)/2);
+            /*if (hex.resType == Globals.resourceTypes.FOOD)
+            {
+                local_uvs[i + 1] = local_uvs[0] + (new Vector2(rotating.x, rotating.z) / 2);
+            }*/
+            //water texture
+            if (hex.resType == Globals.resourceTypes.WATER)
+            {
+                local_uvs[0] = new Vector2(0.83f , 0.83f);
+                local_uvs[i + 1] = local_uvs[0] + (new Vector2(rotating.x / 4.5f, rotating.z / 4f) / 2);
+            }
+            //farm dirt texture
+            if (hex.resType == Globals.resourceTypes.FOOD)
+            {
+                local_uvs[0] = new Vector2(.5f, 0.16f);
+                local_uvs[i + 1] = local_uvs[0] + (new Vector2(rotating.x / 4.5f, rotating.z / 4f) / 2);
+            }
+            //energy texture
+            else if (hex.resType == Globals.resourceTypes.ENERGY)
+            {
+                local_uvs[0] = new Vector2(-.16f, 0.16f);
+                local_uvs[i + 1] = local_uvs[0] + (new Vector2(rotating.x/4.5f, rotating.z/4f) / 2);
+            }
+            else if (hex.resType == Globals.resourceTypes.DIRT)
+            {
+                Vector2 test = r == 1 ? new Vector2(0.5f, 0.5f) : new Vector2(0f, 0f);
+                local_uvs[i + 1] = local_uvs[0] + (new Vector2(rotating.x/4.5f, rotating.z/4f) / 2);
+            }
+ 
             local_vertices[i + 1] = local_vertices[0] + rotating;
             rotating = rotation * rotating;
         }
-
+/*        if (hex.resType != Globals.resourceTypes.FOOD)
+        {
+            local_uvs[1] = new Vector2(0.0f, 0.0f);
+            local_uvs[2] = new Vector2(0.33f, 0.0f);
+            local_uvs[3] = new Vector2(0f, 0.33f);
+            local_uvs[4] = new Vector2(0.33f, 0.33f);
+            local_uvs[5] = new Vector2(0.0f, 0.0f);
+            local_uvs[6] = new Vector2(0.0f, 0.0f);
+        }
+        */
         float total = 0.0f;
         for (int i=0;i<6;i+=1)
         {
@@ -464,7 +516,9 @@ public class GenerateHexGrid : MonoBehaviour {
         local_vertices[0].y = total / 6.0f;
 
         vertices.AddRange(local_vertices);
-        uvs.AddRange(local_uvs);
+       /* if (hex.resType == Globals.resourceTypes.FOOD)*/ uvs.AddRange(local_uvs);
+        //  hex.envMesh.mesh.uv = local_uvs;
+        //hex.envMesh = generateMesh(vertices, indices, uvs);
         indices.AddRange(local_indices);
     }
 
@@ -535,6 +589,7 @@ public class GenerateHexGrid : MonoBehaviour {
         mesh.vertices = vertices.ToArray();
         mesh.triangles = indices.ToArray();
         mesh.uv = uvs.ToArray();
+        
         mesh.RecalculateNormals();
         mesh.RecalculateBounds();
         mesh.Optimize();
@@ -547,7 +602,7 @@ public class GenerateHexGrid : MonoBehaviour {
         mfilter.mesh = mesh;
 
         MeshRenderer mrender = go.AddComponent<MeshRenderer>();
-        mrender.material = randomizeMaterial();
+        mrender.material = textureMap;
         //mrender.material.color = Color.gray;
 
         MeshCollider mcollid = go.AddComponent<MeshCollider>();
@@ -592,10 +647,10 @@ public class GenerateHexGrid : MonoBehaviour {
             if ( val <= Mathf.Abs(hex.generation_value))
             {
                 if (hex.location.y < -10000 && Random.value * count * count > initial)
-                    hex.AddFloor(100.0f, energyPrefab, foodPrefab, geyserPrefab, minePrefab);
+                    hex.AddFloor(100.0f, energyPrefab, foodPrefab, geyserPrefab, minePrefab, envController);
                 else
                     hex.AddFloor(Random.Range(-4.0f * hex.generation_value / scale - 0.2f,
-                                              10.0f * hex.generation_value / scale + 0.2f), energyPrefab, foodPrefab, geyserPrefab, minePrefab);
+                                              10.0f * hex.generation_value / scale + 0.2f), energyPrefab, foodPrefab, geyserPrefab, minePrefab, envController);
             }
             count++;
         }
@@ -606,7 +661,7 @@ public class GenerateHexGrid : MonoBehaviour {
         Globals.initEnvironment();
         Globals.initResources();
         map[0][0] = root = new HexStack(0,0, 0,0, hexRadius);
-        generateTerrain(root, 4000, 20.0f);
+        generateTerrain(root, 2000, 20.0f);
 
         List<Vector3> surface_vertices = new List<Vector3>();
         List<int> surface_indices = new List<int>();
@@ -628,7 +683,7 @@ public class GenerateHexGrid : MonoBehaviour {
         }
         else
         {
-            return floorMaterials[1];
+            return textureMap;
         }
 
     }
