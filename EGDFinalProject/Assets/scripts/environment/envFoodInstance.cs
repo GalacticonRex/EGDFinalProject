@@ -8,11 +8,14 @@ public class envFoodInstance : EnvironmentInstance {
         base.Start();
         resource = Globals.resourceTypes.FOOD;
         resourceAmount = 100;
+        MeshRenderer mr = GetComponent<MeshRenderer>();
+       if (mr != null) mr.enabled = false;
 
     }
 
     // Update is called once per frame
     void Update () {
+        base.Update();
 	
 	}
     public int harvestResource(int amount)

@@ -9,6 +9,9 @@ public class envEnergyInstance : EnvironmentInstance
         base.Start();
         resource = Globals.resourceTypes.ENERGY;
         resourceAmount = 100;
+        MeshRenderer mr = GetComponent<MeshRenderer>();
+        if (mr != null) mr.enabled = false;
+
     }
 
     // Update is called once per frame

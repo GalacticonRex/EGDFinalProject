@@ -10,10 +10,11 @@ public class EnvironmentInstance : MonoBehaviour {
     public int resourceAmount;
     // Use this for initialization
     protected void Start () {
+        
     }
 
     // Update is called once per frame
-    void Update () {
+    protected void Update () {
 	    
 	}
     public int harvestResource(int amount)

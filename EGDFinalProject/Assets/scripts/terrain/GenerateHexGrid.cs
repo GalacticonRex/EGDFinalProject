@@ -136,8 +136,6 @@ public class HexStack
     public EnvironmentInstance AddEnvironmentInstance(Hexagon hex, GameObject envObject)
     {
 
-        int random = Random.Range(-50, 1000);
-
         EnvironmentInstance inst = envObject.GetComponent<EnvironmentInstance>();
         Globals.resourceTypes envType = inst.resource;
       //  Debug.Log(envType);
@@ -146,7 +144,10 @@ public class HexStack
         {
             Globals.addEnv(envType);
         }
-        if (envType == Globals.resourceTypes.ENERGY)
+        GameObject env = GameObject.Instantiate(envObject);
+        env.transform.position = hex.Position;
+        return env.GetComponent<EnvironmentInstance>();
+   /*     if (envType == Globals.resourceTypes.ENERGY)
         {
             if (Globals.numEnergyNodes < Globals.environment[envType])
             {
@@ -216,7 +217,7 @@ public class HexStack
                     return null;
                 }
             }
-        }
+        }*/
         return null;
     }
 
@@ -227,11 +228,34 @@ public class HexStack
         EnvironmentInstance instance = null;
         if (newlayer.environment == null)
         {
+            switch (newlayer.resType) {
+                case Globals.resourceTypes.FOOD:
+                    instance = AddEnvironmentInstance(newlayer, food);
+                    newlayer.environment = instance;
+                    break;
+                case Globals.resourceTypes.ENERGY:
+                    instance = AddEnvironmentInstance(newlayer, energy);
+                    newlayer.environment = instance;
+                    break;
+                case Globals.resourceTypes.GOLD:
+                    instance = AddEnvironmentInstance(newlayer, gold);
+                    newlayer.environment = instance;
+                    break;
+                case Globals.resourceTypes.WATER:
+                    instance = AddEnvironmentInstance(newlayer, water);
+                    newlayer.environment = instance;
+                    break;
+                default:
+                    break;
+            }
+
             if (newlayer.resType == Globals.resourceTypes.FOOD)
             {
                 instance = AddEnvironmentInstance(newlayer, food);
                 newlayer.environment = instance;
+              //  
             }
+            
            /* int rand = Random.Range(0, 4);
             if (rand % 4 == 0)
             {

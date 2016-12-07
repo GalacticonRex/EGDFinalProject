@@ -10,6 +10,9 @@ public class envGeyserInstance : EnvironmentInstance
         base.Start();
         resource = Globals.resourceTypes.WATER;
         resourceAmount = 100;
+        MeshRenderer mr = GetComponent<MeshRenderer>();
+        if (mr != null) mr.enabled = false;
+
 
     }
 
