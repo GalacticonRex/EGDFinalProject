@@ -10,6 +10,8 @@ public class envGoldInstance : EnvironmentInstance
         base.Start();
         resource = Globals.resourceTypes.GOLD;
         resourceAmount = 100;
+        MeshRenderer mr = GetComponent<MeshRenderer>();
+        if (mr != null) mr.enabled = false;
 
     }
 

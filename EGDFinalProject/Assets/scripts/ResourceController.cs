@@ -39,7 +39,8 @@ public class ResourceController : MonoBehaviour {
         while (on)
         {
             Globals.SpendResources(Globals.currentPopulation, Globals.resourceTypes.FOOD);
-           // Debug.Log(Globals.resources[Globals.resourceTypes.FOOD]);
+            Globals.SpendResources(Globals.currentPopulation, Globals.resourceTypes.WATER);
+            // Debug.Log(Globals.resources[Globals.resourceTypes.FOOD]);
             yield return new WaitForSeconds(20f);
         }
     }

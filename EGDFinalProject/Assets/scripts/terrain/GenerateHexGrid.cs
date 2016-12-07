@@ -377,11 +377,12 @@ public class Hexagon {
     {
         parent = stack;
         surface = layer;
-        int r = Random.Range(0, 4);
-      //  Debug.Log(r);
-        if (r == 3) resType = Globals.resourceTypes.ENERGY;
-        else if (r == 2) resType = Globals.resourceTypes.FOOD;
-        else if (r == 1) resType = Globals.resourceTypes.WATER;
+        int r = Random.Range(0, 5);
+        //  Debug.Log(r);
+        if (r == 4) resType = Globals.resourceTypes.ENERGY;
+        else if (r == 3) resType = Globals.resourceTypes.FOOD;
+        else if (r == 2) resType = Globals.resourceTypes.WATER;
+        else if (r == 1) resType = Globals.resourceTypes.GOLD;
         else resType = Globals.resourceTypes.DIRT;
 
     }
@@ -484,15 +485,21 @@ public class GenerateHexGrid : MonoBehaviour {
                 local_uvs[i + 1] = local_uvs[0] + (new Vector2(rotating.x / 4.5f, rotating.z / 4f) / 2);
             }
             //farm dirt texture
-            if (hex.resType == Globals.resourceTypes.FOOD)
+            else if (hex.resType == Globals.resourceTypes.FOOD)
             {
                 local_uvs[0] = new Vector2(.5f, 0.16f);
+                local_uvs[i + 1] = local_uvs[0] + (new Vector2(rotating.x / 4.5f, rotating.z / 4f) / 2);
+            }
+            //gold texture
+            else if (hex.resType == Globals.resourceTypes.GOLD)
+            {
+                local_uvs[0] = new Vector2(-.16f, 0.16f);
                 local_uvs[i + 1] = local_uvs[0] + (new Vector2(rotating.x / 4.5f, rotating.z / 4f) / 2);
             }
             //energy texture
             else if (hex.resType == Globals.resourceTypes.ENERGY)
             {
-                local_uvs[0] = new Vector2(-.16f, 0.16f);
+                local_uvs[0] = new Vector2(0.16f, -0.16f);
                 local_uvs[i + 1] = local_uvs[0] + (new Vector2(rotating.x/4.5f, rotating.z/4f) / 2);
             }
             else if (hex.resType == Globals.resourceTypes.DIRT)
