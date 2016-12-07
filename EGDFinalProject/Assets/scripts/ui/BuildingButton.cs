@@ -109,6 +109,11 @@ public class BuildingButton : MonoBehaviour, IPointerDownHandler, IPointerEnterH
         int[] c = (rc.getBuildingCosts(name));
         for (int i = 0; i < c.Length; i++)
         {
+            t.costs[i].color = Color.red;
+            if (c[i] > 0)
+            {
+                t.costs[i].color = Color.green;
+            }
             t.costs[i].text = c[i].ToString();
         }
     }

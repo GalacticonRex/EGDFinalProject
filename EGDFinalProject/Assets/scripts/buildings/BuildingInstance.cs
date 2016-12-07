@@ -67,10 +67,11 @@ public class BuildingInstance : MonoBehaviour
         }
         initCosts();
         setActive();
-        WaterCost = 1;
+        WaterCost = 2;
         EnergyCost = 0;
-        FoodCost = 1;
+        FoodCost = 2;
         PopulationRequirement = 0;
+        
         factory = FindObjectOfType<CharacterFactory>();
     }
     protected void Update()
@@ -83,13 +84,20 @@ public class BuildingInstance : MonoBehaviour
             {
                 if (i == j)
                 {
-                    //Character ch = factory.Create(UnityEngine.Random.Range(1,5), this, kv.Key);
-                    //ch.speed *= 3.0f;
+                    Character ch = factory.Create(UnityEngine.Random.Range(1,5), this, kv.Key);
+                    ch.speed *= 3.0f;
                     break;
                 }
                 i++;
             }
         }
+    }
+    protected void spendResources()
+    {
+        Globals.SpendResources(FoodCost, Globals.resourceTypes.FOOD);
+        Globals.SpendResources(WaterCost, Globals.resourceTypes.WATER);
+        Globals.SpendResources(GoldCost, Globals.resourceTypes.GOLD);
+        Globals.SpendResources(EnergyCost, Globals.resourceTypes.ENERGY);
     }
     void setIndex(int newIndex)
     {

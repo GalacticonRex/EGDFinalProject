@@ -14,7 +14,7 @@ public class CharacterFactory : MonoBehaviour {
  
     public Character Create(int prof, BuildingInstance build, PathInstance path)
     {
-        /*
+        
     if (prof < 1 || prof > 5)
     {
         Debug.LogError("Invalid proficiency value of " + prof.ToString());
@@ -31,7 +31,7 @@ public class CharacterFactory : MonoBehaviour {
     ch.path = path;
     ch.speed = path.GetDirectionFromSource(build);
 
-    return ch;*/
-        return null;
+    return ch;
+        //return null;
     }
 }

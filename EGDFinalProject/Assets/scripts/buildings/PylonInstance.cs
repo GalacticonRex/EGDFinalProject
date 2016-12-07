@@ -13,10 +13,7 @@ public class PylonInstance : BuildingInstance {
     public GameObject[] Proficiency = new GameObject[5];
 
     void Start () {
-        EnergyCost = 0;
-        FoodCost = 2;
-        GoldCost = 2;
-        WaterCost = 2;
+
         PopulationRequirement = 0;
         charactersSize = 0;
         base.initCosts();
@@ -25,9 +22,15 @@ public class PylonInstance : BuildingInstance {
         resource = GetComponentInChildren<envEnergyInstance>();
         base.setEnvironment(resource);
         Globals.GainResource(5, Globals.resourceTypes.ENERGY);
+      //  Globals.SpendResources(FoodCost, Globals.resourceTypes.FOOD);
         StartCoroutine(base.ActiveProduction(energyProductionRate));
         base.Start();
+        EnergyCost = 0;
+        FoodCost = 2;
+        GoldCost = 2;
+        WaterCost = 2;
         energyProductionRate = charactersSize + 1;
+        spendResources2();
     }
     void Update()
     {
@@ -46,6 +49,13 @@ public class PylonInstance : BuildingInstance {
             charactersSize += 1;
         }
         base.Update();
+    }
+        protected void spendResources2()
+    {
+        Globals.SpendResources(FoodCost, Globals.resourceTypes.FOOD);
+        Globals.SpendResources(WaterCost, Globals.resourceTypes.WATER);
+        Globals.SpendResources(GoldCost, Globals.resourceTypes.GOLD);
+        Globals.SpendResources(EnergyCost, Globals.resourceTypes.ENERGY);
     }
     public bool withinRadius(Vector3 checkPos)
     {

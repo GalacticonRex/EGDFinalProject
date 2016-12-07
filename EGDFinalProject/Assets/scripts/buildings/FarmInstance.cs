@@ -15,14 +15,16 @@ public class FarmInstance : BuildingInstance
     void Start()
     {
         int[] res = new int[2];
+
+        
+        base.Start();
         EnergyCost = 1;
         FoodCost = 1;
         GoldCost = 1;
         PopulationRequirement = 0;
-        Globals.SpendResources(1, Globals.resourceTypes.POPULATION);
-        base.Start();
         resource = GetComponentInChildren<envFoodInstance>();
         base.setEnvironment(resource);
+        spendResources2();
         StartCoroutine(base.ActiveProduction(foodProductionRate));
         charactersSize = 0;
         foodProductionRate = charactersSize + 1;
@@ -48,7 +50,13 @@ public class FarmInstance : BuildingInstance
         base.Update();
        // envFoodInstance e = GetComponentInChildren<envFoodInstance>();
     }
-
+        protected void spendResources2()
+    {
+        Globals.SpendResources(FoodCost, Globals.resourceTypes.FOOD);
+        Globals.SpendResources(WaterCost, Globals.resourceTypes.WATER);
+        Globals.SpendResources(GoldCost, Globals.resourceTypes.GOLD);
+        Globals.SpendResources(EnergyCost, Globals.resourceTypes.ENERGY);
+    }
     public void setEnvironment(EnvironmentInstance env)
     {
         base.setEnvironment(env);

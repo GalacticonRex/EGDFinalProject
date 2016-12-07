@@ -84,7 +84,7 @@ public class Globals : MonoBehaviour {
     {
         if (env != null)
         {
-            Debug.Log(type);
+        //    Debug.Log(type);
             env.harvestResource(amount);
         }
          resources[type] += amount;
@@ -117,10 +117,10 @@ public class Globals : MonoBehaviour {
     public static void initResources()
     {
         resources.Add(resourceTypes.POPULATION, 1);
-        resources.Add(resourceTypes.GOLD, 5);
+        resources.Add(resourceTypes.GOLD, 20);
         resources.Add(resourceTypes.ENERGY, 10);
-        resources.Add(resourceTypes.FOOD, 10);
-        resources.Add(resourceTypes.WATER, 10);
+        resources.Add(resourceTypes.FOOD, 100);
+        resources.Add(resourceTypes.WATER, 100);
     }
     // Update is called once per frame
     void Update () {

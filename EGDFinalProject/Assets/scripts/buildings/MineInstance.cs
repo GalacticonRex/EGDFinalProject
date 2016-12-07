@@ -16,15 +16,18 @@ public class MineInstance : BuildingInstance
     void Start()
     {
         int[] res = new int[2];
-        EnergyCost = 5;
-        WaterCost = 5;
-        FoodCost = 5;
-        GoldCost = 0;
+
         PopulationRequirement = 0;
         base.Start();
         resource = GetComponentInChildren<envGoldInstance>();
         StartCoroutine(base.ActiveProduction(goldProductionRate));
         base.setEnvironment(resource);
+        EnergyCost = 5;
+        WaterCost = 5;
+        FoodCost = 5;
+        GoldCost = 0;
+
+        spendResources2();
         produceResources();
         charactersSize = 0;
         goldProductionRate = charactersSize + 1;
@@ -50,7 +53,13 @@ public class MineInstance : BuildingInstance
         base.Update();
         // envFoodInstance e = GetComponentInChildren<envFoodInstance>();
     }
-
+    protected void spendResources2()
+    {
+        Globals.SpendResources(FoodCost, Globals.resourceTypes.FOOD);
+        Globals.SpendResources(WaterCost, Globals.resourceTypes.WATER);
+        Globals.SpendResources(GoldCost, Globals.resourceTypes.GOLD);
+        Globals.SpendResources(EnergyCost, Globals.resourceTypes.ENERGY);
+    }
     protected void produceResources()
     {
         // Globals.SpendResources(1, Globals.resourceTypes.FOOD);

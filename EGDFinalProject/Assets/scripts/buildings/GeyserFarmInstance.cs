@@ -16,18 +16,21 @@ public class GeyserFarmInstance : BuildingInstance
     void Start()
     {
         int[] res = new int[2];
-        EnergyCost = 2;
-        FoodCost = 2;
-        WaterCost = 0;
-        GoldCost = 0;
-        PopulationRequirement = 0;
+
         resource = GetComponentInChildren<envGeyserInstance>();
         base.setEnvironment(resource);
         base.Start();
         StartCoroutine(base.ActiveProduction(waterProductionRate));
         charactersSize = 0;
         waterProductionRate = charactersSize + 1;
-       
+        EnergyCost = 2;
+        FoodCost = 2;
+        WaterCost = 0;
+        GoldCost = 0;
+        PopulationRequirement = 0;
+        spendResources2();
+
+
         //   produceResources();
     }
 
@@ -60,6 +63,13 @@ public class GeyserFarmInstance : BuildingInstance
     //        Globals.GainResource(5, Globals.resourceTypes.WATER, environmentInstance);
     //    }
     //}
+    protected void spendResources2()
+    {
+        Globals.SpendResources(FoodCost, Globals.resourceTypes.FOOD);
+        Globals.SpendResources(WaterCost, Globals.resourceTypes.WATER);
+        Globals.SpendResources(GoldCost, Globals.resourceTypes.GOLD);
+        Globals.SpendResources(EnergyCost, Globals.resourceTypes.ENERGY);
+    }
     public void setEnvironment(EnvironmentInstance env)
     {
         base.setEnvironment(env);

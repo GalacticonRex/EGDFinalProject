@@ -93,7 +93,7 @@ public class BuildingPlacer : MonoBehaviour {
             }
             if (no_overlap && validPosition && cost && findNearestPylon())
             {
-                spendResources(building);
+               // spendResources(building);
                 if ( PlayOnPlace != null )
                     AudioSource.PlayClipAtPoint(PlayOnPlace, Camera.main.transform.position);
                 GameObject newBuilding = addBuilding(hex);

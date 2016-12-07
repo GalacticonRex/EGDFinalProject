@@ -33,7 +33,7 @@ public class Character : MonoBehaviour {
         {
             if (s)
             {
-              //  s.sortingOrder = (int)Camera.main.WorldToScreenPoint(s.bounds.min).y * -1;
+                s.sortingOrder = (int)Camera.main.WorldToScreenPoint(s.bounds.min).y * -1;
             }
         }
 
@@ -91,7 +91,7 @@ public class Character : MonoBehaviour {
     {
         while (alive)
         {
-            if (hunger <= 0 || thirst <= 0)
+            if (hunger <= 0 || thirst <= 0 || happiness <= 0)
             {
                 alive = !alive;
                 Destroy(gameObject);
@@ -104,6 +104,10 @@ public class Character : MonoBehaviour {
             if (Globals.resources[Globals.resourceTypes.WATER] < Globals.currentPopulation)
             {
                 thirst -= 1;
+            }
+            if (Globals.resources[Globals.resourceTypes.GOLD] < Globals.currentPopulation)
+            {
+                happiness -= 1;
             }
             calcProficiency();
             yield return new WaitForSeconds(10f);
