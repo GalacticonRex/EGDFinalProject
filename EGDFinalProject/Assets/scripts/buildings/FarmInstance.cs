@@ -13,6 +13,7 @@ public class FarmInstance : BuildingInstance
         int[] res = new int[2];
         EnergyCost = 1;
         FoodCost = 1;
+        GoldCost = 1;
         PopulationRequirement = 0;
         Globals.SpendResources(1, Globals.resourceTypes.POPULATION);
         base.Start();

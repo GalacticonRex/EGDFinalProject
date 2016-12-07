@@ -25,7 +25,7 @@ public class HouseInstance : BuildingInstance {
         EnergyCost = 1;
         FoodCost = 1;
         WaterCost = 1;
-        GoldCost = 0;
+        GoldCost = 1;
         PopulationRequirement = 1;
         Globals.GainResource(1, Globals.resourceTypes.POPULATION);
         base.Start();

@@ -11,6 +11,7 @@ public class PylonInstance : BuildingInstance {
     void Start () {
         EnergyCost = 0;
         FoodCost = 2;
+        GoldCost = 2;
         WaterCost = 2;
         PopulationRequirement = 0;
         base.initCosts();

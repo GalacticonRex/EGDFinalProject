@@ -24,17 +24,17 @@ public class ResourceController : MonoBehaviour {
     {
         //cost dictionary
         //"house" --> [population, food, water, energy, gold] costs
-        costDict = new Dictionary<string, int[]>();
+        costDict = new Dictionary<string, int[]>(); 
         //int[] costs = new int[5];
         int[] costs = new int[] { 1, -1, -1, -1, -1 };
         costDict.Add("house", costs);
         costs = new int[] { 0, -2, -2, 5, -1 };
         costDict.Add("pylon",costs);
-        costs = new int[] { 0, 0, -2, -2, -1 };
+        costs = new int[] { 0, 0, -2, -2, -2 };
         costDict.Add("farm", costs);
-        costs = new int[] { 0, -5, -5, -5, -1 };
+        costs = new int[] { 0, -5, -5, -5, -5 };
         costDict.Add("mine", costs);
-        costs = new int[] { 0, -2, 0, -2, 0 };
+        costs = new int[] { 0, -2, 0, -2, -2 };
         costDict.Add("geyser", costs);
         costs = new int[] { 0, -4, -5, -5, -10 };
         costDict.Add("blender", costs);

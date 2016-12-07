@@ -15,6 +15,7 @@ public class MineInstance : BuildingInstance
         EnergyCost = 5;
         WaterCost = 5;
         FoodCost = 5;
+        GoldCost = 0;
         PopulationRequirement = 0;
         base.Start();
         resource = GetComponentInChildren<envGoldInstance>();
