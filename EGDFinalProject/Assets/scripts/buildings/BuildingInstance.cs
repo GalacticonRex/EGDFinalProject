@@ -67,9 +67,9 @@ public class BuildingInstance : MonoBehaviour
         }
         initCosts();
         setActive();
-        WaterCost = 0;
+        WaterCost = 1;
         EnergyCost = 0;
-        FoodCost = 0;
+        FoodCost = 1;
         PopulationRequirement = 0;
         factory = FindObjectOfType<CharacterFactory>();
     }

@@ -14,6 +14,8 @@ public class GeyserFarmInstance : BuildingInstance
         int[] res = new int[2];
         EnergyCost = 1;
         FoodCost = 1;
+        WaterCost = 0;
+        GoldCost = 0;
         PopulationRequirement = 0;
         Globals.SpendResources(1, Globals.resourceTypes.POPULATION);
         Globals.SpendResources(5, Globals.resourceTypes.FOOD);

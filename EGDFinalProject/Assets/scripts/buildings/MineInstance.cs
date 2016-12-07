@@ -15,7 +15,7 @@ public class MineInstance : BuildingInstance
         EnergyCost = 5;
         WaterCost = 5;
         FoodCost = 5;
-        PopulationRequirement = 5;
+        PopulationRequirement = 0;
         base.Start();
         resource = GetComponentInChildren<envGoldInstance>();
         StartCoroutine(base.ActiveProduction(goldProductionRate));

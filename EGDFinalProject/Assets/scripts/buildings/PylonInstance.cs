@@ -9,9 +9,11 @@ public class PylonInstance : BuildingInstance {
     int energyProductionRate = 5;
 
     void Start () {
-        EnergyCost = 1;
-        FoodCost = 1;
+        EnergyCost = 0;
+        FoodCost = 2;
+        WaterCost = 2;
         PopulationRequirement = 0;
+        base.initCosts();
        // transform.localScale = new Vector2(0.2f, 0.2f);
         
         resource = GetComponentInChildren<envEnergyInstance>();
